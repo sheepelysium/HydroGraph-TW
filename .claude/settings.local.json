@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(venv/Scripts/python.exe:*)",
+      "Bash(dir:*)",
+      "Bash(python -m pip install:*)",
+      "Bash(python:*)",
+      "Bash(hydro_env/Scripts/pip.exe install:*)",
+      "Bash(python3:*)",
+      "Bash(cat:*)",
+      "Bash(hydro_env/Scripts/python.exe:*)",
+      "Bash(cd:*)",
+      "Bash(hydro_env\\Scripts\\python.exe:*)",
+      "Bash(findstr:*)",
+      "Bash(hydro_envScriptspython.exe -c \"import google.generativeai; print(''[OK] google-generativeai installed in hydro_env'')\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,644 @@
+app:
+  description: 台灣水文知識圖譜 - GraphRAG + TimeseriesRAG 混合查詢系統
+  icon: 🌊
+  icon_background: '#0EA5E9'
+  mode: workflow
+  name: HydroGraph-TW GraphRAG
+
+kind: app
+version: 0.1.2
+
+workflow:
+  environment_variables: []
+
+  features:
+    file_upload:
+      image:
+        enabled: false
+    opening_statement: 你好!我是台灣水文監測助手,可以幫你查詢河川安全狀況。\n\n你可以問我:\n- 淡水河現在安全嗎?\n- 哪些河川有警戒?\n- 碧潭測站目前狀況?\n- 淡水河上游雨量如何?
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions:
+      - 淡水河現在安全嗎?
+      - 哪些河川有警戒?
+      - 碧潭測站目前狀況?
+    suggested_questions_after_answer:
+      enabled: true
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+
+  graph:
+    edges:
+      # START -> 意圖解析
+      - id: start-to-parse-intent
+        source: start
+        target: parse_intent
+
+      # 意圖解析 -> 條件路由
+      - id: parse-intent-to-route
+        source: parse_intent
+        target: route_by_intent
+
+      # 條件路由 -> Neo4j查詢 (safety_check)
+      - id: route-to-graph-query
+        source: route_by_intent
+        sourceHandle: safety_check
+        target: graph_query_neo4j
+
+      # 條件路由 -> 全域查詢 (find_alerts)
+      - id: route-to-find-all
+        source: route_by_intent
+        sourceHandle: find_alerts
+        target: find_all_stations
+
+      # Neo4j查詢 -> TimeseriesRAG
+      - id: graph-to-timeseries
+        source: graph_query_neo4j
+        target: timeseries_query
+
+      # 全域查詢 -> TimeseriesRAG
+      - id: find-all-to-timeseries
+        source: find_all_stations
+        target: timeseries_query
+
+      # TimeseriesRAG -> 風險分析
+      - id: timeseries-to-risk
+        source: timeseries_query
+        target: risk_analysis
+
+      # 風險分析 -> 生成回答
+      - id: risk-to-answer
+        source: risk_analysis
+        target: generate_answer
+
+      # 生成回答 -> END
+      - id: answer-to-end
+        source: generate_answer
+        target: end
+
+    nodes:
+      # ============================================================
+      # 節點 1: START
+      # ============================================================
+      - data:
+          desc: 使用者輸入問題
+          selected: false
+          title: START
+          type: start
+          variables:
+            - label: 使用者問題
+              max_length: 1000
+              required: true
+              type: text-input
+              variable: query
+        id: start
+        position:
+          x: 100
+          y: 300
+        type: start
+
+      # ============================================================
+      # 節點 2: 意圖解析 (LLM)
+      # ============================================================
+      - data:
+          context:
+            enabled: false
+          desc: 使用 LLM 解析使用者意圖,提取河川名稱和查詢類型
+          memory:
+            query_prompt_template: ''
+            role_prefix:
+              assistant: ''
+              user: ''
+            window:
+              enabled: false
+              size: 50
+          model:
+            completion_params:
+              temperature: 0.1
+            mode: chat
+            name: gpt-4o-mini
+            provider: openai
+          prompt_template:
+            - role: system
+              text: |-
+                你是台灣水文監測系統的意圖解析器。
+
+                請分析使用者問題,提取以下資訊:
+                1. intent: 查詢意圖
+                   - safety_check: 查詢特定河川安全狀況 (例如: "淡水河安全嗎?")
+                   - find_alerts: 查詢所有警戒測站 (例如: "哪些河川有警戒?")
+                   - station_query: 查詢特定測站 (例如: "碧潭測站狀況?")
+
+                2. river_name: 河川名稱 (如果有的話)
+                3. station_name: 測站名稱 (如果有的話)
+
+                請以 JSON 格式回答,格式如下:
+                {
+                  "intent": "safety_check",
+                  "river_name": "淡水河",
+                  "station_name": null
+                }
+
+                常見河川: 淡水河、大甲溪、濁水溪、高屏溪、曾文溪、蘭陽溪、秀姑巒溪、卑南溪
+            - role: user
+              text: '{{#start.query#}}'
+          selected: false
+          title: 意圖解析
+          vision:
+            enabled: false
+        id: parse_intent
+        position:
+          x: 300
+          y: 300
+        type: llm
+
+      # ============================================================
+      # 節點 3: 條件路由 (IF/ELSE)
+      # ============================================================
+      - data:
+          cases:
+            - case_id: safety_check
+              conditions:
+                - comparison_operator: contains
+                  id: condition_1
+                  value: safety_check
+                  variable_selector:
+                    - parse_intent
+                    - text
+              logical_operator: and
+            - case_id: find_alerts
+              conditions:
+                - comparison_operator: contains
+                  id: condition_2
+                  value: find_alerts
+                  variable_selector:
+                    - parse_intent
+                    - text
+              logical_operator: and
+          desc: 根據意圖決定查詢路徑
+          selected: false
+          title: 條件路由
+        id: route_by_intent
+        position:
+          x: 500
+          y: 300
+        type: if-else
+
+      # ============================================================
+      # 節點 4: Neo4j GraphRAG 查詢 (Code)
+      # ============================================================
+      - data:
+          code: |-
+            import json
+            from neo4j import GraphDatabase
+
+            def main(intent_json: str) -> dict:
+                """從 Neo4j 查詢測站 - GraphRAG 核心"""
+
+                # 解析意圖
+                try:
+                    intent_data = json.loads(intent_json)
+                except:
+                    # 如果不是JSON,嘗試提取河川名稱
+                    import re
+                    match = re.search(r'"river_name":\s*"([^"]+)"', intent_json)
+                    river_name = match.group(1) if match else "淡水河"
+                    intent_data = {"river_name": river_name}
+
+                river_name = intent_data.get("river_name", "淡水河")
+
+                # 連接 Neo4j
+                # TODO: 將連線資訊改為環境變數
+                driver = GraphDatabase.driver(
+                    "bolt://localhost:7687",
+                    auth=("neo4j", "12345678")
+                )
+
+                # Cypher 查詢 - 找出整個流域的測站
+                cypher = f"""
+                MATCH (r:River {{name: '{river_name}'}})-[:BELONGS_TO]->(ws:WaterSystem)
+                MATCH (all_rivers:River)-[:BELONGS_TO]->(ws)
+                MATCH (s:Station)-[:MONITORS]->(all_rivers)
+                RETURN DISTINCT s.code AS code,
+                       s.name AS name,
+                       s.type AS type,
+                       all_rivers.name AS river,
+                       labels(s) AS labels
+                LIMIT 20
+                """
+
+                stations = []
+                try:
+                    with driver.session() as session:
+                        result = session.run(cypher)
+                        for record in result:
+                            stations.append({
+                                "code": str(record["code"]).strip(),
+                                "name": str(record["name"]),
+                                "type": str(record["type"]),
+                                "river": str(record["river"]),
+                                "labels": record["labels"]
+                            })
+                finally:
+                    driver.close()
+
+                return {
+                    "stations": stations,
+                    "count": len(stations),
+                    "river_name": river_name
+                }
+          code_language: python3
+          desc: 從 Neo4j 知識圖譜查詢河川流域的所有測站
+          outputs:
+            stations:
+              type: array[object]
+            count:
+              type: number
+            river_name:
+              type: string
+          selected: false
+          title: Neo4j GraphRAG 查詢
+          variables:
+            - value_selector:
+                - parse_intent
+                - text
+              variable: intent_json
+        id: graph_query_neo4j
+        position:
+          x: 700
+          y: 200
+        type: code
+
+      # ============================================================
+      # 節點 5: 查詢所有測站 (Code) - 用於 find_alerts
+      # ============================================================
+      - data:
+          code: |-
+            from neo4j import GraphDatabase
+
+            def main() -> dict:
+                """查詢所有測站"""
+
+                driver = GraphDatabase.driver(
+                    "bolt://localhost:7687",
+                    auth=("neo4j", "12345678")
+                )
+
+                cypher = """
+                MATCH (s:Station)-[:MONITORS]->(r:River)
+                RETURN DISTINCT s.code AS code,
+                       s.name AS name,
+                       s.type AS type,
+                       r.name AS river,
+                       labels(s) AS labels
+                ORDER BY r.name, s.name
+                LIMIT 50
+                """
+
+                stations = []
+                try:
+                    with driver.session() as session:
+                        result = session.run(cypher)
+                        for record in result:
+                            stations.append({
+                                "code": str(record["code"]).strip(),
+                                "name": str(record["name"]),
+                                "type": str(record["type"]),
+                                "river": str(record["river"]),
+                                "labels": record["labels"]
+                            })
+                finally:
+                    driver.close()
+
+                return {
+                    "stations": stations,
+                    "count": len(stations),
+                    "river_name": "全台灣"
+                }
+          code_language: python3
+          desc: 查詢所有測站 (用於全域警戒查詢)
+          outputs:
+            stations:
+              type: array[object]
+            count:
+              type: number
+            river_name:
+              type: string
+          selected: false
+          title: 查詢所有測站
+        id: find_all_stations
+        position:
+          x: 700
+          y: 400
+        type: code
+
+      # ============================================================
+      # 節點 6: TimeseriesRAG 並行查詢 (Code)
+      # ============================================================
+      - data:
+          code: |-
+            import requests
+            from concurrent.futures import ThreadPoolExecutor, as_completed
+            import json
+
+            def main(stations_json: str) -> dict:
+                """並行查詢 WRA API 即時資料 - TimeseriesRAG"""
+
+                # 解析測站列表
+                try:
+                    data = json.loads(stations_json)
+                    stations = data.get("stations", [])
+                except:
+                    return {
+                        "water_levels": [],
+                        "rainfalls": [],
+                        "error": "無法解析測站資料"
+                    }
+
+                if not stations:
+                    return {
+                        "water_levels": [],
+                        "rainfalls": [],
+                        "error": "沒有找到測站"
+                    }
+
+                def query_water_level(station):
+                    """查詢水位站"""
+                    try:
+                        url = f"https://fhy.wra.gov.tw/WraApi/v1/Station/Water/{station['code']}"
+                        response = requests.get(url, timeout=5)
+                        data = response.json()
+
+                        return {
+                            "success": True,
+                            "type": "water",
+                            "code": station["code"],
+                            "name": station["name"],
+                            "river": station["river"],
+                            "current_level": float(data.get("WaterLevel", 0) or 0),
+                            "alert_1": float(data.get("AlertLevel1", 999) or 999),
+                            "alert_2": float(data.get("AlertLevel2", 999) or 999),
+                        }
+                    except Exception as e:
+                        return {"success": False, "error": str(e)}
+
+                def query_rainfall(station):
+                    """查詢雨量站"""
+                    try:
+                        url = f"https://fhy.wra.gov.tw/WraApi/v1/Rain/Station/{station['code']}"
+                        response = requests.get(url, timeout=5)
+                        data = response.json()
+
+                        return {
+                            "success": True,
+                            "type": "rain",
+                            "code": station["code"],
+                            "name": station["name"],
+                            "river": station["river"],
+                            "rainfall_1h": float(data.get("Rainfall_1hr", 0) or 0),
+                        }
+                    except Exception as e:
+                        return {"success": False, "error": str(e)}
+
+                # 並行查詢
+                water_levels = []
+                rainfalls = []
+
+                with ThreadPoolExecutor(max_workers=15) as executor:
+                    futures = {}
+
+                    for station in stations[:20]:  # 限制最多20個測站
+                        if "WaterLevel" in station.get("labels", []):
+                            future = executor.submit(query_water_level, station)
+                            futures[future] = "water"
+                        elif "Rainfall" in station.get("labels", []):
+                            future = executor.submit(query_rainfall, station)
+                            futures[future] = "rain"
+
+                    for future in as_completed(futures):
+                        result = future.result()
+                        if result.get("success"):
+                            if result["type"] == "water":
+                                water_levels.append(result)
+                            else:
+                                rainfalls.append(result)
+
+                return {
+                    "water_levels": water_levels,
+                    "rainfalls": rainfalls,
+                    "total_queried": len(water_levels) + len(rainfalls)
+                }
+          code_language: python3
+          desc: 並行查詢 WRA API 取得即時監測資料
+          outputs:
+            water_levels:
+              type: array[object]
+            rainfalls:
+              type: array[object]
+            total_queried:
+              type: number
+          selected: false
+          title: TimeseriesRAG 查詢
+          variables:
+            - value_selector:
+                - graph_query_neo4j
+                - output
+              variable: stations_json
+        id: timeseries_query
+        position:
+          x: 900
+          y: 300
+        type: code
+
+      # ============================================================
+      # 節點 7: 風險分析 (Code)
+      # ============================================================
+      - data:
+          code: |-
+            import json
+
+            def main(timeseries_json: str) -> dict:
+                """分析淹水風險等級"""
+
+                # 解析資料
+                try:
+                    data = json.loads(timeseries_json)
+                except:
+                    data = {"water_levels": [], "rainfalls": []}
+
+                water_levels = data.get("water_levels", [])
+                rainfalls = data.get("rainfalls", [])
+
+                warnings = []
+
+                # 檢查水位警戒
+                for w in water_levels:
+                    if w["current_level"] >= w["alert_2"]:
+                        level = "一級警戒" if w["current_level"] >= w["alert_1"] else "二級警戒"
+                        warnings.append({
+                            "type": "水位警戒",
+                            "station": w["name"],
+                            "river": w["river"],
+                            "level": level,
+                            "value": f"{w['current_level']:.2f}m",
+                            "alert": f"{w['alert_2']:.2f}m"
+                        })
+
+                # 檢查雨量警戒
+                for r in rainfalls:
+                    if r["rainfall_1h"] >= 50:
+                        if r["rainfall_1h"] >= 80:
+                            level = "大豪雨"
+                        else:
+                            level = "豪雨"
+
+                        warnings.append({
+                            "type": "強降雨",
+                            "station": r["name"],
+                            "river": r["river"],
+                            "level": level,
+                            "value": f"{r['rainfall_1h']:.1f}mm/hr",
+                            "alert": "50mm/hr"
+                        })
+
+                # 計算風險等級
+                total = len(water_levels) + len(rainfalls)
+                ratio = len(warnings) / total if total > 0 else 0
+
+                if ratio >= 0.3:
+                    risk_level = "高風險"
+                elif ratio >= 0.1:
+                    risk_level = "中風險"
+                elif len(warnings) > 0:
+                    risk_level = "低風險"
+                else:
+                    risk_level = "安全"
+
+                return {
+                    "risk_level": risk_level,
+                    "warnings": warnings,
+                    "warning_count": len(warnings),
+                    "total_stations": total,
+                    "warning_ratio": ratio
+                }
+          code_language: python3
+          desc: 分析風險等級並找出警戒測站
+          outputs:
+            risk_level:
+              type: string
+            warnings:
+              type: array[object]
+            warning_count:
+              type: number
+            total_stations:
+              type: number
+            warning_ratio:
+              type: number
+          selected: false
+          title: 風險分析
+          variables:
+            - value_selector:
+                - timeseries_query
+                - output
+              variable: timeseries_json
+        id: risk_analysis
+        position:
+          x: 1100
+          y: 300
+        type: code
+
+      # ============================================================
+      # 節點 8: 生成最終回答 (LLM)
+      # ============================================================
+      - data:
+          context:
+            enabled: false
+          desc: 使用 LLM 生成自然語言回答
+          memory:
+            query_prompt_template: ''
+            role_prefix:
+              assistant: ''
+              user: ''
+            window:
+              enabled: false
+          model:
+            completion_params:
+              temperature: 0.7
+            mode: chat
+            name: gpt-4o
+            provider: openai
+          prompt_template:
+            - role: system
+              text: |-
+                你是台灣水文監測系統的專業助手。
+
+                根據以下監測資料回答使用者問題:
+
+                河川/區域: {{#graph_query_neo4j.river_name#}}
+                風險等級: {{#risk_analysis.risk_level#}}
+                監測測站總數: {{#risk_analysis.total_stations#}} 個
+                警戒測站數量: {{#risk_analysis.warning_count#}} 個
+                警戒比例: {{#risk_analysis.warning_ratio#}}
+
+                警戒詳情:
+                {{#risk_analysis.warnings#}}
+
+                請用自然、易懂、專業的語言回答,包含:
+                1. 直接回答問題 (安全或有風險)
+                2. 說明原因 (哪些測站警戒,數值多少)
+                3. 給出具體建議
+
+                回答格式範例:
+
+                【風險評估】
+                目前 淡水河流域 處於「低風險」狀態。
+
+                【監測概況】
+                系統正在監測 13 個測站,其中 1 個測站發出警戒。
+
+                【警戒詳情】
+                1. 內湖雨量站 (基隆河)
+                   - 類型: 強降雨
+                   - 等級: 豪雨
+                   - 數值: 79.3mm/hr (警戒值: 50mm/hr)
+
+                【建議】
+                整體安全,但建議:
+                - 持續監控內湖站的雨量變化
+                - 若雨勢持續增強,可能影響基隆河水位
+                - 建議關注天氣預報
+            - role: user
+              text: '{{#start.query#}}'
+          selected: false
+          title: 生成回答
+          vision:
+            enabled: false
+        id: generate_answer
+        position:
+          x: 1300
+          y: 300
+        type: llm
+
+      # ============================================================
+      # 節點 9: END
+      # ============================================================
+      - data:
+          outputs:
+            - value_selector:
+                - generate_answer
+                - text
+              variable: answer
+          selected: false
+          title: END
+          type: end
+        id: end
+        position:
+          x: 1500
+          y: 300
+        type: end

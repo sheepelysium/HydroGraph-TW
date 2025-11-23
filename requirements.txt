@@ -1,0 +1,59 @@
+# HydroGraph-TW Project Dependencies
+# Taiwan Hydrological Graph Database Project
+
+# Core data processing
+pandas>=2.3.3
+numpy>=2.3.4
+python-dateutil>=2.9.0
+pytz>=2025.2
+
+# PDF document processing
+pdfplumber>=0.11.8
+pdfminer-six>=20251107
+pypdfium2>=5.0.0
+pillow>=12.0.0
+
+# Excel file processing
+openpyxl>=3.1.5
+et-xmlfile>=2.0.0
+
+# Geographic Information System (GIS)
+geopandas>=1.1.1
+shapely>=2.1.2
+pyproj>=3.7.2
+pyogrio>=0.11.1
+
+# DBF file processing
+dbfread>=2.0.7
+
+# Graph database
+neo4j>=6.0.3
+
+# LangGraph and LangChain (for dynamic GraphRAG)
+langgraph>=1.0.3
+langgraph-checkpoint>=3.0.1
+langgraph-prebuilt>=1.0.5
+langgraph-sdk>=0.2.9
+langchain-core>=1.1.0
+langsmith>=0.4.46
+tenacity>=9.1.2
+jsonpatch>=1.33
+
+# LLM - Google Gemini (Free!)
+google-generativeai>=0.8.5
+google-ai-generativelanguage>=0.6.15
+google-api-core>=2.26.0
+google-api-python-client>=2.184.0
+google-auth>=2.41.1
+
+# Network and security
+certifi>=2025.11.12
+requests>=2.32.0
+urllib3>=2.3.0
+charset-normalizer>=3.4.4
+httpx>=0.28.1
+
+# System tools
+cffi>=2.0.0
+pycparser>=2.23
+six>=1.17.0
