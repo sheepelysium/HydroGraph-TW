@@ -26,10 +26,10 @@ class StationImporter:
             "CREATE INDEX station_type IF NOT EXISTS FOR (s:Station) ON (s.type)",
         ]
 
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             for idx_query in indexes:
                 session.run(idx_query)
-                print(f"  ✅ {idx_query.split('FOR')[0].strip()}")
+                print(f"  [OK] {idx_query.split('FOR')[0].strip()}")
 
     def import_rainfall_stations(self, excel_path):
         """匯入雨量測站 (第一個工作表)
@@ -50,7 +50,7 @@ class StationImporter:
         # 取得實際欄位
         cols = list(df.columns)
 
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             for idx, row in df.iterrows():
                 # 雨量測站欄位對應:
                 # cols[0] = 類別
@@ -114,7 +114,7 @@ class StationImporter:
                 if (idx + 1) % 50 == 0:
                     print(f"  已匯入 {idx + 1}/{len(df)} 個雨量測站...")
 
-        print(f"✅ 已匯入 {len(df)} 個雨量測站")
+        print(f"[OK] 已匯入 {len(df)} 個雨量測站")
 
     def import_water_level_stations(self, excel_path):
         """匯入水位測站 (第二個工作表)
@@ -135,7 +135,7 @@ class StationImporter:
         # 取得實際欄位
         cols = list(df.columns)
 
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             for idx, row in df.iterrows():
                 # 水位測站欄位對應 (沒有氣象署站號,比雨量站少1欄):
                 # cols[0] = 類別
@@ -205,7 +205,7 @@ class StationImporter:
                 if (idx + 1) % 50 == 0:
                     print(f"  已匯入 {idx + 1}/{len(df)} 個水位測站...")
 
-        print(f"✅ 已匯入 {len(df)} 個水位測站")
+        print(f"[OK] 已匯入 {len(df)} 個水位測站")
 
     def link_stations_to_rivers(self, matching_report_path):
         """建立測站 -> 河川關係 (使用配對報表)
@@ -222,7 +222,7 @@ class StationImporter:
         # 取得欄位列表
         cols = list(df.columns)
 
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             count = 0
             skipped = 0
             for idx, row in df.iterrows():
@@ -264,15 +264,15 @@ class StationImporter:
                 if (idx + 1) % 100 == 0:
                     print(f"  已處理 {idx + 1}/{len(df)} 條...")
 
-        print(f"✅ 已建立 {count} 條測站-河川關係")
+        print(f"[OK] 已建立 {count} 條測站-河川關係")
         if skipped > 0:
-            print(f"⚠️  跳過 {skipped} 條 (缺少測站代號或河川代碼)")
+            print(f"[WARNING]  跳過 {skipped} 條 (缺少測站代號或河川代碼)")
 
     def link_stations_to_watersheds(self):
         """建立測站 -> 集水區關係 (根據集水區名稱)"""
         print("\n建立測站 LOCATED_IN 集水區關係...")
 
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             # 使用測站的 watershed 屬性與集水區的 name 屬性配對
             result = session.run("""
                 MATCH (s:Station)
@@ -285,7 +285,7 @@ class StationImporter:
 
             count = result.single()["count"]
 
-        print(f"✅ 已建立 {count} 條測站-集水區關係")
+        print(f"[OK] 已建立 {count} 條測站-集水區關係")
 
     def verify_import(self):
         """驗證匯入結果"""
@@ -293,7 +293,7 @@ class StationImporter:
         print("驗證測站匯入結果")
         print("="*80)
 
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             # 統計節點數量
             total_stations = session.run(
                 "MATCH (s:Station) RETURN count(s) as count"
@@ -393,11 +393,11 @@ def main():
 
     # 確認檔案存在
     if not STATION_DATA_PATH.exists():
-        print(f"❌ 找不到檔案: {STATION_DATA_PATH}")
+        print(f"[X] 找不到檔案: {STATION_DATA_PATH}")
         return
 
     if not MATCHING_REPORT_PATH.exists():
-        print(f"❌ 找不到檔案: {MATCHING_REPORT_PATH}")
+        print(f"[X] 找不到檔案: {MATCHING_REPORT_PATH}")
         return
 
     # 建立匯入器
@@ -423,14 +423,14 @@ def main():
         importer.verify_import()
 
         print("\n" + "="*80)
-        print("✅ 測站資料匯入完成!")
+        print("[OK] 測站資料匯入完成!")
         print("="*80)
         print("\n💡 提示: 請確保已先執行:")
         print("   - 5_import_rivers_to_neo4j.py (河川資料)")
         print("   - 6_import_watersheds_to_neo4j.py (集水區資料)")
 
     except Exception as e:
-        print(f"\n❌ 發生錯誤: {e}")
+        print(f"\n[X] 發生錯誤: {e}")
         import traceback
         traceback.print_exc()
 

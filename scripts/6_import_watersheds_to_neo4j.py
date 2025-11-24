@@ -27,10 +27,10 @@ class WatershedImporter:
             "CREATE INDEX basin_name IF NOT EXISTS FOR (b:Basin) ON (b.name)",
         ]
 
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             for idx_query in indexes:
                 session.run(idx_query)
-                print(f"  ✅ {idx_query.split('FOR')[0].strip()}")
+                print(f"  [OK] {idx_query.split('FOR')[0].strip()}")
 
     def import_basins(self, excel_path):
         """匯入流域節點
@@ -50,7 +50,7 @@ class WatershedImporter:
         # 取得欄位列表
         cols = list(df.columns)
 
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             for idx, row in df.iterrows():
                 # 流域名稱在 BASIN_NAME 欄位
                 basin_name = str(row[cols[0]]) if pd.notna(row[cols[0]]) else None
@@ -70,7 +70,7 @@ class WatershedImporter:
                         avg_area_km2=float(row[cols[3]]) if pd.notna(row[cols[3]]) else 0.0  # 平均集水區面積(km2)
                     )
 
-        print(f"✅ 已匯入 {len(df)} 個流域節點")
+        print(f"[OK] 已匯入 {len(df)} 個流域節點")
 
     def import_watersheds(self, excel_path):
         """匯入集水區節點
@@ -86,7 +86,7 @@ class WatershedImporter:
 
         # 建立集水區節點
         print("\n建立集水區節點 (Watershed)...")
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             for idx, row in df.iterrows():
                 session.run("""
                     MERGE (w:Watershed {id: $id})
@@ -115,7 +115,7 @@ class WatershedImporter:
                 if (idx + 1) % 100 == 0:
                     print(f"  已匯入 {idx + 1}/{len(df)} 個集水區...")
 
-        print(f"✅ 已匯入 {len(df)} 個集水區節點")
+        print(f"[OK] 已匯入 {len(df)} 個集水區節點")
 
     def link_watersheds_to_basins(self, excel_path):
         """建立集水區 -> 流域關係
@@ -127,7 +127,7 @@ class WatershedImporter:
 
         df = pd.read_excel(excel_path, sheet_name='集水區列表')
 
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             count = 0
             for idx, row in df.iterrows():
                 if pd.notna(row['BASIN_NAME']):
@@ -141,7 +141,7 @@ class WatershedImporter:
                     )
                     count += 1
 
-        print(f"✅ 已建立 {count} 條集水區-流域關係")
+        print(f"[OK] 已建立 {count} 條集水區-流域關係")
 
     def link_watersheds_to_rivers(self, excel_path):
         """建立集水區 -> 河川關係
@@ -155,7 +155,7 @@ class WatershedImporter:
         df = pd.read_excel(excel_path, sheet_name='集水區-河川關聯')
         print(f"  共 {len(df)} 條關聯記錄")
 
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             count = 0
             for idx, row in df.iterrows():
                 session.run("""
@@ -173,7 +173,7 @@ class WatershedImporter:
                 if (idx + 1) % 500 == 0:
                     print(f"  已建立 {idx + 1}/{len(df)} 條關係...")
 
-        print(f"✅ 已建立 {count} 條集水區-河川關係")
+        print(f"[OK] 已建立 {count} 條集水區-河川關係")
 
     def verify_import(self):
         """驗證匯入結果"""
@@ -181,7 +181,7 @@ class WatershedImporter:
         print("驗證集水區匯入結果")
         print("="*80)
 
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             # 統計節點數量
             basin_count = session.run(
                 "MATCH (b:Basin) RETURN count(b) as count"
@@ -266,7 +266,7 @@ def main():
 
     # 確認檔案存在
     if not WATERSHED_DATA_PATH.exists():
-        print(f"❌ 找不到檔案: {WATERSHED_DATA_PATH}")
+        print(f"[X] 找不到檔案: {WATERSHED_DATA_PATH}")
         return
 
     # 建立匯入器
@@ -292,12 +292,12 @@ def main():
         importer.verify_import()
 
         print("\n" + "="*80)
-        print("✅ 集水區資料匯入完成!")
+        print("[OK] 集水區資料匯入完成!")
         print("="*80)
         print("\n💡 提示: 請確保已先執行 5_import_rivers_to_neo4j.py 匯入河川資料")
 
     except Exception as e:
-        print(f"\n❌ 發生錯誤: {e}")
+        print(f"\n[X] 發生錯誤: {e}")
         import traceback
         traceback.print_exc()
 

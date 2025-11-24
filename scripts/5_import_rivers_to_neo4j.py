@@ -24,10 +24,10 @@ class RiverImporter:
 
     def clear_database(self):
         """清空資料庫 (謹慎使用!)"""
-        print("⚠️  清空 Neo4j 資料庫...")
-        with self.driver.session() as session:
+        print("[WARNING]  清空 Neo4j 資料庫...")
+        with self.driver.session(database="neo4j") as session:
             session.run("MATCH (n) DETACH DELETE n")
-        print("✅ 資料庫已清空")
+        print("[OK] 資料庫已清空")
 
     def create_indexes(self):
         """建立索引以提升查詢效能"""
@@ -39,10 +39,10 @@ class RiverImporter:
             "CREATE INDEX water_system IF NOT EXISTS FOR (w:WaterSystem) ON (w.name)",
         ]
 
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             for idx_query in indexes:
                 session.run(idx_query)
-                print(f"  ✅ {idx_query.split('FOR')[0].strip()}")
+                print(f"  [OK] {idx_query.split('FOR')[0].strip()}")
 
     def import_rivers(self, excel_path):
         """匯入河川節點
@@ -56,7 +56,7 @@ class RiverImporter:
 
         # 建立河川節點
         print("\n建立河川節點 (River)...")
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             for idx, row in df.iterrows():
                 session.run("""
                     MERGE (r:River {code: $code})
@@ -75,7 +75,7 @@ class RiverImporter:
                 if (idx + 1) % 100 == 0:
                     print(f"  已匯入 {idx + 1}/{len(df)} 條河川...")
 
-        print(f"✅ 完成! 共匯入 {len(df)} 個河川節點")
+        print(f"[OK] 完成! 共匯入 {len(df)} 個河川節點")
 
     def import_water_systems(self, excel_path):
         """匯入水系節點並建立河川與水系的關係
@@ -91,17 +91,17 @@ class RiverImporter:
         print(f"  發現 {len(water_systems)} 個水系")
 
         # 建立水系節點
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             for ws in water_systems:
                 session.run("""
                     MERGE (w:WaterSystem {name: $name})
                 """, name=str(ws))
 
-        print(f"✅ 已建立 {len(water_systems)} 個水系節點")
+        print(f"[OK] 已建立 {len(water_systems)} 個水系節點")
 
         # 建立河川 -> 水系關係
         print("\n建立河川 BELONGS_TO 水系關係...")
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             count = 0
             for idx, row in df.iterrows():
                 if pd.notna(row['主流水系']):
@@ -115,7 +115,7 @@ class RiverImporter:
                     )
                     count += 1
 
-        print(f"✅ 已建立 {count} 條河川-水系關係")
+        print(f"[OK] 已建立 {count} 條河川-水系關係")
 
     def import_river_hierarchy(self, excel_path):
         """匯入河川階層關係 (支流 -> 主流)
@@ -129,7 +129,7 @@ class RiverImporter:
         # 建立河川名稱到代碼的映射
         river_name_to_code = dict(zip(df['河川名稱'], df['河川代碼']))
 
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             count = 0
             for idx, row in df.iterrows():
                 # 如果有上游河川 (parent)
@@ -155,7 +155,7 @@ class RiverImporter:
                 if (idx + 1) % 100 == 0:
                     print(f"  已處理 {idx + 1}/{len(df)} 條河川...")
 
-        print(f"✅ 已建立 {count} 條河川階層關係")
+        print(f"[OK] 已建立 {count} 條河川階層關係")
 
     def verify_import(self):
         """驗證匯入結果"""
@@ -163,7 +163,7 @@ class RiverImporter:
         print("驗證匯入結果")
         print("="*80)
 
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             # 統計節點數量
             river_count = session.run("MATCH (r:River) RETURN count(r) as count").single()["count"]
             ws_count = session.run("MATCH (w:WaterSystem) RETURN count(w) as count").single()["count"]
@@ -240,7 +240,7 @@ def main():
 
     # 確認檔案存在
     if not RIVER_DATA_PATH.exists():
-        print(f"❌ 找不到檔案: {RIVER_DATA_PATH}")
+        print(f"[X] 找不到檔案: {RIVER_DATA_PATH}")
         return
 
     # 建立匯入器
@@ -248,7 +248,7 @@ def main():
 
     try:
         # 詢問是否清空資料庫
-        print("\n⚠️  警告: 此操作會清空 Neo4j 資料庫!")
+        print("\n[WARNING]  警告: 此操作會清空 Neo4j 資料庫!")
         response = input("是否繼續? (yes/no): ")
 
         if response.lower() == 'yes':
@@ -272,11 +272,11 @@ def main():
         importer.verify_import()
 
         print("\n" + "="*80)
-        print("✅ 河川資料匯入完成!")
+        print("[OK] 河川資料匯入完成!")
         print("="*80)
 
     except Exception as e:
-        print(f"\n❌ 發生錯誤: {e}")
+        print(f"\n[X] 發生錯誤: {e}")
         import traceback
         traceback.print_exc()
 

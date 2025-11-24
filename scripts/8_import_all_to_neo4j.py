@@ -12,11 +12,12 @@ from neo4j import GraphDatabase
 class MasterImporter:
     """主匯入器 - 統一執行所有匯入流程"""
 
-    def __init__(self, uri, user, password):
+    def __init__(self, uri, user, password, database="hydrograph-tw"):
         """初始化 Neo4j 連線"""
         self.uri = uri
         self.user = user
         self.password = password
+        self.database = database
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
 
     def close(self):
@@ -27,7 +28,7 @@ class MasterImporter:
         """測試連線"""
         print("\n測試 Neo4j 連線...")
         try:
-            with self.driver.session() as session:
+            with self.driver.session(database="neo4j") as session:
                 result = session.run("RETURN 1 as test")
                 result.single()
             print("[OK] 連線成功!")
@@ -42,7 +43,7 @@ class MasterImporter:
         response = input("確定要清空所有資料嗎? 此操作無法復原! (yes/no): ")
 
         if response.lower() == 'yes':
-            with self.driver.session() as session:
+            with self.driver.session(database="neo4j") as session:
                 session.run("MATCH (n) DETACH DELETE n")
             print("[OK] 資料庫已清空")
             return True
@@ -56,7 +57,7 @@ class MasterImporter:
         print("完整知識圖譜統計")
         print("="*80)
 
-        with self.driver.session() as session:
+        with self.driver.session(database="neo4j") as session:
             # 節點統計
             print("\n【節點統計】")
 
