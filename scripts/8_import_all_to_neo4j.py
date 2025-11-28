@@ -9,6 +9,62 @@ sys.path.append(str(Path(__file__).parent))
 from neo4j import GraphDatabase
 
 
+def migrate_schema(uri, user, password):
+    """Schema 遷移: 轉換為 DIFY 兼容格式"""
+    driver = GraphDatabase.driver(uri, auth=(user, password))
+
+    with driver.session(database="neo4j") as session:
+        # 1. IS_TRIBUTARY_OF → FLOWS_INTO (反向)
+        print("  轉換 IS_TRIBUTARY_OF → FLOWS_INTO...")
+        result = session.run("""
+            MATCH (child:River)-[r:IS_TRIBUTARY_OF]->(parent:River)
+            MERGE (child)-[:FLOWS_INTO]->(parent)
+            DELETE r
+            RETURN count(r) as count
+        """)
+        count = result.single()['count']
+        print(f"    [OK] 轉換 {count} 條河川支流關係")
+
+        # 2. MONITORS → LOCATED_ON
+        print("  轉換 MONITORS → LOCATED_ON...")
+        result = session.run("""
+            MATCH (s:Station)-[r:MONITORS]->(river:River)
+            MERGE (s)-[:LOCATED_ON]->(river)
+            DELETE r
+            RETURN count(r) as count
+        """)
+        count = result.single()['count']
+        print(f"    [OK] 轉換 {count} 條測站監測關係")
+
+        # 3. 驗證無代碼不匹配的錯誤
+        print("  驗證資料完整性...")
+        result = session.run("""
+            MATCH (s:Station)-[:LOCATED_ON]->(r:River)
+            WITH s, r, trim(s.code) as station_code, r.code as river_code
+            WHERE station_code IS NOT NULL AND river_code IS NOT NULL
+              AND left(station_code, 4) <> left(river_code, 4)
+              AND left(station_code, 3) <> left(river_code, 3)
+            RETURN count(*) as mismatch_count
+        """)
+        mismatch = result.single()['mismatch_count']
+        if mismatch == 0:
+            print(f"    [OK] 無代碼不匹配的錯誤")
+        else:
+            print(f"    [WARNING] 發現 {mismatch} 個代碼不匹配，正在清理...")
+            session.run("""
+                MATCH (s:Station)-[r:LOCATED_ON]->(river:River)
+                WITH s, r, river, trim(s.code) as station_code, river.code as river_code
+                WHERE station_code IS NOT NULL AND river_code IS NOT NULL
+                  AND left(station_code, 4) <> left(river_code, 4)
+                  AND left(station_code, 3) <> left(river_code, 3)
+                DELETE r
+            """)
+            print(f"    [OK] 已清理代碼不匹配的關係")
+
+    driver.close()
+    print("  [OK] Schema 遷移完成")
+
+
 class MasterImporter:
     """主匯入器 - 統一執行所有匯入流程"""
 
@@ -81,12 +137,12 @@ class MasterImporter:
             print("\n【關係統計】")
 
             rel_types = [
-                ("IS_TRIBUTARY_OF", "河川支流關係"),
+                ("FLOWS_INTO", "河川流向關係 (DIFY Schema)"),
                 ("BELONGS_TO", "河川屬於水系"),
                 ("PART_OF", "集水區屬於流域"),
-                ("CONTAINS_RIVER", "集水區包含河川"),
-                ("MONITORS", "測站監測河川"),
-                ("LOCATED_IN", "測站位於集水區"),
+                ("DRAINS_TO", "集水區排入河川"),
+                ("LOCATED_ON", "測站位於河川 (DIFY Schema)"),
+                # ("LOCATED_IN", "測站位於集水區"),  # 未實作，透過河川間接查詢
             ]
 
             for rel_type, desc in rel_types:
@@ -101,7 +157,7 @@ class MasterImporter:
             # 有測站監測的河川比例
             result = session.run("""
                 MATCH (r:River)
-                OPTIONAL MATCH (s:Station)-[:MONITORS]->(r)
+                OPTIONAL MATCH (s:Station)-[:LOCATED_ON]->(r)
                 WITH r, count(s) as station_count
                 RETURN
                     sum(CASE WHEN station_count > 0 THEN 1 ELSE 0 END) as with_stations,
@@ -135,7 +191,7 @@ class MasterImporter:
             result = session.run("""
                 MATCH (ws:WaterSystem {name: '淡水河'})
                 MATCH (r:River)-[:BELONGS_TO]->(ws)
-                MATCH (s:Station)-[:MONITORS]->(r)
+                MATCH (s:Station)-[:LOCATED_ON]->(r)
                 RETURN ws.name as water_system,
                        count(DISTINCT r) as river_count,
                        count(DISTINCT s) as station_count
@@ -149,7 +205,7 @@ class MasterImporter:
             # 範例2: 找出監測站最多的前5條河川
             print("\n2. 監測站最多的河川 (前5名):")
             result = session.run("""
-                MATCH (s:Station)-[:MONITORS]->(r:River)
+                MATCH (s:Station)-[:LOCATED_ON]->(r:River)
                 WITH r, count(s) as station_count
                 ORDER BY station_count DESC
                 LIMIT 5
@@ -285,8 +341,17 @@ def main():
         station_importer.import_rainfall_stations(Path("data/測站基本資料2025.xlsx"))
         station_importer.import_water_level_stations(Path("data/測站基本資料2025.xlsx"))
         station_importer.link_stations_to_rivers(Path("data/測站河川配對分析報表.xlsx"))
-        station_importer.link_stations_to_watersheds()
+        # station_importer.link_stations_to_watersheds()
+        # ↑ 未實作原因：
+        # 1. 測站資料(水利署)沒有集水區欄位，只有「流域」(=水系名稱，如淡水河)
+        # 2. 集水區資料(水保署)的命名方式不同，無法直接配對
+        # 3. 可透過河川間接查詢：Station-[:LOCATED_ON]->River<-[:DRAINS_TO]-Watershed
         station_importer.close()
+
+        # 步驟 4: Schema 遷移 (DIFY 兼容格式)
+        print("\n【步驟 4/4】Schema 遷移 (MONITORS→LOCATED_ON, IS_TRIBUTARY_OF→FLOWS_INTO)")
+        print("-" * 80)
+        migrate_schema(NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD)
 
         # 顯示最終統計
         master.show_final_statistics()
@@ -300,13 +365,13 @@ def main():
         print("  1. 使用 Neo4j Browser 查看圖譜: http://localhost:7474")
         print("  2. 執行 Cypher 查詢分析水文資料")
         print("  3. 開發 GraphRAG 應用")
-        print("  4. 整合向量資料庫進行混合查詢")
+        print("  4. 使用 NeoDash 視覺化: docker start neodash → http://localhost:5005")
 
-        print("\n💡 查詢範例:")
+        print("\n💡 查詢範例 (使用 DIFY Schema):")
         print("  - 找出淡水河流域所有測站:")
         print("    MATCH (ws:WaterSystem {name: '淡水河'})")
         print("    MATCH (r:River)-[:BELONGS_TO]->(ws)")
-        print("    MATCH (s:Station)-[:MONITORS]->(r)")
+        print("    MATCH (s:Station)-[:LOCATED_ON]->(r)")
         print("    RETURN s.name, r.name")
 
     except Exception as e:

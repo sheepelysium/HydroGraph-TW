@@ -12,7 +12,13 @@
       "Bash(cd:*)",
       "Bash(hydro_env\\Scripts\\python.exe:*)",
       "Bash(findstr:*)",
-      "Bash(hydro_envScriptspython.exe -c \"import google.generativeai; print(''[OK] google-generativeai installed in hydro_env'')\")"
+      "Bash(hydro_envScriptspython.exe -c \"import google.generativeai; print(''[OK] google-generativeai installed in hydro_env'')\")",
+      "Bash(iconv:*)",
+      "Bash(d:)",
+      "Bash(docker ps:*)",
+      "Bash(rm:*)",
+      "Bash(hydro_envScriptspython.exe check_errors.py)",
+      "Bash(npm run dev:*)"
     ],
     "deny": [],
     "ask": []

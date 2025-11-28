@@ -208,7 +208,7 @@ class StationImporter:
         print(f"[OK] 已匯入 {len(df)} 個水位測站")
 
     def link_stations_to_rivers(self, matching_report_path):
-        """建立測站 -> 河川關係 (使用配對報表)
+        """建立測站 -> 河川關係 (使用配對報表，加入代碼驗證避免同名河川錯誤配對)
 
         Args:
             matching_report_path: 測站河川配對分析報表.xlsx 的路徑
@@ -225,6 +225,8 @@ class StationImporter:
         with self.driver.session(database="neo4j") as session:
             count = 0
             skipped = 0
+            code_mismatch = 0
+
             for idx, row in df.iterrows():
                 # 更新後的欄位結構:
                 # cols[0] = 測站類型
@@ -241,6 +243,18 @@ class StationImporter:
                 river_code = str(row[cols[5]]) if pd.notna(row[cols[5]]) else None
 
                 if station_code and river_code:
+                    # ★ 代碼驗證: 測站代碼前綴應與河川代碼前綴匹配
+                    # 避免同名河川錯誤配對 (例如: 北港溪在淡水河和雲林都有)
+                    station_prefix_4 = station_code[:4]
+                    river_prefix_4 = river_code[:4]
+                    station_prefix_3 = station_code[:3]
+                    river_prefix_3 = river_code[:3]
+
+                    if station_prefix_4 != river_prefix_4 and station_prefix_3 != river_prefix_3:
+                        # 代碼不匹配，跳過此配對
+                        code_mismatch += 1
+                        continue
+
                     # 使用測站代號來匹配,需要處理Neo4j中可能的尾隨空格
                     session.run("""
                         MATCH (s:Station)
@@ -266,7 +280,9 @@ class StationImporter:
 
         print(f"[OK] 已建立 {count} 條測站-河川關係")
         if skipped > 0:
-            print(f"[WARNING]  跳過 {skipped} 條 (缺少測站代號或河川代碼)")
+            print(f"[INFO] 跳過 {skipped} 條 (缺少測站代號或河川代碼)")
+        if code_mismatch > 0:
+            print(f"[INFO] 過濾 {code_mismatch} 條代碼不匹配 (避免同名河川錯誤配對)")
 
     def link_stations_to_watersheds(self):
         """建立測站 -> 集水區關係 (根據集水區名稱)"""
