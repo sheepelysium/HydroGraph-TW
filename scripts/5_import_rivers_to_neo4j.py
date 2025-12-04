@@ -3,6 +3,7 @@
 import pandas as pd
 from neo4j import GraphDatabase
 from pathlib import Path
+from data_utils import clean_dataframe  # 匯入資料清理工具
 
 
 class RiverImporter:
@@ -52,6 +53,7 @@ class RiverImporter:
         """
         print(f"\n讀取河川資料: {excel_path}")
         df = pd.read_excel(excel_path)
+        df = clean_dataframe(df)  # 清理資料（去除空格）
         print(f"  共 {len(df)} 條河川")
 
         # 建立河川節點
@@ -85,6 +87,7 @@ class RiverImporter:
         """
         print(f"\n建立水系節點與關係...")
         df = pd.read_excel(excel_path)
+        df = clean_dataframe(df)  # 清理資料（去除空格）
 
         # 取得所有唯一的水系
         water_systems = df['主流水系'].dropna().unique()
@@ -125,6 +128,7 @@ class RiverImporter:
         """
         print("\n建立河川階層關係 (IS_TRIBUTARY_OF)...")
         df = pd.read_excel(excel_path)
+        df = clean_dataframe(df)  # 清理資料（去除空格）
 
         # 建立河川名稱到代碼的映射
         river_name_to_code = dict(zip(df['河川名稱'], df['河川代碼']))

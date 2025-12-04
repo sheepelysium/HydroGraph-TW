@@ -3,6 +3,7 @@
 import pandas as pd
 from neo4j import GraphDatabase
 from pathlib import Path
+from data_utils import clean_dataframe  # 匯入資料清理工具
 
 
 class WatershedImporter:
@@ -42,6 +43,7 @@ class WatershedImporter:
 
         # 讀取「流域統計」工作表
         df = pd.read_excel(excel_path, sheet_name='流域統計')
+        df = clean_dataframe(df)  # 清理資料（去除空格）
         print(f"  共 {len(df)} 個流域")
 
         # 建立流域節點
@@ -82,6 +84,7 @@ class WatershedImporter:
 
         # 讀取「集水區列表」工作表
         df = pd.read_excel(excel_path, sheet_name='集水區列表')
+        df = clean_dataframe(df)  # 清理資料（去除空格）
         print(f"  共 {len(df)} 個集水區")
 
         # 建立集水區節點
@@ -126,6 +129,7 @@ class WatershedImporter:
         print("\n建立集水區 PART_OF 流域關係...")
 
         df = pd.read_excel(excel_path, sheet_name='集水區列表')
+        df = clean_dataframe(df)  # 清理資料（去除空格）
 
         with self.driver.session(database="neo4j") as session:
             count = 0
@@ -153,6 +157,7 @@ class WatershedImporter:
 
         # 讀取「集水區-河川關聯」工作表
         df = pd.read_excel(excel_path, sheet_name='集水區-河川關聯')
+        df = clean_dataframe(df)  # 清理資料（去除空格）
         print(f"  共 {len(df)} 條關聯記錄")
 
         with self.driver.session(database="neo4j") as session:

@@ -7,6 +7,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent))
 
 from neo4j import GraphDatabase
+from data_utils import clean_dataframe  # 匯入資料清理工具
 
 
 def migrate_schema(uri, user, password):

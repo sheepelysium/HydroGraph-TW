@@ -1,0 +1,1267 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 測站基本資料v3.0
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/siliconflow:0.0.27@3c4e37fef7455da28d36d559dde85201fc0b4f1819b80cd24eba56da15a711f9
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/ollama:0.0.8@22213ae036605d41ea73bdd16908e03de1b9d5ab4656a49b8fb0343723f4cb4a
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/azure_openai:0.0.30@c60f0c8612961bb634b9209703ed91fc752713b14399a1522a72320b46ef6185
+    version: null
+kind: app
+version: 0.4.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1749455329717-source-1749456115056-target
+      selected: false
+      source: '1749455329717'
+      sourceHandle: source
+      target: '1749456115056'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: end
+      id: 1749456115056-fail-branch-1749721121508-target
+      source: '1749456115056'
+      sourceHandle: fail-branch
+      target: '1749721121508'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1749722175647-source-1749722223032-target
+      source: '1749722175647'
+      sourceHandle: source
+      target: '1749722223032'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: template-transform
+        targetType: end
+      id: 1749722290058-source-1749722325395-target
+      source: '1749722290058'
+      sourceHandle: source
+      target: '1749722325395'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1749456115056-source-1749723660697-target
+      source: '1749456115056'
+      sourceHandle: source
+      target: '1749723660697'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: iteration
+      id: 1749723660697-3bfecbbd-e017-475e-becb-6140c55db596-1749722091423-target
+      source: '1749723660697'
+      sourceHandle: 3bfecbbd-e017-475e-becb-6140c55db596
+      target: '1749722091423'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: knowledge-retrieval
+      id: 1749723660697-true-1749723712811-target
+      source: '1749723660697'
+      sourceHandle: 'true'
+      target: '1749723712811'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: variable-aggregator
+      id: 1749723712811-source-1749723734934-target
+      source: '1749723712811'
+      sourceHandle: source
+      target: '1749723734934'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: variable-aggregator
+      id: 1749722091423-source-1749723734934-target
+      source: '1749722091423'
+      sourceHandle: source
+      target: '1749723734934'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: variable-aggregator
+        targetType: code
+      id: 1749723734934-source-1749722175647-target
+      selected: false
+      source: '1749723734934'
+      sourceHandle: source
+      target: '1749722175647'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: template-transform
+      id: 1749723660697-a603ccde-7469-4a4e-866e-d233c4a15c56-1750300475652-target
+      source: '1749723660697'
+      sourceHandle: a603ccde-7469-4a4e-866e-d233c4a15c56
+      target: '1750300475652'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: template-transform
+        targetType: end
+      id: 1750300475652-source-1750300953338-target
+      source: '1750300475652'
+      sourceHandle: source
+      target: '1750300953338'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1749722223032-source-1750412940660-target
+      selected: false
+      source: '1749722223032'
+      sourceHandle: source
+      target: '1750412940660'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: template-transform
+      id: 1750412940660-source-1749722290058-target
+      source: '1750412940660'
+      sourceHandle: source
+      target: '1749722290058'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1749722091423'
+        sourceType: iteration-start
+        targetType: knowledge-retrieval
+      id: 1749722091423start-source-1752140064990-target
+      source: 1749722091423start
+      sourceHandle: source
+      target: '1752140064990'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 開始
+        type: start
+        variables:
+        - label: location
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: location
+        - label: dataType
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: dataType
+        - label: userQuery
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: userQuery
+        - label: searchQueries
+          max_length: 256
+          options: []
+          required: false
+          type: paragraph
+          variable: searchQueries
+      height: 166
+      id: '1749455329717'
+      position:
+        x: -114.73599272962605
+        y: 294.61001596557276
+      positionAbsolute:
+        x: -114.73599272962605
+        y: 294.61001596557276
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "from typing import Any, Dict, List, Union\nimport json\nimport re\n\
+          \ndef is_valid_value(v: Any) -> bool:\n    \"\"\"檢查值是否有效（非空、非None、非空字串）\"\
+          \"\"\n    if v is None:\n        return False\n    if isinstance(v, str)\
+          \ and not v.strip():\n        return False\n    if isinstance(v, (list,\
+          \ dict)) and len(v) == 0:\n        return False\n    return True\n\ndef\
+          \ parse_searchQueries(searchQueries: Union[str, List[str], None]) -> List[str]:\n\
+          \    \"\"\"解析 searchQueries 為 list[str]，移除多餘跳脫字元與空白\"\"\"\n    searchQueries_list:\
+          \ List[str] = []\n    \n    if searchQueries is None:\n        return []\n\
+          \    \n    if isinstance(searchQueries, list):\n        return [str(x).strip()\
+          \ for x in searchQueries if str(x).strip()]\n    \n    if isinstance(searchQueries,\
+          \ str):\n        cleaned = searchQueries.strip()\n        # 嘗試處理過度跳脫的 JSON\
+          \ 字串，例如 [\\\\\\\"中正橋水位\\\\\\\"]\n        if cleaned.startswith('[\"') and\
+          \ '\\\\\"' in cleaned:\n            cleaned = re.sub(r'\\\\(.)', r'\\1',\
+          \ cleaned)\n        \n        try:\n            parsed = json.loads(cleaned)\n\
+          \            if isinstance(parsed, list):\n                return [str(x).strip()\
+          \ for x in parsed if str(x).strip()]\n            else:\n              \
+          \  return [str(parsed).strip()]\n        except Exception:\n           \
+          \ return [cleaned]\n    \n    return [str(searchQueries).strip()]\n\ndef\
+          \ normalize_datatype(dataType: str) -> str:\n    \"\"\"將用戶輸入的資料類型標準化為知識檢索用的完整名稱\"\
+          \"\"\n    if not dataType or not dataType.strip():\n        return dataType\n\
+          \    \n    dataType_lower = dataType.lower().strip()\n    \n    # \U0001F3AF\
+          \ 修正：把更具體的關鍵字放前面，避免歧義\n    if any(keyword in dataType_lower for keyword\
+          \ in [\"地下水\", \"井\", \"地下水位\"]):\n        return \"地下水位\"\n    elif any(keyword\
+          \ in dataType_lower for keyword in [\"雨量\", \"降雨\", \"雨水\"]):\n        return\
+          \ \"雨量\"  \n    elif any(keyword in dataType_lower for keyword in [\"水位\"\
+          , \"流量\", \"含沙量\", \"河川\"]):\n        return \"水位流量含沙量\"\n    \n    # 如果沒有匹配到，保持原值\n\
+          \    return dataType\n\ndef is_multi_query_semantic(text: str) -> bool:\n\
+          \    \"\"\"\U0001F195 語義檢測 - 檢測是否為多結果查詢\"\"\"\n    if not text:\n      \
+          \  return False\n    \n    text_lower = text.lower().strip()\n    \n   \
+          \ # \U0001F3AF 範圍查詢詞檢測\n    range_triggers = any(word in text_lower for\
+          \ word in [\"哪些\", \"附近\", \"所有\", \"流域\", \"有什麼\", \"包含哪些\", \"含有哪些\"])\n\
+          \    \n    # \U0001F3AF 區域性地理查詢檢測（精確匹配）\n    regional_patterns = [\n   \
+          \     r'.+有.+[測量]站[嗎？]?',     # XX有XX測站嗎\n        r'.+是否有.+[測量]站',     \
+          \   # XX是否有XX測站\n        r'.+包含.+[測量]站',          # XX包含XX測站\n        r'.+設有.+[測量]站[嗎？]?',\
+          \   # XX設有XX測站嗎\n        r'.+存在.+[測量]站[嗎？]?'    # XX存在XX測站嗎\n    ]\n   \
+          \ regional_triggers = any(re.search(pattern, text_lower) for pattern in\
+          \ regional_patterns)\n    \n    # \U0001F3AF 多資料類型檢測\n    multi_type_triggers\
+          \ = any(word in text_lower for word in [\"和\", \"與\", \"及\", \"比較\", \"\
+          對比\", \"都\", \"分別\", \"以及\"])\n    \n    return range_triggers or regional_triggers\
+          \ or multi_type_triggers\n\ndef main(\n    location: str = \"\",\n    dataType:\
+          \ str = \"\",\n    userQuery: str = \"\",\n    searchQueries: Union[str,\
+          \ List[str], None] = None,\n    **kwargs,\n) -> Dict[str, Any]:\n    \"\"\
+          \"整合四個欄位，防止 searchQueries 問題並判斷是否多結果查詢\"\"\"\n    \n    # 1. 解析 searchQueries\n\
+          \    searchQueries_list = parse_searchQueries(searchQueries)\n    \n   \
+          \ # \U0001F3AF 關鍵修正：如果 searchQueries 為空，使用原始查詢\n    if not searchQueries_list\
+          \ and userQuery.strip():\n        searchQueries_list = [userQuery.strip()]\n\
+          \    \n    # \U0001F195 語義檢測優先處理（在所有邏輯之前）\n    all_text = \" \".join([userQuery]\
+          \ + searchQueries_list).strip()\n    if is_multi_query_semantic(all_text):\n\
+          \        final_dataType = \"多結果查詢\"\n    elif dataType.strip() == \"多結果查詢\"\
+          :\n        final_dataType = \"多結果查詢\"\n    else:\n        # 2. 先標準化 dataType\n\
+          \        normalized_dataType = normalize_datatype(dataType)\n        \n\
+          \        # 3. 根據 searchQueries 內容檢測資料類型\n        valid_types = {\n     \
+          \       \"雨量\": [\"雨量\", \"降雨\", \"雨水\"],\n            \"水位流量含沙量\": [\"\
+          水位\", \"流量\", \"含沙量\", \"河川\"],\n            \"地下水位\": [\"地下水\", \"井\",\
+          \ \"地下水位\", \"觀測井\"],\n        }\n        \n        detected_types = set()\n\
+          \        for item in searchQueries_list:\n            lowered = item.lower()\n\
+          \            for dtype, keywords in valid_types.items():\n             \
+          \   if any(k in lowered for k in keywords):\n                    detected_types.add(dtype)\n\
+          \        \n        # 4. 決定最終資料類型\n        if len(searchQueries_list) > 1\
+          \ and len(detected_types) > 1:\n            final_dataType = \"多結果查詢\"\n\
+          \        elif len(detected_types) == 1:\n            # 使用檢測到的標準化類型\n   \
+          \         final_dataType = list(detected_types)[0]\n        else:\n    \
+          \        # 使用標準化後的 dataType\n            final_dataType = normalized_dataType\n\
+          \    \n    # 5. 檢查必要欄位（基本資料查詢：location 和 dataType）\n    missing = [\n  \
+          \      k for k, v in {\n            \"location\": location,\n          \
+          \  \"dataType\": final_dataType,\n        }.items() \n        if not is_valid_value(v)\n\
+          \    ]\n    \n    status = \"success\" if not missing else \"incomplete\"\
+          \n    \n    # 6. 保持原始輸出格式\n    return {\n        \"location\": location,\n\
+          \        \"dataType\": final_dataType,\n        \"userQuery\": userQuery,\n\
+          \        \"searchQueries\": searchQueries_list,\n        \"status\": status,\n\
+          \        \"missing_fields\": missing,\n    }"
+        code_language: python3
+        desc: ''
+        error_strategy: fail-branch
+        outputs:
+          dataType:
+            children: null
+            type: string
+          location:
+            children: null
+            type: string
+          missing_fields:
+            children: null
+            type: array[string]
+          searchQueries:
+            children: null
+            type: array[string]
+          status:
+            children: null
+            type: string
+          userQuery:
+            children: null
+            type: string
+        selected: false
+        title: 代碼執行
+        type: code
+        variables:
+        - value_selector:
+          - '1749455329717'
+          - location
+          variable: location
+        - value_selector:
+          - '1749455329717'
+          - dataType
+          variable: dataType
+        - value_selector:
+          - '1749455329717'
+          - userQuery
+          variable: userQuery
+        - value_selector:
+          - '1749455329717'
+          - searchQueries
+          variable: searchQueries
+      height: 88
+      id: '1749456115056'
+      position:
+        x: 275.4163838951512
+        y: 355.49102878041543
+      positionAbsolute:
+        x: 275.4163838951512
+        y: 355.49102878041543
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1749456115056'
+          - error_message
+          variable: error_message
+        selected: false
+        title: 結束
+        type: end
+      height: 88
+      id: '1749721121508'
+      position:
+        x: 638
+        y: 376
+      positionAbsolute:
+        x: 638
+        y: 376
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 212
+        is_parallel: true
+        iterator_input_type: array[string]
+        iterator_selector:
+        - '1749456115056'
+        - searchQueries
+        output_selector:
+        - '1752140064990'
+        - result
+        output_type: array[object]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1749722091423start
+        title: 迭代
+        type: iteration
+        width: 508
+      height: 212
+      id: '1749722091423'
+      position:
+        x: 943.1486983549971
+        y: 633.733406110011
+      positionAbsolute:
+        x: 943.1486983549971
+        y: 633.733406110011
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 508
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1749722091423start
+      parentId: '1749722091423'
+      position:
+        x: 60
+        y: 82
+      positionAbsolute:
+        x: 1003.1486983549971
+        y: 715.733406110011
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        code: "from typing import Any, Dict, List, Union\nimport json\n\n# 常數定義\n\
+          TYPE_MAPPING = {\n    \"水位流量含沙量\": [\"水位\", \"流量\", \"含沙量\", \"水位流量含沙量\"\
+          ],\n    \"雨量\": [\"雨量\", \"降雨\", \"雨水\", \"降水\"],\n    \"地下水位\": [\"地下水位\"\
+          , \"地下水\", \"井水\", \"觀測井\"]\n}\n\ndef is_valid_value(v: Any) -> bool:\n\
+          \    if v is None:\n        return False\n    if isinstance(v, str) and\
+          \ not v.strip():\n        return False\n    if isinstance(v, (list, dict))\
+          \ and len(v) == 0:\n        return False\n    return True\n\ndef main(location=\"\
+          \", dataType=\"\", Integration=None, **kwargs) -> Dict[str, Any]:\n    \"\
+          \"\"\n    增強版測站基本資料處理 - 無時間限制版本\n    重點：測站名稱、測站代號、水文網URL，包含已廢測站\n    \"\"\
+          \"\n    try:\n        raw_stations = extract_raw_stations(Integration)\n\
+          \        if not raw_stations:\n            return empty_result(location,\
+          \ dataType)\n        \n        valid_stations = []\n        failed_reasons\
+          \ = {}\n\n        for item in raw_stations:\n            station_info =\
+          \ parse_and_validate_station(item, dataType)\n            if station_info:\n\
+          \                valid_stations.append(station_info)\n            else:\n\
+          \                fail_reason = analyze_failure_reason(item, dataType)\n\
+          \                failed_reasons[fail_reason] = failed_reasons.get(fail_reason,\
+          \ 0) + 1\n\n        stations_with_urls = []\n        if valid_stations:\n\
+          \            for station in valid_stations:\n                api_url = build_profile_url(\n\
+          \                    station.get(\"station_code\", \"\"),\n            \
+          \        station.get(\"data_category\", \"\")\n                )\n     \
+          \           station_data = build_complete_station_profile(station, api_url)\n\
+          \                stations_with_urls.append(json.dumps(station_data, ensure_ascii=False))\n\
+          \            unique_stations = remove_duplicate_stations(stations_with_urls)\n\
+          \        else:\n            unique_stations = []\n\n        result_type\
+          \ = \"success\" if unique_stations else \"no_match\"\n\n        return {\n\
+          \            \"stationsData\": unique_stations,\n            \"queryInfo\"\
+          : {\n                \"location\": location,\n                \"dataType\"\
+          : dataType,\n                \"foundStations\": len(unique_stations),\n\
+          \                \"stationNames\": [json.loads(s).get(\"station_name\",\
+          \ \"\") for s in unique_stations[:5]],\n                \"result_type\"\
+          : result_type\n            },\n            \"debug_info\": {\n         \
+          \       \"raw_count\": len(raw_stations),\n                \"processed_stations\"\
+          : [s.get(\"station_name\", \"\") for s in valid_stations],\n           \
+          \     \"failed_reasons\": failed_reasons\n            }\n        }\n   \
+          \ except Exception as e:\n        return error_result(location, dataType,\
+          \ str(e))\n\n\ndef extract_raw_stations(Integration) -> List[Dict[str, Any]]:\n\
+          \    \"\"\"提取原始測站資料 - 修正二維陣列問題\"\"\"\n    if not Integration:\n        return\
+          \ []\n    \n    if isinstance(Integration, dict) and \"output\" in Integration:\n\
+          \        Integration = Integration[\"output\"]\n    \n    # 處理陣列情況\n   \
+          \ if isinstance(Integration, list):\n        # 如果是二維陣列，攤平它\n        if Integration\
+          \ and isinstance(Integration[0], list):\n            return Integration[0]\
+          \  # 取第一層的內容\n        return Integration\n    \n    return []\n\n\ndef parse_and_validate_station(item:\
+          \ Dict[str, Any], target_data_type: str) -> Union[Dict[str, Any], None]:\n\
+          \    if not isinstance(item, dict):\n        return None\n    content =\
+          \ item.get(\"content\", \"\")\n    if not content:\n        return None\n\
+          \    station_data = parse_content_fields(content)\n    if not station_data:\n\
+          \        return None\n\n    station_name = station_data.get('站名', '').strip()\n\
+          \    category = station_data.get('類別', '').strip()\n    status = station_data.get('存廢狀態',\
+          \ '').strip()\n    station_number = station_data.get('站號', '').strip()\n\
+          \    weather_code = station_data.get('氣象署站號', '').strip()\n\n    if not\
+          \ station_name or not category:\n        return None\n\n    display_name\
+          \ = station_name + (\" (已廢)\" if status == \"已廢\" else \"\")\n\n    if target_data_type\
+          \ and target_data_type not in (\"未指定\", \"多結果查詢\"):\n        if not type_matches(category,\
+          \ target_data_type):\n            return None\n\n    if category == '雨量':\n\
+          \        primary_code = weather_code or station_number\n        station_type\
+          \ = \"rainfall\"\n    elif category == '水位流量含沙量':\n        primary_code\
+          \ = station_number or weather_code\n        station_type = \"waterLevel\"\
+          \n    elif category == '地下水位':\n        primary_code = station_number or\
+          \ weather_code\n        station_type = \"groundwater\"\n    else:\n    \
+          \    return None\n\n    if not primary_code:\n        return None\n\n  \
+          \  return {\n        \"station_name\": display_name,\n        \"original_name\"\
+          : station_name,\n        \"station_code\": primary_code,\n        \"station_number\"\
+          : station_number,\n        \"weather_code\": weather_code,\n        \"data_category\"\
+          : category,\n        \"station_type\": station_type,\n        \"status\"\
+          : status or \"現存\",\n        \"management_unit\": station_data.get('管理單位',\
+          \ ''),\n        \"watershed\": station_data.get('流域', ''),\n        \"river\"\
+          : station_data.get('河川', ''),\n        \"address\": station_data.get('地址',\
+          \ ''),\n        \"county\": station_data.get('縣市', ''),\n        \"elevation\"\
+          : station_data.get('高程(m)', ''),\n        \"coordinates\": extract_coordinates(station_data),\n\
+          \        \"data_periods\": extract_data_periods(station_data, category)\n\
+          \    }\n\n\ndef parse_content_fields(content: str) -> Dict[str, str]:\n\
+          \    try:\n        parts = content.split(';')\n        data = {}\n     \
+          \   for part in parts:\n            if '\":\"' in part:\n              \
+          \  key, value = part.split('\":\"', 1)\n                key = key.replace('\"\
+          ', '').replace('\\\\', '').strip()\n                value = value.replace('\"\
+          ', '').replace('\\\\', '').strip()\n                if key and value !=\
+          \ \"-\":\n                    data[key] = value\n        return data\n \
+          \   except Exception:\n        return {}\n\n\ndef extract_data_periods(station_data:\
+          \ Dict[str, str], data_category: str = None) -> Dict[str, str]:\n    time_fields_map\
+          \ = {\n        \"雨量\": ['時雨量', '日雨量', '月雨量'],\n        \"水位流量含沙量\": ['時水位',\
+          \ '日水位', '月水位'],\n        \"地下水位\": ['時地下水位', '日地下水位', '月地下水位'],\n    }\n\
+          \    default_fields = [\n        '時水位', '日水位', '月水位',\n        '時雨量', '日雨量',\
+          \ '月雨量',\n        '時地下水位', '日地下水位', '月地下水位'\n    ]\n\n    time_fields =\
+          \ time_fields_map.get(data_category, default_fields)\n    return {field:\
+          \ station_data[field].strip() for field in time_fields if field in station_data\
+          \ and station_data[field] and station_data[field] != \"-\"}\n\n\ndef extract_coordinates(station_data:\
+          \ Dict[str, str]) -> Dict[str, str]:\n    coordinates = {}\n    x = station_data.get('TWD97M2(X坐標)',\
+          \ '').strip()\n    y = station_data.get('TWD97M2(Y坐標)', '').strip()\n  \
+          \  if x and x != \"-\":\n        coordinates[\"x\"] = x\n    if y and y\
+          \ != \"-\":\n        coordinates[\"y\"] = y\n    return coordinates\n\n\n\
+          def build_profile_url(station_code: str, data_category: str) -> str:\n \
+          \   if not station_code or not data_category:\n        return \"\"\n   \
+          \ api_types = {\n        \"雨量\": \"RA\",\n        \"水位流量含沙量\": \"LE\",\n\
+          \        \"地下水位\": \"GW\"\n    }\n    api_type = api_types.get(data_category,\
+          \ \"\")\n    if not api_type:\n        return \"\"\n    return f\"https://gweb.wra.gov.tw/HydroInfo/StDataInfo/StDataInfo?{api_type}&{station_code}\"\
+          \n\n\ndef type_matches(station_category: str, target_data_type: str) ->\
+          \ bool:\n    for standard_type, aliases in TYPE_MAPPING.items():\n     \
+          \   if station_category == standard_type:\n            return target_data_type\
+          \ == standard_type or target_data_type in aliases\n    return False\n\n\n\
+          def remove_duplicate_stations(stations_json_list: List[Union[str, Dict[str,\
+          \ Any]]]) -> List[Union[str, Dict[str, Any]]]:\n    if not stations_json_list:\n\
+          \        return []\n    seen_codes = set()\n    unique_stations = []\n \
+          \   for station_json in stations_json_list:\n        try:\n            station\
+          \ = json.loads(station_json) if isinstance(station_json, str) else station_json\n\
+          \        except json.JSONDecodeError:\n            continue\n        code\
+          \ = station.get('station_code', '')\n        if code and code not in seen_codes:\n\
+          \            seen_codes.add(code)\n            unique_stations.append(station_json)\n\
+          \    return unique_stations\n\n\ndef build_complete_station_profile(station:\
+          \ Dict[str, Any], api_url: str) -> Dict[str, Any]:\n    \"\"\"\n    平鋪版測站基本資料組建\
+          \ - 移除重複欄位\n    對齊觀測資料格式，方便 LLM 讀取\n    \"\"\"\n    station_data = {\n \
+          \       # 核心資訊\n        \"station_name\": station.get(\"station_name\",\
+          \ \"\"),\n        \"station_code\": station.get(\"station_code\", \"\"),\n\
+          \        \"data_category\": station.get(\"data_category\", \"\"),\n    \
+          \    \"api_url\": api_url,\n        \n        # 平鋪結構 - 直接欄位，不嵌套\n      \
+          \  \"management_unit\": station.get(\"management_unit\", \"\"),\n      \
+          \  \"watershed\": station.get(\"watershed\", \"\"),\n        \"river\":\
+          \ station.get(\"river\", \"\"),\n        \"address\": station.get(\"address\"\
+          , \"\"),\n        \"county\": station.get(\"county\", \"\"),\n        \"\
+          status\": station.get(\"status\", \"\"),\n        \n        # 保留原有結構\n \
+          \       \"data_periods\": station.get(\"data_periods\", {}),\n        \"\
+          coordinates\": station.get(\"coordinates\", {})\n    }\n    \n    # 高程資訊\n\
+          \    if station.get(\"elevation\"):\n        station_data[\"elevation\"\
+          ] = station.get(\"elevation\")\n    \n    # 只保留一個組合位置資訊字串 - 方便 LLM 快速讀取\n\
+          \    location_parts = []\n    for field in [\"management_unit\", \"watershed\"\
+          , \"river\", \"address\"]:\n        if station.get(field):\n           \
+          \ location_parts.append(station.get(field))\n    \n    if location_parts:\n\
+          \        station_data[\"location_info\"] = \"、\".join(location_parts)\n\
+          \    \n    return station_data\n\ndef analyze_failure_reason(item: Dict[str,\
+          \ Any], target_data_type: str) -> str:\n    content = item.get(\"content\"\
+          , \"\")\n    if not content:\n        return \"無content內容\"\n    station_data\
+          \ = parse_content_fields(content)\n    if not station_data:\n        return\
+          \ \"content解析失敗\"\n    station_name = station_data.get('站名', '').strip()\n\
+          \    category = station_data.get('類別', '').strip()\n    if not station_name:\n\
+          \        return \"缺少站名\"\n    if not category:\n        return \"缺少類別\"\n\
+          \    if target_data_type and not type_matches(category, target_data_type):\n\
+          \        return f\"資料類型不符({category}≠{target_data_type})\"\n    return \"\
+          其他原因\"\n\n\ndef empty_result(location: str, dataType: str) -> Dict[str,\
+          \ Any]:\n    return {\n        \"stationsData\": [],\n        \"queryInfo\"\
+          : {\n            \"location\": location,\n            \"dataType\": dataType,\n\
+          \            \"foundStations\": 0,\n            \"stationNames\": [],\n\
+          \            \"result_type\": \"no_match\"\n        },\n        \"debug_info\"\
+          : {\n            \"raw_count\": 0,\n            \"processed_stations\":\
+          \ [],\n            \"failed_reasons\": {}\n        }\n    }\n\n\ndef error_result(location:\
+          \ str, dataType: str, error_msg: str) -> Dict[str, Any]:\n    return {\n\
+          \        \"stationsData\": [],\n        \"queryInfo\": {\n            \"\
+          location\": location,\n            \"dataType\": dataType,\n           \
+          \ \"foundStations\": 0,\n            \"stationNames\": [],\n           \
+          \ \"result_type\": \"error\"\n        },\n        \"debug_info\": {\n  \
+          \          \"error\": f\"系統錯誤: {error_msg}\",\n            \"raw_count\"\
+          : 0,\n            \"processed_stations\": [],\n            \"failed_reasons\"\
+          : {}\n        }\n    }\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          debug_info:
+            children: null
+            type: object
+          queryInfo:
+            children: null
+            type: object
+          stationsData:
+            children: null
+            type: array[string]
+        selected: false
+        title: 整合知識檢索
+        type: code
+        variables:
+        - value_selector:
+          - '1749723734934'
+          - output
+          variable: Integration
+      height: 52
+      id: '1749722175647'
+      position:
+        x: 1814
+        y: 506
+      positionAbsolute:
+        x: 1814
+        y: 506
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1749722175647'
+          - stationsData
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.1
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: dad51268-06bc-48fa-a571-027c9015ce17
+          role: system
+          text: '# Identity 你是專業的台灣水文測站資料篩選專家，負責根據用戶查詢精準篩選測站資料。 # Instructions ##
+            核心規則（按優先級排序） 1. **地理位置最優先**：若用戶指定縣市，必須嚴格篩選，不符合的一律排除 2. **站名寬鬆匹配**：在通過地理篩選的測站中，進行模糊匹配
+            3. **已廢測站保留**：已廢測站有歷史價值，符合條件就納入 ## 執行步驟 ### 步驟1：解析用戶查詢 從查詢中提取： - **地理限制**：台北、新北、桃園、台中、台南、高雄等縣市名稱
+            - **測站關鍵字**：中正橋、石門、翡翠等 - **資料類型**：雨量、水位、地下水位 ### 步驟2：地理位置篩選（最高優先級！必須先執行！）
+            **規則：** - 若用戶查詢**包含**縣市名稱 → 強制篩選，只保留該縣市的測站 - 若用戶查詢**不包含**縣市名稱 → 跳過此步驟，保留所有測站
+            **強制篩選時：** - ✅ 只保留 county 或 address 包含該縣市的測站 - ❌ 必須排除其他縣市的測站，即使站名完全相同
+            - 若篩選後無結果，result_type 設為 "none"，selected_stations 為空陣列 **範例：** | 用戶查詢
+            | 有無地理限制 | 正確做法 | |---------|-------------|---------| | 台北中正橋 | 有（台北）|
+            只選 county/address 含「台北」的 | | 中正橋 | 無 | 列出所有中正橋讓用戶選擇 | ### 步驟3：站名寬鬆匹配（在步驟2結果中執行）
+            對通過地理篩選的測站，進行站名模糊匹配： - 「中正橋」→ 匹配「中正橋」、「中正橋(即時)」、「中正橋(已廢)」、「中正大橋」 - 「竹林大橋」→
+            匹配「竹林大橋」、「竹林大橋(左岸)」 ### 步驟4：輸出前自我檢查 - [ ] 若用戶指定縣市，結果中是否**全部**符合該縣市？ -
+            [ ] 有無誤選其他縣市的測站？若有，必須移除！ <CONTEXT> {{#context#}} </CONTEXT> # Output Format
+            根據篩選結果設定 result_type： - 0 筆結果 → "none" - 1 筆結果 → "single" - 2 筆以上 → "multiple"
+            只輸出 JSON，無其他文字： { "result_type": "none|single|multiple", "selected_stations":
+            [ { "station_name": "測站名稱", "station_code": "測站代碼", "api_url": "API網址",
+            "address": "測站地址" } ] }'
+        - id: 5c3d89aa-6840-4326-8571-9ea49c04361c
+          role: user
+          text: '{{#1749456115056.userQuery#}}'
+        selected: false
+        structured_output:
+          schema:
+            properties:
+              result_type:
+                enum:
+                - single
+                - multiple
+                type: string
+              selected_stations:
+                items:
+                  properties:
+                    address:
+                      type: string
+                    api_url:
+                      type: string
+                    station_code:
+                      type: string
+                    station_name:
+                      type: string
+                  required:
+                  - station_name
+                  - station_code
+                  - api_url
+                  - address
+                  type: object
+                type: array
+            required:
+            - result_type
+            - selected_stations
+            type: object
+        structured_output_enabled: true
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1749722223032'
+      position:
+        x: 2121.9264962431166
+        y: 506
+      positionAbsolute:
+        x: 2121.9264962431166
+        y: 506
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        selected: false
+        template: "{% set info_greetings = [\r\n  \"小水滴為您查詢到了\",\r\n  \"小水滴成功取得了\"\
+          , \r\n  \"小水滴找到了\",\r\n  \"小水滴搜尋到了\",\r\n  \"小水滴幫您準備好了\"\r\n] %}\r\n\r\n\
+          {% set info_multiple_greetings = [\r\n  \"小水滴找到了多個相關測站\",\r\n  \"小水滴搜尋到了幾個測站\"\
+          , \r\n  \"小水滴為您找到了相關測站\",\r\n  \"小水滴發現了多個測站選項\",\r\n  \"小水滴幫您準備了測站清單\"\r\
+          \n] %}\r\n\r\n{% set info_error_messages = [\r\n  \"小水滴很抱歉，沒有找到相關測站資料\"\
+          ,\r\n  \"小水滴搜尋後，未發現符合條件的測站\",\r\n  \"小水滴查詢了資料庫，暫無相關測站資訊\",\r\n  \"小水滴努力查找，但沒有找到匹配的測站\"\
+          \r\n] %}\r\n\r\n{% if selected_stations and selected_stations|length > 0\
+          \ %}\r\n  {% set stations = selected_stations %}\r\n\r\n  {% if stations|length\
+          \ == 1 %}\r\n    {% set random_greeting = info_greetings[range(0, info_greetings|length)\
+          \ | random] %}\r\n    {% set station = stations[0] %}\r\n\r\n**{{ random_greeting\
+          \ }}測站基本資料：**\r\n\r\n**{{ station.station_name }}**  \r\n測站編號：{{ station.station_code\
+          \ }}  \r\n{%- if station.location_info %}\r\n{%- set address = station.location_info.split('、')[-1]\
+          \ %}\r\n設置地點：{{ address }}  \r\n{%- endif %}\r\n[查看測站資料]({{ station.api_url\
+          \ }})\r\n\r\n  {% else %}\r\n    {% set random_multiple = info_multiple_greetings[range(0,\
+          \ info_multiple_greetings|length) | random] %}\r\n\r\n**{{ random_multiple\
+          \ }}，請選擇您需要的測站：**\r\n\r\n{% for station in stations -%}\r\n**{{ loop.index\
+          \ }}. {{ station.station_name }}**  \r\n測站編號：{{ station.station_code }}\
+          \  \r\n{%- if station.location_info %}\r\n{%- set address = station.location_info.split('、')[-1]\
+          \ %}\r\n設置地點：{{ address }}  \r\n{%- endif %}\r\n[查看測站資料]({{ station.api_url\
+          \ }})\r\n\r\n{% endfor %}\r\n  {% endif %}\r\n\r\n{% if stations|length\
+          \ == 10 %}\r\n---\r\n**小水滴溫馨提醒：** 系統中有 {{ stations|length }} 個測站基本資料。\r\n\
+          \r\n查詢更多測站基本資料：[前往水文資訊網](https://gweb.wra.gov.tw/Hydroinfo/?id=Index)\r\n\
+          {% endif %}\r\n\r\n{% else %}\r\n  {% set random_error = info_error_messages[range(0,\
+          \ info_error_messages|length) | random] %}\r\n\r\n**{{ random_error }}，請確認測站名稱或嘗試其他關鍵字。**\r\
+          \n\r\n  {% if validation_stats and validation_stats.original_count > 0 %}\r\
+          \n\r\n小水滴根據您的關鍵字找到一些可能的方向，但比對官方資料後，發現它們並非有效的測站名稱。\r\n\r\n**建議您可以：**\r\n\
+          - 檢查輸入的名稱是否有錯字  \r\n- 嘗試使用更簡短的關鍵字\r\n  {% endif %}\r\n{% endif %}"
+        title: 模板轉換
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1750412940660'
+          - result_type
+          variable: result_type
+        - value_selector:
+          - '1750412940660'
+          - selected_stations
+          variable: selected_stations
+        - value_selector:
+          - '1750412940660'
+          - validation_stats
+          variable: validation_stats
+      height: 52
+      id: '1749722290058'
+      position:
+        x: 2725.829190444224
+        y: 506
+      positionAbsolute:
+        x: 2725.829190444224
+        y: 506
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1749722290058'
+          - output
+          variable: output
+        selected: false
+        title: 結束 2
+        type: end
+      height: 88
+      id: '1749722325395'
+      position:
+        x: 3026.4842834334895
+        y: 506
+      positionAbsolute:
+        x: 3026.4842834334895
+        y: 506
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 15245a85-b822-4212-bbb9-5fff39ee9a59
+            value: 多結果查詢
+            varType: string
+            variable_selector:
+            - '1749456115056'
+            - dataType
+          - comparison_operator: contains
+            id: d60b3fff-f89c-4486-9b16-e5266b09f962
+            value: success
+            varType: string
+            variable_selector:
+            - '1749456115056'
+            - status
+          id: 'true'
+          logical_operator: and
+        - case_id: 3bfecbbd-e017-475e-becb-6140c55db596
+          conditions:
+          - comparison_operator: is not
+            id: c469bb29-fc11-46ed-84cf-87fed5bc3756
+            value: 多結果查詢
+            varType: string
+            variable_selector:
+            - '1749456115056'
+            - dataType
+          - comparison_operator: contains
+            id: eb120398-03e2-4424-87e7-632778c1ecda
+            value: success
+            varType: string
+            variable_selector:
+            - '1749456115056'
+            - status
+          id: 3bfecbbd-e017-475e-becb-6140c55db596
+          logical_operator: and
+        - case_id: a603ccde-7469-4a4e-866e-d233c4a15c56
+          conditions:
+          - comparison_operator: contains
+            id: dfe95153-b5d9-4817-a4c0-b0a5df67c838
+            value: incomplete
+            varType: string
+            variable_selector:
+            - '1749456115056'
+            - status
+          id: a603ccde-7469-4a4e-866e-d233c4a15c56
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: 條件分支
+        type: if-else
+      height: 272
+      id: '1749723660697'
+      position:
+        x: 638
+        y: 506
+      positionAbsolute:
+        x: 638
+        y: 506
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        dataset_ids:
+        - NhQ1VRTfIvcco/vcDT/dTKd4KIKZvL8bJPKsVMHa5KNMbi9zQisPmhN4oURWzKq5
+        desc: ''
+        metadata_filtering_conditions:
+          conditions:
+          - comparison_operator: is
+            id: ab318b5d-8287-4747-a6df-858665f48a57
+            name: type
+            value: '{{#1749456115056.dataType#}}'
+          logical_operator: and
+        metadata_filtering_mode: manual
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: reranking_model
+          reranking_model:
+            model: netease-youdao/bce-reranker-base_v1
+            provider: langgenius/siliconflow/siliconflow
+          score_threshold: 0.4
+          top_k: 10
+        query_variable_selector:
+        - '1749456115056'
+        - userQuery
+        retrieval_mode: multiple
+        selected: false
+        title: 知識檢索 2
+        type: knowledge-retrieval
+      height: 90
+      id: '1749723712811'
+      position:
+        x: 1072.2915554978538
+        y: 510.59479341998815
+      positionAbsolute:
+        x: 1072.2915554978538
+        y: 510.59479341998815
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        output_type: array[object]
+        selected: false
+        title: 變量聚合器
+        type: variable-aggregator
+        variables:
+        - - '1749722091423'
+          - output
+        - - '1749723712811'
+          - result
+      height: 134
+      id: '1749723734934'
+      position:
+        x: 1510
+        y: 506
+      positionAbsolute:
+        x: 1510
+        y: 506
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        selected: false
+        template: "{% set friendly_responses = [\r\n  \"小水滴想幫您查詢測站資料，不過需要您再提供一些資訊\"\
+          ,\r\n  \"小水滴差一點就能幫您查到了，請再補充一下資訊\",\r\n  \"小水滴需要您提供更多資訊，才能精準查詢\",\r\n  \"\
+          為了找到正確的測站資料，小水滴需要您補充資訊\"\r\n] %}\r\n{% set random_response = friendly_responses[range(0,\
+          \ friendly_responses|length) | random] %}\r\n\r\n**{{ random_response }}**\
+          \ \U0001F60A\r\n\r\n{% if \"location\" in missing_fields and \"dataType\"\
+          \ in missing_fields %}\r\n請告訴我：\r\n**要查哪個測站或地區？**（例如：中正橋、石門水庫、淡水河流域）\r\n\
+          **要查什麼類型的資料？**（雨量、水位、地下水位）\r\n\r\n{% elif \"location\" in missing_fields\
+          \ %}\r\n請告訴我：\r\n**要查哪個測站或地區？**\r\n例如：中正橋測站、台北地區、淡水河流域\r\n\r\n{% elif \"\
+          dataType\" in missing_fields %}\r\n請告訴我：\r\n**要查什麼類型的資料？**\r\n- 雨量測站資料\r\
+          \n- 水位測站資料  \r\n- 地下水位測站資料\r\n\r\n{% else %}\r\n{% set system_messages =\
+          \ [\r\n  \"小水滴遇到了技術問題，請稍後再試一次\",\r\n  \"系統暫時無法處理您的查詢，請稍後重新嘗試\",\r\n  \"\
+          小水滴的系統出現了小狀況，請過一會兒再問我\",\r\n  \"很抱歉，小水滴現在無法查詢，請稍後再試\"\r\n] %}\r\n{% set\
+          \ random_system = system_messages[range(0, system_messages|length) | random]\
+          \ %}\r\n**{{ random_system }}** ⏳\r\n{% endif %}\r\n\r\n---\r\n**快速範例**：\r\
+          \n- 「中正橋水位測站資料」\r\n- 「淡水河流域有哪些測站」"
+        title: 模板轉換 2
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1749456115056'
+          - missing_fields
+          variable: missing_fields
+      height: 52
+      id: '1750300475652'
+      position:
+        x: 995.4285714285716
+        y: 880
+      positionAbsolute:
+        x: 995.4285714285716
+        y: 880
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1750300475652'
+          - output
+          variable: output
+        selected: false
+        title: 結束 3
+        type: end
+      height: 88
+      id: '1750300953338'
+      position:
+        x: 1510
+        y: 891
+      positionAbsolute:
+        x: 1510
+        y: 891
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "import json\n\ndef main(llm_output, stationsData, userQuery=\"\", **kwargs):\n\
+          \    try:\n        # 從 userQuery 提取地理限制\n        geo_keywords = {\n    \
+          \        \"台北\": [\"台北\", \"臺北\"],\n            \"新北\": [\"新北\"],\n    \
+          \        \"桃園\": [\"桃園\"],\n            \"台中\": [\"台中\", \"臺中\"],\n    \
+          \        \"台南\": [\"台南\", \"臺南\"],\n            \"高雄\": [\"高雄\"],\n    \
+          \        \"新竹\": [\"新竹\"],\n            \"苗栗\": [\"苗栗\"],\n            \"\
+          彰化\": [\"彰化\"],\n            \"南投\": [\"南投\"],\n            \"雲林\": [\"\
+          雲林\"],\n            \"嘉義\": [\"嘉義\"],\n            \"屏東\": [\"屏東\"],\n \
+          \           \"宜蘭\": [\"宜蘭\"],\n            \"花蓮\": [\"花蓮\"],\n         \
+          \   \"台東\": [\"台東\", \"臺東\"],\n            \"澎湖\": [\"澎湖\"],\n         \
+          \   \"金門\": [\"金門\"],\n            \"連江\": [\"連江\", \"馬祖\"],\n         \
+          \   \"基隆\": [\"基隆\"],\n        }\n        \n        target_geo = None\n\
+          \        for geo, variants in geo_keywords.items():\n            if any(v\
+          \ in userQuery for v in variants):\n                target_geo = geo\n \
+          \               break\n        \n        # 1. 建立白名單：用 station_code 當 key\n\
+          \        whitelist_by_code = {}\n        for item in stationsData:\n   \
+          \         data = json.loads(item) if isinstance(item, str) else item\n \
+          \           code = data.get(\"station_code\", \"\").strip()\n          \
+          \  \n            if code:\n                whitelist_by_code[code] = data\n\
+          \        \n        # 2. 解析 LLM 輸出\n        if isinstance(llm_output, str):\n\
+          \            llm_data = json.loads(llm_output)\n        else:\n        \
+          \    llm_data = llm_output\n        \n        # 3. 篩選：白名單比對 + 地理位置篩選\n \
+          \       valid_stations = []\n        seen = set()\n        \n        for\
+          \ station in llm_data.get(\"selected_stations\", []):\n            code\
+          \ = station.get(\"station_code\", \"\").strip()\n            \n        \
+          \    if code not in whitelist_by_code or code in seen:\n               \
+          \ continue\n            \n            station_data = whitelist_by_code[code]\n\
+          \            \n            # 地理位置篩選（有指定縣市時才執行）\n            if target_geo:\n\
+          \                county = station_data.get(\"county\", \"\")\n         \
+          \       address = station_data.get(\"address\", \"\")\n                geo_variants\
+          \ = geo_keywords.get(target_geo, [target_geo])\n                \n     \
+          \           # 不符合地理限制，跳過\n                if not any(v in county or v in\
+          \ address for v in geo_variants):\n                    continue\n      \
+          \      \n            valid_stations.append(station_data)\n            seen.add(code)\n\
+          \        \n        # 4. 決定結果類型\n        if len(valid_stations) == 0:\n \
+          \           result_type = \"none\"\n        elif len(valid_stations) ==\
+          \ 1:\n            result_type = \"single\"\n        else:\n            result_type\
+          \ = \"multiple\"\n        \n        return {\n            \"result_type\"\
+          : result_type,\n            \"selected_stations\": valid_stations,\n   \
+          \         \"validation_stats\": {\n                \"original_count\": len(llm_data.get(\"\
+          selected_stations\", [])),\n                \"valid_count\": len(valid_stations),\n\
+          \                \"whitelist_size\": len(whitelist_by_code),\n         \
+          \       \"geo_filter\": target_geo\n            }\n        }\n        \n\
+          \    except Exception as e:\n        import traceback\n        return {\n\
+          \            \"result_type\": \"error\",\n            \"selected_stations\"\
+          : [],\n            \"validation_stats\": {\n                \"original_count\"\
+          : 0,\n                \"valid_count\": 0,\n                \"whitelist_size\"\
+          : 0\n            },\n            \"error_details\": {\n                \"\
+          error\": str(e),\n                \"traceback\": traceback.format_exc()[:1000],\n\
+          \                \"llm_output_preview\": str(llm_output)[:300] if llm_output\
+          \ else None,\n                \"stationsData_count\": len(stationsData)\
+          \ if isinstance(stationsData, list) else 0\n            }\n        }"
+        code_language: python3
+        desc: ''
+        outputs:
+          result_type:
+            children: null
+            type: string
+          selected_stations:
+            children: null
+            type: array[object]
+          validation_stats:
+            children: null
+            type: object
+        selected: true
+        title: 代碼執行 3
+        type: code
+        variables:
+        - value_selector:
+          - '1749722223032'
+          - structured_output
+          variable: llm_output
+        - value_selector:
+          - '1749722175647'
+          - stationsData
+          variable: stationsData
+        - value_selector:
+          - '1749456115056'
+          - userQuery
+          value_type: string
+          variable: userQuery
+      height: 52
+      id: '1750412940660'
+      position:
+        x: 2418.0635874684604
+        y: 506
+      positionAbsolute:
+        x: 2418.0635874684604
+        y: 506
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        dataset_ids:
+        - ZTPx9afl7Li0HMs8y8429quJqKDQfroCo4NLwdy7mbzwkXjHSJekexEjITNzhjAZ
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1749722091423'
+        metadata_filtering_conditions:
+          conditions:
+          - comparison_operator: is
+            id: d145f0a7-dfaa-47d3-a816-bcd3186a0383
+            name: type
+            value: '{{#1749456115056.dataType#}}'
+          logical_operator: and
+        metadata_filtering_mode: manual
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: weighted_score
+          reranking_model:
+            model: netease-youdao/bce-reranker-base_v1
+            provider: langgenius/siliconflow/siliconflow
+          score_threshold: 0.4
+          top_k: 4
+          weights:
+            keyword_setting:
+              keyword_weight: 0
+            vector_setting:
+              embedding_model_name: bge-m3
+              embedding_provider_name: langgenius/ollama/ollama
+              vector_weight: 1
+            weight_type: customized
+        query_variable_selector:
+        - '1749722091423'
+        - item
+        retrieval_mode: multiple
+        selected: false
+        title: 知識檢索 2
+        type: knowledge-retrieval
+      height: 90
+      id: '1752140064990'
+      parentId: '1749722091423'
+      position:
+        x: 162.24063977163792
+        y: 84.29739670999413
+      positionAbsolute:
+        x: 1105.389338126635
+        y: 718.0308028200051
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        author: geoinforadmin
+        desc: ''
+        height: 88
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"#
+          Identity","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"你是專業的台灣水文測站資料篩選專家，負責根據用戶查詢精準篩選測站資料。","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"#
+          Instructions","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"##
+          絕對重要的規則","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          必須選出所有符合條件的測站，無論狀態是「現存」還是「已廢」","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          已廢測站具有歷史查詢價值，不可排除","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          寧可多選不可漏選，疑似符合就納入","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          必須檢查 CONTEXT 中的每一筆資料","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"##
+          執行步驟","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"###
+          步驟1：解析查詢條件","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"從用戶查詢中提取：","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          地理範圍（流域、縣市、鄉鎮等）","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          測站類型（雨量、水位、地下水位）","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          其他條件","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"###
+          步驟2：逐筆檢查（必須完成）","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"**強制要求**：必須檢查
+          CONTEXT 中的每一筆資料","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"**檢查清單**（每筆資料都要確認）：","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          [ ] watershed（流域）欄位是否包含查詢關鍵詞","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          [ ] data_category（資料類型）欄位是否符合","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          [ ] 不因 status 為「已廢」而排除測站","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          [ ] 不因其他欄位為空而排除測站","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"###
+          步驟3：地理位置篩選（最高優先級！）","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"如果用戶查詢包含地理區域（如「台北」、「新北」、「台南」、「高雄」等縣市名稱）：","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"1.
+          強制篩選：只選擇 county 或 address 欄位包含該地理區域的測站","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"2.
+          排除規則：明確排除不在該區域的測站 3. 只有當完全沒有符合地理條件的測站時，才告知用戶「該區域無此測站」","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"範例：","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          查詢「台北中正橋」→ 只選 county/address 包含「台北」的中正橋，排除台南的","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          查詢「新北雨量站」→ 只選 county 為「新北市」的測站","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          查詢「中正橋」（無地理限制）→ 列出所有中正橋測站讓用戶選擇","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"**完整匹配欄位**：","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"對每筆測站資料，檢查以下欄位是否包含查詢關鍵詞：","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          station_name（測站名稱）","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          watershed（流域）","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          river（河川）","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          county（縣市）","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          address（地址）","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          management_unit（管理單位）","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          data_category（資料類型）","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"###
+          步驟3：匹配規則","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          **寬鬆匹配**：關鍵詞包含在任一欄位中即選中","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          **包含關係**：「淡水河流域」應匹配所有 watershed 為「淡水河」的測站","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          **模糊站名**：","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"1.
+          詢問「中正橋」→ 匹配「中正橋」、「中正橋(已廢)」、「中正大橋」","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"2.
+          詢問「竹林大橋」→ 匹配「竹林大橋」、「竹林大橋(左岸)」","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"###
+          步驟4：品質確認","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"在輸出前確認：","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          [ ] 已檢查 CONTEXT 中每一筆資料","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          [ ] 已套用寬鬆匹配原則","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          [ ] 未因「已廢」狀態排除測站","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          [ ] 輸出格式正確","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"<CONTEXT>","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"</CONTEXT>","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"#
+          Output Format","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"只輸出
+          JSON 格式，無其他文字：","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"\"result_type\":
+          \"none|single|multiple\",","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"\"selected_stations\":
+          [","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"\"station_name\":
+          \"測站名稱\",","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"\"station_code\":
+          \"測站代碼\",","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"\"api_url\":
+          \"API網址\",","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"\"address\":
+          \"測站地址\"","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"}","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"]","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"}","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 240
+      height: 88
+      id: '1753341315545'
+      position:
+        x: 2150.009474599445
+        y: 700.809669750683
+      positionAbsolute:
+        x: 2150.009474599445
+        y: 700.809669750683
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    viewport:
+      x: -2495.4842834334986
+      y: -122.50000000000159
+      zoom: 1.0000000000000029
+  rag_pipeline_variables: []

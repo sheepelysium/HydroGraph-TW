@@ -1,0 +1,1739 @@
+app:
+  description: 輸入六參數
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 測站觀測資料v3.0
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/ollama:0.0.8@22213ae036605d41ea73bdd16908e03de1b9d5ab4656a49b8fb0343723f4cb4a
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/azure_openai:0.0.30@c60f0c8612961bb634b9209703ed91fc752713b14399a1522a72320b46ef6185
+    version: null
+kind: app
+version: 0.4.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1749807739897-source-1749807861742-target
+      selected: false
+      source: '1749807739897'
+      sourceHandle: source
+      target: '1749807861742'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1750036748953'
+        sourceType: iteration-start
+        targetType: knowledge-retrieval
+      id: 1750036748953start-source-1750036763346-target
+      source: 1750036748953start
+      sourceHandle: source
+      target: '1750036763346'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: code
+      id: 1750036748953-source-1750037499341-target
+      source: '1750036748953'
+      sourceHandle: source
+      target: '1750037499341'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: template-transform
+        targetType: end
+      id: 1750058389563-source-1749807756704-target
+      source: '1750058389563'
+      sourceHandle: source
+      target: '1749807756704'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1750037499341-source-1750063100583-target
+      source: '1750037499341'
+      sourceHandle: source
+      target: '1750063100583'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1750063100583-true-1750043258451-target
+      source: '1750063100583'
+      sourceHandle: 'true'
+      target: '1750043258451'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: template-transform
+        targetType: end
+      id: 1750130176499-source-1750063110498-target
+      source: '1750130176499'
+      sourceHandle: source
+      target: '1750063110498'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: template-transform
+      id: 1750063100583-1f534004-da2c-4056-b3a5-86613eba9478-1750130176499-target
+      source: '1750063100583'
+      sourceHandle: 1f534004-da2c-4056-b3a5-86613eba9478
+      target: '1750130176499'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1749807861742-source-1750214671657-target
+      source: '1749807861742'
+      sourceHandle: source
+      target: '1750214671657'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: iteration
+      id: 1750214671657-true-1750036748953-target
+      source: '1750214671657'
+      sourceHandle: 'true'
+      target: '1750036748953'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: template-transform
+      id: 1750214671657-e2529f5e-b60f-4aad-95f7-0c2e25bf902e-1750214858474-target
+      source: '1750214671657'
+      sourceHandle: e2529f5e-b60f-4aad-95f7-0c2e25bf902e
+      target: '1750214858474'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: template-transform
+        targetType: end
+      id: 1750214858474--1750214871930-target
+      source: '1750214858474'
+      sourceHandle: source
+      target: '1750214871930'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1750043258451-source-1750401071179-target
+      source: '1750043258451'
+      sourceHandle: source
+      target: '1750401071179'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: template-transform
+      id: 1750401071179-source-1750058389563-target
+      source: '1750401071179'
+      sourceHandle: source
+      target: '1750058389563'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 開始
+        type: start
+        variables:
+        - label: location
+          max_length: 128
+          options: []
+          required: true
+          type: text-input
+          variable: location
+        - label: dataType
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: dataType
+        - label: startDate
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: startDate
+        - label: endDate
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: endDate
+        - label: userQuery
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: userQuery
+        - label: searchQueries
+          max_length: 256
+          options: []
+          required: false
+          type: paragraph
+          variable: searchQueries
+      height: 218
+      id: '1749807739897'
+      position:
+        x: 30
+        y: 310
+      positionAbsolute:
+        x: 30
+        y: 310
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1750058389563'
+          - output
+          variable: output
+        selected: false
+        title: 結束
+        type: end
+      height: 88
+      id: '1749807756704'
+      position:
+        x: 3030
+        y: 450
+      positionAbsolute:
+        x: 3030
+        y: 450
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "from __future__ import annotations\nimport json\nimport re\nfrom typing\
+          \ import Any, Dict, List\n\ndef normalize_datatype(dataType: str) -> str:\n\
+          \    \"\"\"將用戶輸入的資料類型標準化為知識檢索用的完整名稱\"\"\"\n    if not dataType or not dataType.strip():\n\
+          \        return dataType\n    \n    dataType_lower = dataType.lower().strip()\n\
+          \    \n    # \U0001F3AF 修正：把更具體的關鍵字放前面，避免歧義\n    if any(keyword in dataType_lower\
+          \ for keyword in [\"地下水\", \"井\", \"地下水位\"]):\n        return \"地下水位\"\n\
+          \    elif any(keyword in dataType_lower for keyword in [\"雨量\", \"降雨\",\
+          \ \"雨水\"]):\n        return \"雨量\"  \n    elif any(keyword in dataType_lower\
+          \ for keyword in [\"水位\", \"流量\", \"含沙量\", \"河川\"]):\n        return \"\
+          水位流量含沙量\"\n    \n    # 如果沒有匹配到，保持原值\n    return dataType\n\ndef is_multi_query_semantic(text:\
+          \ str) -> bool:\n    \"\"\"\U0001F195 語義檢測 - 檢測是否為多結果查詢\"\"\"\n    if not\
+          \ text:\n        return False\n    \n    text_lower = text.lower().strip()\n\
+          \    \n    # \U0001F3AF 範圍查詢詞檢測\n    range_triggers = any(word in text_lower\
+          \ for word in [\"哪些\", \"附近\", \"所有\", \"流域\", \"有什麼\", \"包含哪些\", \"含有哪些\"\
+          ])\n    \n    # \U0001F3AF 區域性地理查詢檢測（精確匹配）\n    regional_patterns = [\n\
+          \        r'.+有.+[測量]站[嗎？]?',     # XX有XX測站嗎\n        r'.+是否有.+[測量]站',  \
+          \      # XX是否有XX測站\n        r'.+包含.+[測量]站',          # XX包含XX測站\n      \
+          \  r'.+設有.+[測量]站[嗎？]?',   # XX設有XX測站嗎\n        r'.+存在.+[測量]站[嗎？]?'    #\
+          \ XX存在XX測站嗎\n    ]\n    regional_triggers = any(re.search(pattern, text_lower)\
+          \ for pattern in regional_patterns)\n    \n    # \U0001F3AF 多資料類型檢測\n  \
+          \  multi_type_triggers = any(word in text_lower for word in [\"和\", \"與\"\
+          , \"及\", \"比較\", \"對比\", \"都\", \"分別\", \"以及\"])\n    \n    return range_triggers\
+          \ or regional_triggers or multi_type_triggers\n\ndef main(\n    location:\
+          \ str = \"\",\n    dataType: str = \"\",\n    startDate: str = \"\",\n \
+          \   endDate: str = \"\",\n    userQuery: str = \"\",\n    searchQueries:\
+          \ Any = None,  # 可能是 str 或 list\n    **kwargs,\n) -> Dict[str, Any]:\n \
+          \   \"\"\"統一解析參數、轉換 searchQueries 格式、推論資料類型。\"\"\"\n\n    # 1. searchQueries\
+          \ 轉成 list[str]，強化處理 JSON 字串 + 過度 escape\n    searchQueries_list: List[str]\
+          \ = []\n\n    if searchQueries is None:\n        searchQueries_list = []\n\
+          \n    elif isinstance(searchQueries, list):\n        searchQueries_list\
+          \ = [str(x).strip() for x in searchQueries if str(x).strip()]\n\n    elif\
+          \ isinstance(searchQueries, str):\n        cleaned_searchQueries = searchQueries.strip()\n\
+          \        try:\n            # 嘗試移除多餘的跳脫符號，例如 [\\\\\\\"中正橋水位\\\\\\\"]\n  \
+          \          if cleaned_searchQueries.startswith('[\"') and '\\\\\"' in cleaned_searchQueries:\n\
+          \                cleaned_searchQueries = re.sub(r'\\\\(.)', r'\\1', cleaned_searchQueries)\n\
+          \n            parsed = json.loads(cleaned_searchQueries)\n            if\
+          \ isinstance(parsed, list):\n                searchQueries_list = [str(x).strip()\
+          \ for x in parsed if str(x).strip()]\n            else:\n              \
+          \  searchQueries_list = [str(parsed).strip()]\n        except Exception:\n\
+          \            searchQueries_list = [cleaned_searchQueries]\n    else:\n \
+          \       searchQueries_list = [str(searchQueries).strip()]\n\n    # 如果 searchQueries\
+          \ 為空，使用原始查詢\n    if not searchQueries_list and userQuery.strip():\n    \
+          \    searchQueries_list = [userQuery.strip()]\n\n    # \U0001F195 語義檢測優先處理（在所有邏輯之前）\n\
+          \    all_text = \" \".join([userQuery] + searchQueries_list).strip()\n \
+          \   if is_multi_query_semantic(all_text):\n        final_dataType = \"多結果查詢\"\
+          \n    elif normalize_datatype(dataType) == \"多結果查詢\":\n        # 如果傳入的 dataType\
+          \ 已經是「多結果查詢」，直接採用，不再分析 searchQueries\n        final_dataType = \"多結果查詢\"\
+          \n    else:\n        # 2. 先標準化 dataType\n        normalized_dataType = normalize_datatype(dataType)\n\
+          \n        # 3. 根據 searchQueries 內容檢測資料類型\n        valid_types = {\n    \
+          \        \"雨量\": [\"雨量\", \"降雨\", \"雨水\"],\n            \"水位流量含沙量\": [\"\
+          水位\", \"流量\", \"含沙量\", \"河川\"],\n            \"地下水位\": [\"地下水\", \"地下水位\"\
+          , \"觀測井\", \"井\"],\n        }\n\n        detected_types = set()\n      \
+          \  for item in searchQueries_list:\n            lowered = item.lower()\n\
+          \            for dtype, keywords in valid_types.items():\n             \
+          \   if any(k in lowered for k in keywords):\n                    detected_types.add(dtype)\n\
+          \n        # 4. 決定最終的 final_dataType\n        if len(searchQueries_list)\
+          \ > 1 and len(detected_types) > 1:\n            # 原有邏輯：從 searchQueries 中檢測到多種類型\n\
+          \            final_dataType = \"多結果查詢\"\n        elif len(detected_types)\
+          \ == 1:\n            # 原有邏輯：從 searchQueries 中檢測到單一類型\n            final_dataType\
+          \ = list(detected_types)[0]\n        else:\n            # 原有邏輯：searchQueries\
+          \ 中無有效類型，回退到標準化後的 dataType\n            final_dataType = normalized_dataType\n\
+          \n    # 5. 只檢查真正需要的欄位，不檢查 searchQueries\n    missing = [k for k, v in {\n\
+          \        \"location\": location,\n        \"dataType\": final_dataType,\n\
+          \        \"startDate\": startDate,\n        \"endDate\": endDate,\n    }.items()\
+          \ if not v]\n    \n    status = \"incomplete\" if missing else \"success\"\
+          \n\n    # 6. 回傳格式\n    return {\n        \"location\": location,\n     \
+          \   \"dataType\": final_dataType,\n        \"startDate\": startDate,\n \
+          \       \"endDate\": endDate,\n        \"userQuery\": userQuery,\n     \
+          \   \"searchQueries\": searchQueries_list,\n        \"status\": status,\n\
+          \        \"incomplete_fields\": missing,\n        \"error_msg\": \"\" if\
+          \ status == \"success\" else f\"缺少: {', '.join(missing)}\",\n    }"
+        code_language: python3
+        desc: ''
+        outputs:
+          dataType:
+            children: null
+            type: string
+          endDate:
+            children: null
+            type: string
+          error_msg:
+            children: null
+            type: string
+          incomplete_fields:
+            children: null
+            type: array[string]
+          location:
+            children: null
+            type: string
+          searchQueries:
+            children: null
+            type: array[string]
+          startDate:
+            children: null
+            type: string
+          status:
+            children: null
+            type: string
+          userQuery:
+            children: null
+            type: string
+        selected: false
+        title: 解析用戶輸入
+        type: code
+        variables:
+        - value_selector:
+          - '1749807739897'
+          - location
+          variable: location
+        - value_selector:
+          - '1749807739897'
+          - dataType
+          variable: dataType
+        - value_selector:
+          - '1749807739897'
+          - startDate
+          variable: startDate
+        - value_selector:
+          - '1749807739897'
+          - endDate
+          variable: endDate
+        - value_selector:
+          - '1749807739897'
+          - userQuery
+          variable: userQuery
+        - value_selector:
+          - '1749807739897'
+          - searchQueries
+          variable: searchQueries
+      height: 52
+      id: '1749807861742'
+      position:
+        x: 332.11308451104276
+        y: 310
+      positionAbsolute:
+        x: 332.11308451104276
+        y: 310
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 278.50380250832876
+        is_parallel: true
+        iterator_selector:
+        - '1749807861742'
+        - searchQueries
+        output_selector:
+        - '1750036763346'
+        - result
+        output_type: array[object]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1750036748953start
+        title: 迭代
+        type: iteration
+        width: 508
+      height: 279
+      id: '1750036748953'
+      position:
+        x: 944.880979607211
+        y: 277.46875708966166
+      positionAbsolute:
+        x: 944.880979607211
+        y: 277.46875708966166
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 508
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1750036748953start
+      parentId: '1750036748953'
+      position:
+        x: 60
+        y: 82
+      positionAbsolute:
+        x: 1004.880979607211
+        y: 359.46875708966166
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        dataset_ids:
+        - ZTPx9afl7Li0HMs8y8429quJqKDQfroCo4NLwdy7mbzwkXjHSJekexEjITNzhjAZ
+        - NhQ1VRTfIvcco/vcDT/dTKd4KIKZvL8bJPKsVMHa5KNMbi9zQisPmhN4oURWzKq5
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1750036748953'
+        metadata_filtering_conditions:
+          conditions:
+          - comparison_operator: is
+            id: f5a5f60e-adee-432a-b43a-7f822f1c7c37
+            name: type
+          - comparison_operator: is
+            id: a9de3214-4033-482b-a3c9-bf2acb397114
+            name: type
+            value: '{{#1749807861742.dataType#}}'
+          logical_operator: and
+        metadata_filtering_mode: manual
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: weighted_score
+          reranking_model:
+            model: netease-youdao/bce-reranker-base_v1
+            provider: langgenius/siliconflow/siliconflow
+          score_threshold: 0.4
+          top_k: 4
+          weights:
+            keyword_setting:
+              keyword_weight: 0.3
+            vector_setting:
+              embedding_model_name: bge-m3
+              embedding_provider_name: langgenius/ollama/ollama
+              vector_weight: 0.7
+        query_variable_selector:
+        - '1750036748953'
+        - item
+        retrieval_mode: multiple
+        selected: true
+        title: 知識檢索
+        type: knowledge-retrieval
+      height: 118
+      id: '1750036763346'
+      parentId: '1750036748953'
+      position:
+        x: 201.39467672577825
+        y: 83.77435372603742
+      positionAbsolute:
+        x: 1146.2756563329892
+        y: 361.2431108156991
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        code: "def main(location=\"\", dataType=\"\", startDate=\"\", endDate=\"\"\
+          , Integration=None, **kwargs):\n    \"\"\"\n    最終簡化版測站處理 - 修正 time_filtered_stations\
+          \ 去重問題\n    \"\"\"\n    import json\n    \n    try:\n        # 基本參數檢查\n\
+          \        raw_stations = extract_raw_stations(Integration)\n        if not\
+          \ raw_stations:\n            return {\n                \"stationsData\"\
+          : [],\n                \"queryInfo\": {\n                    \"location\"\
+          : location,\n                    \"dataType\": dataType,\n             \
+          \       \"timeRange\": f\"{startDate} 至 {endDate}\" if startDate and endDate\
+          \ else \"未指定\",\n                    \"foundStations\": 0,\n           \
+          \         \"stationNames\": [],\n                    \"result_type\": \"\
+          no_match\"\n                },\n                \"debug_info\": {\n    \
+          \                \"raw_count\": 0,\n                    \"time_filtered_stations\"\
+          : [],\n                    \"failed_reasons\": {}\n                }\n \
+          \           }\n        \n        # 處理測站資料\n        valid_stations = []\n\
+          \        time_filtered_candidates = []\n        failed_reasons = {}\n  \
+          \      \n        # 提取查詢時間範圍\n        query_years = extract_query_years(startDate,\
+          \ endDate)\n        \n        for item in raw_stations:\n            station_info\
+          \ = parse_and_validate_station(item, dataType)\n            \n         \
+          \   if station_info:\n                # 時間範圍檢查\n                time_check_result\
+          \ = check_time_range(station_info, query_years)\n                \n    \
+          \            if time_check_result[\"matches\"]:\n                    valid_stations.append(station_info)\n\
+          \                else:\n                    # 先暫存，稍後去重\n               \
+          \     time_filtered_candidates.append({\n                        \"station_name\"\
+          : station_info.get('station_name'),\n                        \"station_code\"\
+          : station_info.get('station_code'),\n                        \"data_category\"\
+          : station_info.get('data_category'),\n                        \"data_periods\"\
+          : station_info.get(\"data_periods\", {}),\n                        \"time_details\"\
+          : time_check_result[\"details\"]\n                    })\n            else:\n\
+          \                # 統計失敗原因\n                fail_reason = analyze_failure_reason(item,\
+          \ dataType)\n                if fail_reason in failed_reasons:\n       \
+          \             failed_reasons[fail_reason] += 1\n                else:\n\
+          \                    failed_reasons[fail_reason] = 1\n        \n       \
+          \ # 對 time_filtered_candidates 進行去重\n        time_filtered_stations = deduplicate_time_filtered_stations(time_filtered_candidates)\n\
+          \        \n        # 處理成功的測站\n        stations_with_urls = []\n        if\
+          \ valid_stations:\n            for station in valid_stations:\n        \
+          \        api_url = build_station_url(\n                    station.get(\"\
+          station_code\", \"\"),\n                    station.get(\"data_category\"\
+          , \"\"),\n                    startDate,\n                    endDate\n\
+          \                )\n                station_data = build_complete_station_data(station,\
+          \ api_url)\n                stations_with_urls.append(json.dumps(station_data,\
+          \ ensure_ascii=False))\n            \n            # 去重處理\n            unique_stations\
+          \ = remove_duplicate_stations(stations_with_urls)\n        else:\n     \
+          \       unique_stations = []\n        \n        # 判斷 result_type\n     \
+          \   if len(unique_stations) > 0:\n            result_type = \"success\"\n\
+          \        elif len(time_filtered_stations) > 0:\n            result_type\
+          \ = \"time_filtered\"\n        elif failed_reasons.get(\"測站已廢\", 0) > 0:\n\
+          \            # 檢查是否測站已廢是主要原因\n            obsolete_count = failed_reasons.get(\"\
+          測站已廢\", 0)\n            total_failed = sum(failed_reasons.values())\n  \
+          \          if obsolete_count >= total_failed / 2:  # 已廢佔一半以上\n         \
+          \       result_type = \"obsolete\"\n            else:\n                result_type\
+          \ = \"no_match\"\n        else:\n            result_type = \"no_match\"\n\
+          \        \n        return {\n            \"stationsData\": unique_stations,\n\
+          \            \"queryInfo\": {\n                \"location\": location,\n\
+          \                \"dataType\": dataType,\n                \"timeRange\"\
+          : f\"{startDate} 至 {endDate}\" if startDate and endDate else \"未指定\",\n\
+          \                \"foundStations\": len(unique_stations),\n            \
+          \    \"stationNames\": [json.loads(s).get(\"station_name\", \"\") for s\
+          \ in unique_stations[:5]],\n                \"result_type\": result_type\n\
+          \            },\n            \"debug_info\": {\n                \"raw_count\"\
+          : len(raw_stations),\n                \"time_filtered_stations\": time_filtered_stations,\n\
+          \                \"failed_reasons\": failed_reasons,\n                \"\
+          query_years\": query_years\n            }\n        }\n        \n    except\
+          \ Exception as e:\n        return {\n            \"stationsData\": [],\n\
+          \            \"queryInfo\": {\n                \"location\": location,\n\
+          \                \"dataType\": dataType,\n                \"timeRange\"\
+          : f\"{startDate} 至 {endDate}\" if startDate and endDate else \"未指定\",\n\
+          \                \"foundStations\": 0,\n                \"stationNames\"\
+          : [],\n                \"result_type\": \"no_match\"\n            },\n \
+          \           \"debug_info\": {\n                \"error\": f\"系統錯誤: {str(e)}\"\
+          ,\n                \"raw_count\": 0,\n                \"time_filtered_stations\"\
+          : [],\n                \"failed_reasons\": {}\n            }\n        }\n\
+          \n\ndef deduplicate_time_filtered_stations(candidates):\n    \"\"\"\n  \
+          \  對 time_filtered_stations 進行去重\n    根據 station_code（站號）去重，保留第一個\n    \"\
+          \"\"\n    if not candidates:\n        return []\n    \n    seen_codes =\
+          \ set()\n    unique_stations = []\n    \n    for station in candidates:\n\
+          \        station_code = station.get(\"station_code\", \"\")\n        station_name\
+          \ = station.get(\"station_name\", \"\")\n        \n        # 使用 station_code\
+          \ 作為唯一標識，如果沒有則用 station_name\n        unique_key = station_code if station_code\
+          \ else station_name\n        \n        if unique_key and unique_key not\
+          \ in seen_codes:\n            seen_codes.add(unique_key)\n            #\
+          \ 保留 station_code，模板需要顯示站號\n            unique_stations.append(station)\n\
+          \    \n    return unique_stations\n\n\n# ===== 核心處理函數 =====\ndef extract_raw_stations(Integration):\n\
+          \    \"\"\"提取原始測站資料 - 修正二維陣列問題\"\"\"\n    if not Integration:\n        return\
+          \ []\n    \n    # 處理字典包裝的情況\n    if isinstance(Integration, dict) and \"\
+          output\" in Integration:\n        Integration = Integration[\"output\"]\n\
+          \    \n    # 處理陣列情況\n    if isinstance(Integration, list):\n        # 如果是二維陣列，攤平它\n\
+          \        if Integration and isinstance(Integration[0], list):\n        \
+          \    return Integration[0]  # 取第一層的內容\n        return Integration\n    \n\
+          \    return []\n\n\ndef extract_query_years(startDate, endDate):\n    \"\
+          \"\"提取查詢的年份範圍\"\"\"\n    try:\n        start_year = int(startDate.split('/')[0])\
+          \ if startDate else None\n        end_year = int(endDate.split('/')[0])\
+          \ if endDate else None\n        return {\n            \"start\": start_year,\n\
+          \            \"end\": end_year,\n            \"valid\": bool(start_year\
+          \ and end_year)\n        }\n    except:\n        return {\"start\": None,\
+          \ \"end\": None, \"valid\": False}\n\n\ndef check_time_range(station_info,\
+          \ query_years):\n    \"\"\"檢查測站的資料期間是否包含查詢時間範圍\"\"\"\n    if not query_years[\"\
+          valid\"]:\n        return {\"matches\": True, \"details\": \"無時間限制\"}\n\
+          \    \n    data_periods = station_info.get(\"data_periods\", {})\n    if\
+          \ not data_periods:\n        return {\"matches\": False, \"details\": \"\
+          無資料期間資訊\"}\n    \n    query_start = query_years[\"start\"]\n    query_end\
+          \ = query_years[\"end\"]\n    matching_periods = []\n    \n    for period_type,\
+          \ period_range in data_periods.items():\n        if not period_range:\n\
+          \            continue\n        \n        # \U0001F195 處理逗號分隔的多段時間 (例如: \"\
+          1963,1965~1969,1971~2025\")\n        segments = [s.strip() for s in period_range.split(',')]\n\
+          \        \n        for segment in segments:\n            try:\n        \
+          \        if '~' in segment:\n                    start_str, end_str = segment.split('~')\n\
+          \                    period_start = int(start_str.strip())\n           \
+          \         period_end = int(end_str.strip())\n                else:\n   \
+          \                 period_start = period_end = int(segment.strip())\n   \
+          \             \n                # 檢查是否有重疊\n                if period_start\
+          \ <= query_end and period_end >= query_start:\n                    matching_periods.append(f\"\
+          {period_type}({period_range})\")\n                    break  # 這個資料類型已經匹配，不需要再檢查其他片段\n\
+          \                    \n            except (ValueError, IndexError):\n  \
+          \              continue\n    \n    if matching_periods:\n        return\
+          \ {\"matches\": True, \"details\": f\"符合期間: {', '.join(matching_periods)}\"\
+          }\n    else:\n        available_periods = [f\"{k}({v})\" for k, v in data_periods.items()\
+          \ if v]\n        return {\"matches\": False, \"details\": f\"可用期間: {', '.join(available_periods)\
+          \ if available_periods else '無'}\"}\n\n\ndef parse_and_validate_station(item,\
+          \ target_data_type):\n    \"\"\"解析並驗證測站 - 修復多結果查詢邏輯\"\"\"\n    if not isinstance(item,\
+          \ dict):\n        return None\n        \n    content = item.get(\"content\"\
+          , \"\")\n    if not content:\n        return None\n    \n    station_data\
+          \ = parse_content_fields(content)\n    if not station_data:\n        return\
+          \ None\n    \n    station_name = station_data.get('站名', '').strip()\n  \
+          \  category = station_data.get('類別', '').strip()\n    status = station_data.get('存廢狀態',\
+          \ '').strip()\n    station_number = station_data.get('站號', '').strip()\n\
+          \    weather_code = station_data.get('氣象署站號', '').strip()\n    \n    if\
+          \ not station_name or not category:\n        return None\n\n    # 已廢測站標記處理\n\
+          \    if status == \"已廢\":\n        station_name = f\"{station_name}(已廢)\"\
+          \n    \n    # \U0001F3AF 修復後的資料類型篩選邏輯\n    if target_data_type and target_data_type\
+          \ not in [\"未指定\", \"多結果查詢\"]:\n        if not type_matches(category, target_data_type):\n\
+          \            return None\n    # \U0001F195 對於多結果查詢，不進行類型篩選，保留所有測站\n    \n\
+          \    primary_code = weather_code if category == '雨量' and weather_code else\
+          \ station_number\n    if not primary_code:\n        return None\n    \n\
+          \    return {\n        \"station_name\": station_name,\n        \"station_code\"\
+          : primary_code,\n        \"data_category\": category,\n        \"status\"\
+          : status if status else \"現存\",\n        \"management_unit\": station_data.get('管理單位',\
+          \ ''),\n        \"watershed\": station_data.get('流域', ''),\n        \"river\"\
+          : station_data.get('河川', ''),\n        \"address\": station_data.get('地址',\
+          \ ''),\n        \"county\": station_data.get('縣市', ''),\n        \"data_periods\"\
+          : extract_data_periods(station_data, category),\n        \"coordinates\"\
+          : extract_coordinates(station_data)\n    }\n\n\ndef parse_content_fields(content):\n\
+          \    \"\"\"解析content欄位\"\"\"\n    if not content:\n        return {}\n \
+          \   \n    data = {}\n    try:\n        parts = content.split(';')\n    \
+          \    for part in parts:\n            if '\":\"' in part:\n             \
+          \   key_part, value_part = part.split('\":\"', 1)\n                key =\
+          \ key_part.replace('\"', '').replace('\\\\', '').strip()\n             \
+          \   value = value_part.replace('\"', '').replace('\\\\', '').strip()\n \
+          \               \n                if key and value and value != \"-\":\n\
+          \                    data[key] = value\n        return data\n    except:\n\
+          \        return {}\n\n\ndef extract_data_periods(station_data, data_category=None):\n\
+          \    \"\"\"提取測站的資料時間區間\"\"\"\n    periods = {}\n    \n    if data_category\
+          \ == \"雨量\":\n        time_fields = ['時雨量', '日雨量', '月雨量']\n    elif data_category\
+          \ == \"水位流量含沙量\":\n        time_fields = ['時水位', '日水位', '月水位']\n    elif\
+          \ data_category == \"地下水位\":\n        time_fields = ['時水位', '日水位', '月水位']\
+          \ \n    else:\n        time_fields = [\n            '時水位', '日水位', '月水位',\n\
+          \            '時雨量', '日雨量', '月雨量',\n            '時地下水位', '日地下水位', '月地下水位'\n\
+          \        ]\n    \n    for field in time_fields:\n        if field in station_data\
+          \ and station_data[field]:\n            value = station_data[field].strip()\n\
+          \            if value and value != \"-\":\n                periods[field]\
+          \ = value\n    \n    return periods\n\n\ndef extract_coordinates(station_data):\n\
+          \    \"\"\"提取測站座標資訊\"\"\"\n    coordinates = {}\n    x_coord = station_data.get('TWD97M2(X坐標)',\
+          \ '').strip()\n    y_coord = station_data.get('TWD97M2(Y坐標)', '').strip()\n\
+          \    \n    if x_coord and x_coord != \"-\":\n        coordinates[\"x\"]\
+          \ = x_coord\n    if y_coord and y_coord != \"-\":\n        coordinates[\"\
+          y\"] = y_coord\n    \n    return coordinates\n\n\ndef build_station_url(station_code,\
+          \ data_category, start_date, end_date):\n    \"\"\"組建API URL\"\"\"\n   \
+          \ if not all([station_code, data_category, start_date, end_date]):\n   \
+          \     return \"\"\n    \n    is_recent = is_recent_data(start_date, end_date)\n\
+          \    category_map = {\n        \"雨量\": (\"RA\", \"rtRA\"),\n        \"水位流量含沙量\"\
+          : (\"LE\", \"rtLE\"), \n        \"地下水位\": (\"GW\", \"rtGW\")\n    }\n  \
+          \  \n    if data_category not in category_map:\n        return \"\"\n  \
+          \  \n    hist_cat, rt_cat = category_map[data_category]\n    \n    if is_recent:\n\
+          \        mobile_domain = \"HydroinfoMobile\" if data_category == \"雨量\"\
+          \ else \"HydroInfoMobile\"\n        extra_params = \"&deptID=1&flow_cnt=\"\
+          \ if data_category != \"雨量\" else \"\"\n        \n        return (f\"https://gweb.wra.gov.tw/{mobile_domain}/hichart?\"\
+          \n                f\"stno={station_code}&category={rt_cat}&\"\n        \
+          \        f\"sdate={start_date}&edate={end_date}{extra_params}&searchType=\"\
+          )\n    else:\n        start_year = start_date.split('/')[0]\n        return\
+          \ (f\"https://gweb.wra.gov.tw/HydroInfo/hichart?\"\n                f\"\
+          stno={station_code}&category={hist_cat}&\"\n                f\"sYear={start_year}&timeType=dd&mode=0\"\
+          )\n\n\ndef is_recent_data(start_date, end_date):\n    \"\"\"判斷是否為近期資料\"\"\
+          \"\n    try:\n        from datetime import datetime, timedelta\n       \
+          \ today = datetime.now()\n        two_years_ago = today - timedelta(days=730)\n\
+          \        end = datetime.strptime(end_date, \"%Y/%m/%d\")\n        return\
+          \ end >= two_years_ago\n    except:\n        return False\n\n\ndef type_matches(station_category,\
+          \ target_data_type):\n    \"\"\"資料類型匹配\"\"\"\n    if target_data_type in\
+          \ [\"多結果查詢\"]:\n        return True \n    if station_category == target_data_type:\n\
+          \        return True\n    \n    type_mapping = {\n        \"水位流量含沙量\": [\"\
+          水位\", \"流量\", \"含沙量\", \"水位流量含沙量\"],\n        \"雨量\": [\"雨量\", \"降雨\", \"\
+          雨水\", \"降水\"],\n        \"地下水位\": [\"地下水位\", \"地下水\", \"井水\", \"觀測井\"]\n\
+          \    }\n    \n    for standard_type, aliases in type_mapping.items():\n\
+          \        if station_category == standard_type and target_data_type in aliases:\n\
+          \            return True\n    \n    return False\n\n\ndef remove_duplicate_stations(stations_json_list):\n\
+          \    \"\"\"去重處理\"\"\"\n    if not stations_json_list:\n        return []\n\
+          \    \n    seen_codes = set()\n    unique_stations = []\n    \n    for station_json\
+          \ in stations_json_list:\n        try:\n            station = json.loads(station_json)\
+          \ if isinstance(station_json, str) else station_json\n            code =\
+          \ station.get('station_code', '')\n            \n            if code and\
+          \ code not in seen_codes:\n                seen_codes.add(code)\n      \
+          \          unique_stations.append(station_json)\n        except:\n     \
+          \       unique_stations.append(station_json)\n    \n    return unique_stations\n\
+          \n\ndef build_complete_station_data(station, api_url):\n    \"\"\"組建完整的測站資料\"\
+          \"\"\n    station_data = {\n        \"station_name\": station.get(\"station_name\"\
+          , \"\"),\n        \"station_code\": station.get(\"station_code\", \"\"),\n\
+          \        \"data_category\": station.get(\"data_category\", \"\"),\n    \
+          \    \"api_url\": api_url,\n        \"management_unit\": station.get(\"\
+          management_unit\", \"\"),\n        \"watershed\": station.get(\"watershed\"\
+          , \"\"),\n        \"river\": station.get(\"river\", \"\"),\n        \"address\"\
+          : station.get(\"address\", \"\"),\n        \"county\": station.get(\"county\"\
+          , \"\"),\n        \"status\": station.get(\"status\", \"\"),\n        \"\
+          data_periods\": station.get(\"data_periods\", {}),\n        \"coordinates\"\
+          : station.get(\"coordinates\", {})\n    }\n\n    location_parts = []\n \
+          \   for field in [\"management_unit\", \"watershed\", \"river\", \"address\"\
+          ]:\n        if station.get(field, \"\"):\n            location_parts.append(station.get(field,\
+          \ \"\"))\n\n    if location_parts:\n        station_data[\"location_info\"\
+          ] = \"、\".join(location_parts)\n    \n    return station_data\n\n\ndef analyze_failure_reason(item,\
+          \ target_data_type):\n    \"\"\"分析測站篩選失敗原因\"\"\"\n    content = item.get(\"\
+          content\", \"\")\n    if not content:\n        return \"無content內容\"\n \
+          \   \n    station_data = parse_content_fields(content)\n    if not station_data:\n\
+          \        return \"content解析失敗\"\n    \n    station_name = station_data.get('站名',\
+          \ '').strip()\n    category = station_data.get('類別', '').strip()\n    status\
+          \ = station_data.get('存廢狀態', '').strip()\n    \n    if not station_name:\n\
+          \        return \"缺少站名\"\n    if not category:\n        return \"缺少類別\"\n\
+          \    if status == \"已廢\":\n        return \"測站已廢\"\n    if target_data_type\
+          \ and not type_matches(category, target_data_type):\n        return f\"\
+          資料類型不符({category}≠{target_data_type})\"\n    \n    return \"其他原因\""
+        code_language: python3
+        desc: ''
+        outputs:
+          debug_info:
+            children: null
+            type: object
+          queryInfo:
+            children: null
+            type: object
+          stationsData:
+            children: null
+            type: array[string]
+        selected: false
+        title: 解析知識檢索
+        type: code
+        variables:
+        - value_selector:
+          - '1750036748953'
+          - output
+          variable: Integration
+        - value_selector:
+          - '1749807861742'
+          - location
+          variable: location
+        - value_selector:
+          - '1749807861742'
+          - dataType
+          variable: dataType
+        - value_selector:
+          - '1749807861742'
+          - startDate
+          variable: startDate
+        - value_selector:
+          - '1749807861742'
+          - endDate
+          variable: endDate
+      height: 52
+      id: '1750037499341'
+      position:
+        x: 1509.058393061163
+        y: 310
+      positionAbsolute:
+        x: 1509.058393061163
+        y: 310
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1750037499341'
+          - stationsData
+        desc: 整合LLM
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: 44d97edd-b77a-452f-98b5-e5e59ee75fd9
+          role: system
+          text: "你是台灣水文測站智能篩選專家，從提供的測站資料中選擇符合用戶查詢的測站。\n<CONTEXT>\nstationsData:{{#context#}}\n\
+            </CONTEXT>\n【核心限制】\n- **僅能從 stationsData 中直接複製資料，絕對不可虛構、修改或創造測站**\n- **輸入幾筆測站資料，輸出最多幾筆**（例：輸入1筆→最多輸出1筆）\n\
+            【匹配規則】\n一般查詢 : dateType = 雨量/水位流量含沙量/地下水位\n- 主要匹配 station_name（測站名稱）\n\
+            區域查詢 : dateType = 多結果查詢\n- 除了測站名稱還要匹配 address 或 county或watershed或river（地址或縣市或流域或河川）\n\
+            地點匹配優先順序：完全匹配 > 包含匹配 > 相似匹配\n- 完全匹配：「中正橋」= 「中正橋」\n- 包含匹配：「中正橋」包含於「中正大橋」\
+            \  \n- 相似匹配：「竹林大橋」vs「竹林大橋(左岸)」\n【輸出判斷】\n- 找到1個匹配 → result_type: \"single\"\
+            \n- 找到2+個匹配 → result_type: \"multiple\"  \n- 無匹配 → result_type: \"none\"\
+            \n- 保留所有合理匹配（含已廢測站）\n【資料要求】\n必填：station_name, station_code, api_url, data_category,\
+            \ location_info\n選填：status, county, data_periods, coordinates\n※ data_periods\
+            \ 與 coordinates 需為 JSON 字串格式\n請直接複製 stationsData 中的原始值，輸出純 JSON 結構。"
+        - id: e5e35944-1e68-4b76-b3b2-3c39e58ecd49
+          role: user
+          text: '請根據以下使用者查詢與測站資料，進行地點與資料類別的篩選，並輸出符合下列結構的 JSON：
+
+            用戶查詢：{{#1749807861742.userQuery#}}'
+        selected: false
+        structured_output:
+          schema:
+            properties:
+              result_type:
+                description: 篩選結果類型
+                enum:
+                - single
+                - multiple
+                - none
+                type: string
+              selected_stations:
+                description: 篩選出的測站列表
+                items:
+                  properties:
+                    api_url:
+                      description: API查詢網址
+                      type: string
+                    coordinates:
+                      description: 座標資訊JSON字串
+                      type: string
+                    county:
+                      description: 縣市資訊
+                      type: string
+                    data_category:
+                      description: 資料類別
+                      type: string
+                    data_periods:
+                      description: 資料時間範圍JSON字串
+                      type: string
+                    location_info:
+                      description: 位置資訊整合
+                      type: string
+                    station_code:
+                      description: 測站編號
+                      type: string
+                    station_name:
+                      description: 測站名稱
+                      type: string
+                    status:
+                      description: 測站狀態
+                      type: string
+                  required:
+                  - station_name
+                  - station_code
+                  - api_url
+                  - data_category
+                  - location_info
+                  type: object
+                type: array
+            required:
+            - result_type
+            - selected_stations
+            type: object
+        structured_output_enabled: true
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 116
+      id: '1750043258451'
+      position:
+        x: 2129.877890181342
+        y: 435.3272405658025
+      positionAbsolute:
+        x: 2129.877890181342
+        y: 435.3272405658025
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        selected: false
+        template: "{% set info_greetings = [\r\n  \"小水滴為您查詢到了\",\r\n  \"小水滴成功取得了\"\
+          , \r\n  \"小水滴找到了\",\r\n  \"小水滴搜尋到了\",\r\n  \"小水滴幫您準備好了\"\r\n] %}\r\n\r\n\
+          {% set info_multiple_greetings = [\r\n  \"小水滴找到了多個相關測站\",\r\n  \"小水滴搜尋到了幾個測站\"\
+          , \r\n  \"小水滴為您找到了相關測站\",\r\n  \"小水滴發現了多個測站選項\",\r\n  \"小水滴幫您準備了測站清單\"\r\
+          \n] %}\r\n\r\n{% set info_error_messages = [\r\n  \"小水滴很抱歉，沒有找到相關測站資料\"\
+          ,\r\n  \"小水滴搜尋後，未發現符合條件的測站\",\r\n  \"小水滴查詢了資料庫，暫無相關測站資訊\",\r\n  \"小水滴努力查找，但沒有找到匹配的測站\"\
+          \r\n] %}\r\n\r\n{% if selected_stations and selected_stations|length > 0\
+          \ %}\r\n  {% set stations = selected_stations %}\r\n  \r\n  {% if stations|length\
+          \ == 1 %}\r\n    {% set random_greeting = info_greetings[range(0, info_greetings|length)\
+          \ | random] %}\r\n    {% set station = stations[0] %}\r\n\r\n**{{ random_greeting\
+          \ }}測站觀測資料：**\r\n\r\n**{{ station.station_name }}**  \r\n測站編號：{{ station.station_code\
+          \ }}  \r\n{%- if station.location_info %}\r\n{%- set address = station.location_info.split('、')[-1]\
+          \ %}\r\n設置地點：{{ address }}  \r\n{%- endif %}\r\n[查看觀測數據]({{ station.api_url\
+          \ }})\r\n\r\n  {% else %}\r\n    {% set random_multiple = info_multiple_greetings[range(0,\
+          \ info_multiple_greetings|length) | random] %}\r\n\r\n**{{ random_multiple\
+          \ }}，請選擇您需要的測站：**\r\n\r\n{% for station in stations -%}\r\n**{{ loop.index\
+          \ }}. {{ station.station_name }}**  \r\n測站編號：{{ station.station_code }}\
+          \  \r\n{%- if station.location_info %}\r\n{%- set address = station.location_info.split('、')[-1]\
+          \ %}\r\n設置地點：{{ address }}  \r\n{%- endif %}\r\n[查看觀測數據]({{ station.api_url\
+          \ }})\r\n\r\n{% endfor %}\r\n  {% endif %} \r\n\r\n{% if stations|length\
+          \ == 10 %}\r\n---\r\n**小水滴溫馨提醒：** 系統中有 {{ stations|length }} 個測站觀測資料。\r\n\
+          \r\n查詢更多測站觀測資料：[前往水文資訊網](https://gweb.wra.gov.tw/Hydroinfo/?id=Index)\r\n\
+          {% endif %}\r\n\r\n{% else %}\r\n  {% set random_error = info_error_messages[range(0,\
+          \ info_error_messages|length) | random] %}\r\n\r\n⚠️ **{{ random_error }}，請確認測站名稱或嘗試其他關鍵字。**\r\
+          \n\r\n{% if validation_stats and validation_stats.original_count > 0 %}\r\
+          \n小水滴根據您的關鍵字找到一些可能的方向，但比對官方資料後，發現它們並非有效的測站名稱。\r\n\r\n**建議您可以：**  \r\n• 檢查輸入的名稱是否有錯字\
+          \  \r\n• 嘗試使用更簡短的關鍵字\r\n{% endif %} \r\n{% endif %}"
+        title: 模板轉換
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1750401071179'
+          - result_type
+          variable: result_type
+        - value_selector:
+          - '1750401071179'
+          - selected_stations
+          variable: selected_stations
+        - value_selector:
+          - '1750401071179'
+          - validation_stats
+          variable: validation_stats
+      height: 52
+      id: '1750058389563'
+      position:
+        x: 2726
+        y: 450
+      positionAbsolute:
+        x: 2726
+        y: 450
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: not empty
+            id: d3875465-6c15-45d5-be52-15c15d8a9a7c
+            value: ''
+            varType: array[string]
+            variable_selector:
+            - '1750037499341'
+            - stationsData
+          id: 'true'
+          logical_operator: and
+        - case_id: 1f534004-da2c-4056-b3a5-86613eba9478
+          conditions:
+          - comparison_operator: empty
+            id: ea3dd494-4d5a-4193-9640-9a44510680cb
+            value: ''
+            varType: array[string]
+            variable_selector:
+            - '1750037499341'
+            - stationsData
+          id: 1f534004-da2c-4056-b3a5-86613eba9478
+          logical_operator: and
+        desc: 判斷資料狀態(已廢,重複,時間區間)
+        selected: false
+        title: 條件分支
+        type: if-else
+      height: 200
+      id: '1750063100583'
+      position:
+        x: 1817.9585237323186
+        y: 310
+      positionAbsolute:
+        x: 1817.9585237323186
+        y: 310
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1750130176499'
+          - output
+          variable: output
+        selected: false
+        title: 結束 2
+        type: end
+      height: 88
+      id: '1750063110498'
+      position:
+        x: 2422
+        y: 306
+      positionAbsolute:
+        x: 2422
+        y: 306
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: 資料狀態不符處理
+        selected: false
+        template: "{% if debug_info.time_filtered_stations and debug_info.time_filtered_stations|length\
+          \ > 0 -%}\r\n  {%- set greetings = [\r\n    \"小水滴找到測站了，但\",\r\n    \"小水滴查到測站，不過\"\
+          , \r\n    \"小水滴搜尋到測站，可惜\"\r\n  ] -%}\r\n  {%- set random_greeting = greetings[range(0,\
+          \ greetings|length) | random] -%}\r\n{{ random_greeting }}\r\n\r\n  {%-\
+          \ if debug_info.time_filtered_stations|length == 1 -%}\r\n**{{ debug_info.time_filtered_stations[0].station_name\
+          \ }}**\r\n{%- if debug_info.time_filtered_stations[0].station_code %} (測站編號：{{\
+          \ debug_info.time_filtered_stations[0].station_code }}){% endif %}\r\n\r\
+          \n**查詢期間無資料**：{{ debug_info.query_years.start }}~{{ debug_info.query_years.end\
+          \ }} 年\r\n\r\n**實際可用期間**：\r\n    {%- for data_type, period_range in debug_info.time_filtered_stations[0].data_periods.items()\
+          \ %}\r\n      {%- if period_range and period_range != \"-\" %}\r\n- {{ data_type\
+          \ }}：{{ period_range }}\r\n      {%- endif %}\r\n    {%- endfor %}\r\n\r\
+          \n**建議**：請調整查詢時間範圍至實際可用期間\r\n  {%- else -%}\r\n**{{ debug_info.query_years.start\
+          \ }}~{{ debug_info.query_years.end }} 年期間均無資料**\r\n\r\n找到 {{ debug_info.time_filtered_stations|length\
+          \ }} 個測站，但查詢時間範圍內都沒有觀測資料：\r\n    {%- for station in debug_info.time_filtered_stations\
+          \ %}\r\n\r\n**{{ loop.index }}. {{ station.station_name }}**\r\n{%- if station.station_code\
+          \ %} (測站編號：{{ station.station_code }}){% endif %}\r\n\r\n**實際可用期間**：\r\n\
+          \      {%- for data_type, period_range in station.data_periods.items() %}\r\
+          \n        {%- if period_range and period_range != \"-\" %}\r\n- {{ data_type\
+          \ }}：{{ period_range }}\r\n        {%- endif %}\r\n      {%- endfor %}\r\
+          \n    {%- endfor %}\r\n\r\n**建議**：請選擇適合的資料期間進行查詢\r\n  {%- endif %}\r\n\r\
+          \n{%- elif debug_info.failed_reasons -%}\r\n  {%- set error_greetings =\
+          \ [\r\n    \"小水滴很抱歉\",\r\n    \"小水滴搜尋後發現\",\r\n    \"小水滴查詢結果\"\r\n  ] -%}\r\
+          \n  {%- set random_error = error_greetings[range(0, error_greetings|length)\
+          \ | random] -%}\r\n{{ random_error }}\r\n\r\n**沒有找到符合條件的測站**\r\n\r\n**查詢條件：**\r\
+          \n- 地點：{{ queryInfo.location }}\r\n- 資料類型：{{ queryInfo.dataType }}\r\n \
+          \ {%- if debug_info.query_years and debug_info.query_years.valid %}\r\n\
+          - 時間範圍：{{ debug_info.query_years.start }}~{{ debug_info.query_years.end\
+          \ }} 年\r\n  {%- endif %}\r\n\r\n**可能原因：**\r\n  {%- if debug_info.failed_reasons.get('測站已廢',\
+          \ 0) > 0 %}\r\n- 測站已廢站（找到 {{ debug_info.failed_reasons['測站已廢'] }} 個已廢測站）\r\
+          \n  {%- endif %}\r\n  {%- if debug_info.failed_reasons.get('資料類型不符', 0)\
+          \ > 0 %}\r\n- 資料類型不符合\r\n  {%- endif %}\r\n  {%- if debug_info.failed_reasons.get('缺少站名',\
+          \ 0) > 0 or debug_info.failed_reasons.get('缺少類別', 0) > 0 %}\r\n- 測站資料不完整\r\
+          \n  {%- endif %}\r\n\r\n**建議：**\r\n- 檢查測站名稱是否正確\r\n- 嘗試使用更精確或更簡短的關鍵字\r\n\
+          - 確認資料類型是否正確\r\n\r\n{%- else -%}\r\n  {%- set empty_greetings = [\r\n  \
+          \  \"小水滴很抱歉\",\r\n    \"小水滴搜尋後\",\r\n    \"小水滴查無結果\"\r\n  ] -%}\r\n  {%-\
+          \ set random_empty = empty_greetings[range(0, empty_greetings|length) |\
+          \ random] -%}\r\n{{ random_empty }}\r\n\r\n**沒有找到相關測站資料**\r\n\r\n**建議：**請檢查查詢條件或稍後再試\r\
+          \n{%- endif %}"
+        title: 模板轉換 2
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1750037499341'
+          - debug_info
+          variable: debug_info
+        - value_selector:
+          - '1750037499341'
+          - queryInfo
+          variable: queryInfo
+      height: 80
+      id: '1750130176499'
+      position:
+        x: 2112.724287341294
+        y: 327.3586323607475
+      positionAbsolute:
+        x: 2112.724287341294
+        y: 327.3586323607475
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        author: geoinforadmin
+        desc: ''
+        height: 88
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{   \"name\":
+          \"call_hydro_data_scope\",   \"description\": \"查詢台灣水文測站觀測資料（雨量、水位、地下水位等歷史數據）\",   \"parameters\":
+          {     \"type\": \"object\",     \"properties\": {       \"jsonData\": {         \"type\":
+          \"object\",         \"properties\": {           \"userQuery\": {             \"type\":
+          \"string\",              \"description\": \"用戶原始查詢內容\",             \"example\":
+          \"2020年竹林大橋水位\"           },           \"intent\": {             \"type\":
+          \"array\",              \"items\": {\"type\": \"string\"},              \"description\":
+          \"拆分後的查詢意圖陣列。複合查詢會拆分成多個獨立項目，單一查詢則包含一個項目\",             \"example\": [\"2020年竹林大橋水位\"]           },           \"location\":
+          {             \"type\": \"string\",              \"description\": \"測站地點名稱\",             \"example\":
+          \"竹林大橋\"           },           \"dataType\": {             \"type\": \"string\",              \"description\":
+          \"資料類型：雨量 | 水位流量含沙量 | 地下水位 | 混合查詢\",             \"example\": \"水位流量含沙量\"           },           \"startDate\":
+          {             \"type\": \"string\",              \"description\": \"開始日期，格式：YYYY/MM/DD\",             \"example\":
+          \"2020/01/01\"           },           \"endDate\": {             \"type\":
+          \"string\",              \"description\": \"結束日期，格式：YYYY/MM/DD\",              \"example\":
+          \"2020/12/31\"           }         },         \"required\": [\"userQuery\",
+          \"intent\", \"location\", \"dataType\", \"startDate\", \"endDate\"]       }     },     \"required\":
+          [\"jsonData\"]   } }","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 240
+      height: 88
+      id: '1750135131960'
+      position:
+        x: 105.74490688559797
+        y: 645.6139081303527
+      positionAbsolute:
+        x: 105.74490688559797
+        y: 645.6139081303527
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        author: geoinforadmin
+        desc: ''
+        height: 88
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"#
+          ===== 節點1: JSON解析器 =====","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"def
+          main(jsonData=None, **kwargs) -> dict:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            \"\"\"","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            完整版 jsonData 解析器","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            Args:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                jsonData: 來自前一個節點的 JSON 資料","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            Returns:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                dict: 包含所有必要欄位的解析結果","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            \"\"\"","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            # 檢查是否接收到資料","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            if not jsonData:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                return {","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"location\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"dataType\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"startDate\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"endDate\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"userQuery\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"intent\": [],","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"status\": \"error\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"error_msg\": \"未接收到資料\"","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                }","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            try:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                # 解析 JSON","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                if isinstance(jsonData, str):","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    parsed = json.loads(jsonData)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                else:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    parsed = jsonData","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                # 提取所有必要欄位","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                location = parsed.get(\"location\", \"\")","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                dataType = parsed.get(\"dataType\", \"\")","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                startDate = parsed.get(\"startDate\", \"\")  # 🆕 新增","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                endDate = parsed.get(\"endDate\", \"\")      # 🆕 新增","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                userQuery = parsed.get(\"userQuery\", \"\")","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                # 處理 intent (確保是 array[string])","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                intent = parsed.get(\"intent\", [])","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                if isinstance(intent, str):","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    try:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        intent = json.loads(intent) if intent.startswith(\"[\") else
+          [intent]","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    except:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        intent = [intent]","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                elif not isinstance(intent, list):","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    intent = []","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                return {","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"location\": location,","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"dataType\": dataType,","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"startDate\": startDate,      # 🆕 新增","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"endDate\": endDate,          # 🆕 新增","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"userQuery\": userQuery,","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"intent\": intent,","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"status\": \"success\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"error_msg\": \"\"","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                }","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            except json.JSONDecodeError:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                return {","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"location\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"dataType\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"startDate\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"endDate\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"userQuery\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"intent\": [],","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"status\": \"error\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"error_msg\": \"JSON 格式錯誤\"","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                }","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            except Exception as e:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                return {","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"location\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"dataType\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"startDate\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"endDate\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"userQuery\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"intent\": [],","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"status\": \"error\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"error_msg\": f\"處理錯誤: {str(e)}\"","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                }","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1},{"type":"linebreak","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"#
+          ===== 除錯版本 (移除 raw_input/parsed_data) =====","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"def
+          main_debug(jsonData=None, **kwargs) -> dict:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            \"\"\"","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            除錯版本 - 簡化的除錯資訊，移除不必要的欄位","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            \"\"\"","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            if not jsonData:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                return {","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"debug_status\": \"❌ 沒有接收到 jsonData\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"location\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"dataType\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"startDate\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"endDate\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"userQuery\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"intent\": []","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                }","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            try:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                if isinstance(jsonData, str):","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    parsed = json.loads(jsonData)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                else:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    parsed = jsonData","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                location = parsed.get(\"location\", \"\")","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                dataType = parsed.get(\"dataType\", \"\")","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                startDate = parsed.get(\"startDate\", \"\")","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                endDate = parsed.get(\"endDate\", \"\")","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                userQuery = parsed.get(\"userQuery\", \"\")","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                intent = parsed.get(\"intent\", [])","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                if isinstance(intent, str):","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    try:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        intent = json.loads(intent) if intent.startswith(\"[\") else
+          [intent]","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    except:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        intent = [intent]","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                elif not isinstance(intent, list):","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    intent = []","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                return {","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"debug_status\": \"✅ 成功解析所有欄位\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"location\": location,","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"dataType\": dataType,","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"startDate\": startDate,","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"endDate\": endDate,","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"userQuery\": userQuery,","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"intent\": intent,","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"data_count\": len([x for x in [location, dataType, startDate,
+          endDate, userQuery] if x])","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                }","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            except Exception as e:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                return {","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"debug_status\": f\"❌ 錯誤: {str(e)}\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"location\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"dataType\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"startDate\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"endDate\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"userQuery\": \"\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"intent\": []","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                }","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1},{"type":"linebreak","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"#
+          ===== 節點2: 測站處理器 (配套修改) =====","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"def
+          main_station_processor(location=\"\", dataType=\"\", startDate=\"\", endDate=\"\",
+          userQuery=\"\", intent=[], Integration=None, **kwargs):","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            \"\"\"","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            測站處理器 - 接收JSON解析節點的完整輸出","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            Args:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                location: 地點 (從JSON解析節點)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                dataType: 資料類型 (從JSON解析節點)  ","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                startDate: 開始時間 (從JSON解析節點)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                endDate: 結束時間 (從JSON解析節點)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                userQuery: 用戶查詢 (從JSON解析節點，可用於LLM參考)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                intent: 意圖陣列 (從JSON解析節點，可用於LLM參考)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                Integration: 知識檢索結果","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            Returns:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                dict: 處理後的測站資料","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            \"\"\"","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            import json","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            try:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                raw_stations = extract_raw_stations(Integration)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                if not raw_stations:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    return {\"stationsData\": [], \"resultsCount\": \"0\"}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                valid_stations = []","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                debug_info = []","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                for i, item in enumerate(raw_stations):","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    station_info = parse_and_validate_station(item, dataType)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    if station_info:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        valid_stations.append(station_info)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        debug_info.append(f\"測站{i+1}通過篩選: {station_info[''station_name'']}\")","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    else:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        # 除錯資訊","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        content = item.get(\"content\", \"\")","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        if content:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                            station_data = parse_content_fields(content)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                            station_name = station_data.get(''站名'', '''').strip()","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                            category = station_data.get(''類別'', '''').strip()","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                            status = station_data.get(''存廢狀態'', '''').strip()","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                            ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                            if status == \"已廢\":","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                                debug_info.append(f\"測站{i+1}被篩選: {station_name} (已廢)\")","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                            elif not type_matches(category, dataType):","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                                debug_info.append(f\"測站{i+1}被篩選: {station_name} (資料類型不匹配:
+          {category} vs {dataType})\")","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                            else:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                                debug_info.append(f\"測站{i+1}被篩選: {station_name} (其他原因)\")","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                if not valid_stations:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    return {","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        \"stationsData\": debug_info,","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        \"resultsCount\": str(len(debug_info))","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    }","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                stations_with_urls = []","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                for station in valid_stations:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    api_url = build_station_url(","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        station.get(\"station_code\", \"\"),","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        station.get(\"data_category\", \"\"),","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        startDate,  # ✅ 使用從JSON解析來的時間","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        endDate     # ✅ 使用從JSON解析來的時間","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    )","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    # 組建最終的測站資料","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    station_data = {","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        \"station_name\": station.get(\"station_name\", \"\"),","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        \"station_code\": station.get(\"station_code\", \"\"),","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        \"data_category\": station.get(\"data_category\", \"\"),","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        \"api_url\": api_url,","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        \"management_unit\": station.get(\"management_unit\", \"\"),","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        \"watershed\": station.get(\"watershed\", \"\"),","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        \"river\": station.get(\"river\", \"\"),","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        \"address\": station.get(\"address\", \"\"),","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        \"county\": station.get(\"county\", \"\"),","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        \"status\": station.get(\"status\", \"\"),","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        \"data_periods\": station.get(\"data_periods\", {}),   # 保留","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        \"coordinates\": station.get(\"coordinates\", {})      # 保留","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    }","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    # 組合位置描述","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    location_parts = []","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    if station.get(\"management_unit\", \"\"):","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        location_parts.append(station.get(\"management_unit\", \"\"))","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    if station.get(\"watershed\", \"\"):","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        location_parts.append(station.get(\"watershed\", \"\"))","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    if station.get(\"river\", \"\"):","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        location_parts.append(station.get(\"river\", \"\"))","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    if station.get(\"address\", \"\"):","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        location_parts.append(station.get(\"address\", \"\"))","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    if location_parts:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                        station_data[\"location_info\"] = \"、\".join(location_parts)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    stations_with_urls.append(json.dumps(station_data, ensure_ascii=False))","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                # 去重處理","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                unique_stations = remove_duplicates(stations_with_urls)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                return {","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"stationsData\": unique_stations,","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                    \"resultsCount\": str(len(unique_stations))","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                }","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                ","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            except Exception as e:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                return {\"stationsData\": [], \"resultsCount\": \"0\"}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"#
+          其他輔助函數保持不變...","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"def
+          extract_raw_stations(Integration):","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            if not Integration:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                return []","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            if isinstance(Integration, list):","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                return Integration","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            elif isinstance(Integration, dict) and \"output\" in Integration:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+                return Integration[\"output\"]","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+            return []","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: cyan
+        title: ''
+        type: ''
+        width: 240
+      height: 88
+      id: '1750135550171'
+      position:
+        x: 751.8077563351446
+        y: 729.2789596355822
+      positionAbsolute:
+        x: 751.8077563351446
+        y: 729.2789596355822
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: contains
+            id: aee5df1f-a08e-4847-b61e-678fc7012aa1
+            value: success
+            varType: string
+            variable_selector:
+            - '1749807861742'
+            - status
+          id: 'true'
+          logical_operator: and
+        - case_id: e2529f5e-b60f-4aad-95f7-0c2e25bf902e
+          conditions:
+          - comparison_operator: contains
+            id: d81cf9a5-f84d-42b5-96cf-81972b5762ee
+            value: incomplete
+            varType: string
+            variable_selector:
+            - '1749807861742'
+            - status
+          id: e2529f5e-b60f-4aad-95f7-0c2e25bf902e
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: 條件分支 2
+        type: if-else
+      height: 172
+      id: '1750214671657'
+      position:
+        x: 639.8372881991074
+        y: 310
+      positionAbsolute:
+        x: 639.8372881991074
+        y: 310
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        selected: false
+        template: "{% set friendly_responses = [\r\n  \"小水滴想幫您查詢觀測資料，需要您再提供一些資訊\"\
+          ,\r\n  \"小水滴差一點就能幫您查到觀測資料了，請再補充一下\",\r\n  \"小水滴需要您提供更多資訊，才能精準查詢觀測資料\",\r\
+          \n  \"為了找到正確的觀測資料，小水滴需要您補充資訊\"\r\n] %}\r\n{% set random_response = friendly_responses[range(0,\
+          \ friendly_responses|length) | random] %}\r\n\r\n**{{ random_response }}**\
+          \ \U0001F60A\r\n\r\n{% if \"location\" in incomplete_fields and \"dataType\"\
+          \ in incomplete_fields and (\"startDate\" in incomplete_fields or \"endDate\"\
+          \ in incomplete_fields) %}\r\n請告訴我：\r\n**要查哪個測站？**（例如：三峽、中正橋）\r\n**要查什麼資料？**（雨量、水位、地下水位）\r\
+          \n**要查什麼時間的資料？**（例如：2023年、2023年1月、最近一個月）\r\n\r\n{% elif \"location\" in\
+          \ incomplete_fields %}\r\n請告訴我：\r\n**要查哪個測站或地區？**\r\n例如：竹林大橋、中正橋\r\n\r\n\
+          {% elif \"dataType\" in incomplete_fields %}\r\n請告訴我：\r\n\U0001F4CA **要查什麼類型的資料？**\r\
+          \n- 雨量資料\r\n- 水位資料\r\n- 地下水位資料\r\n\r\n{% elif \"startDate\" in incomplete_fields\
+          \ or \"endDate\" in incomplete_fields %}\r\n請告訴我：\r\n**要查什麼時間範圍的資料？**\r\n\
+          例如：2023年、2024年3月、最近半年、去年夏天\r\n\r\n{% else %}\r\n{% set system_messages =\
+          \ [\r\n  \"小水滴遇到了技術問題，請稍後再試一次\",\r\n  \"系統暫時無法處理您的查詢，請稍後重新嘗試\",\r\n  \"\
+          小水滴的系統出現了小狀況，請過一會兒再問我\",\r\n  \"很抱歉，小水滴現在無法查詢，請稍後再試\"\r\n] %}\r\n{% set\
+          \ random_system = system_messages[range(0, system_messages|length) | random]\
+          \ %}\r\n**{{ random_system }}** \r\n{% endif %}\r\n\r\n\U0001F4A1 **快速範例**：\r\
+          \n- 「2023年中正橋水位資料」"
+        title: 模板轉換 3
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1749807861742'
+          - incomplete_fields
+          variable: incomplete_fields
+        - value_selector:
+          - '1749807861742'
+          - error_msg
+          variable: error_msg
+      height: 52
+      id: '1750214858474'
+      position:
+        x: 1074
+        y: 562
+      positionAbsolute:
+        x: 1074
+        y: 562
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1750214858474'
+          - output
+          variable: output
+        selected: false
+        title: 結束 3
+        type: end
+      height: 88
+      id: '1750214871930'
+      position:
+        x: 1383.3294012273452
+        y: 562
+      positionAbsolute:
+        x: 1383.3294012273452
+        y: 562
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        author: geoinforadmin
+        desc: ''
+        height: 88
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"你是台灣水文測站智能篩選專家，從提供的測站資料中選擇符合用戶查詢的測站。","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"【核心限制】","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          **僅能從 stationsData 中直接複製資料，絕對不可虛構、修改或創造測站**","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          **輸入幾筆測站資料，輸出最多幾筆**（例：輸入1筆→最多輸出1筆）","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"【匹配規則】","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"地點匹配優先順序：完全匹配
+          > 包含匹配 > 相似匹配","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          完全匹配：「中正橋」= 「中正橋」","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          包含匹配：「中正橋」包含於「中正大橋」  ","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          相似匹配：「竹林大橋」vs「竹林大橋(左岸)」","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"【輸出判斷】","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          找到1個匹配 → result_type: \"single\"","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          找到2+個匹配 → result_type: \"multiple\"  ","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          無匹配 → result_type: \"none\"","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"-
+          保留所有合理匹配（含已廢測站）","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"【資料要求】","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"必填：station_name,
+          station_code, api_url, data_category, location_info","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"選填：status,
+          county, data_periods, coordinates","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"※
+          data_periods 與 coordinates 需為 JSON 字串格式","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"請直接複製
+          stationsData 中的原始值，輸出純 JSON 結構。","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 240
+      height: 88
+      id: '1750384535860'
+      position:
+        x: 2637.33924742608
+        y: 589.849736819977
+      positionAbsolute:
+        x: 2637.33924742608
+        y: 589.849736819977
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        code: "import json\n\ndef main(llm_output, stationsData):\n    try:\n    \
+          \    # 1. 建立白名單：(站號, 站名) -> 完整資料\n        whitelist = {}\n        for item\
+          \ in stationsData:\n            data = json.loads(item) if isinstance(item,\
+          \ str) else item\n            code = data.get(\"station_code\", \"\").strip()\n\
+          \            name = data.get(\"station_name\", \"\").strip()\n         \
+          \   \n            if code and name:  # 只要有站號和站名就加入白名單\n                whitelist[(code,\
+          \ name)] = data\n        \n        # 2. 解析 LLM 輸出\n        if isinstance(llm_output,\
+          \ str):\n            llm_data = json.loads(llm_output)\n        else:\n\
+          \            llm_data = llm_output\n        \n        # 3. 篩選：只保留白名單內的測站（加入去重）\n\
+          \        valid_stations = []\n        seen = set()  # 記錄已處理的測站\n       \
+          \ \n        for station in llm_data.get(\"selected_stations\", []):\n  \
+          \          code = station.get(\"station_code\", \"\").strip()\n        \
+          \    name = station.get(\"station_name\", \"\").strip()\n            \n\
+          \            key = (code, name)\n            if key in whitelist and key\
+          \ not in seen:\n                # 輸出白名單的完整資料（不是 LLM 的）\n               \
+          \ valid_stations.append(whitelist[key])\n                seen.add(key) \
+          \ # 標記為已處理\n        \n        # 4. 決定結果類型\n        if len(valid_stations)\
+          \ == 0:\n            result_type = \"none\"\n        elif len(valid_stations)\
+          \ == 1:\n            result_type = \"single\"\n        else:\n         \
+          \   result_type = \"multiple\"\n        \n        return {\n           \
+          \ \"result_type\": result_type,\n            \"selected_stations\": valid_stations,\n\
+          \            \"validation_stats\": {\n                \"original_count\"\
+          : len(llm_data.get(\"selected_stations\", [])),\n                \"valid_count\"\
+          : len(valid_stations),\n                \"whitelist_size\": len(whitelist)\n\
+          \            }\n        }\n        \n    except:\n        # 任何錯誤都回傳空結果\n\
+          \        return {\n            \"result_type\": \"none\",\n            \"\
+          selected_stations\": [],\n            \"validation_stats\": {\n        \
+          \        \"original_count\": 0,\n                \"valid_count\": 0,\n \
+          \               \"whitelist_size\": 0\n            }\n        }"
+        code_language: python3
+        desc: 建立白名單防止LLM幻覺
+        outputs:
+          result_type:
+            children: null
+            type: string
+          selected_stations:
+            children: null
+            type: array[object]
+          validation_stats:
+            children: null
+            type: object
+        selected: false
+        title: 代碼執行 3
+        type: code
+        variables:
+        - value_selector:
+          - '1750043258451'
+          - structured_output
+          variable: llm_output
+        - value_selector:
+          - '1750037499341'
+          - stationsData
+          variable: stationsData
+      height: 80
+      id: '1750401071179'
+      position:
+        x: 2422
+        y: 450
+      positionAbsolute:
+        x: 2422
+        y: 450
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        author: geoinforadmin
+        desc: ''
+        height: 88
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%
+          set greetings = [","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+          \"小水滴查到測站\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+          \"小水滴找到測站\", ","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+          \"小水滴搜尋到測站\",","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+          \"小水滴發現測站\"","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"]
+          -%}","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%
+          set random_greeting = greetings[range(0, greetings|length) | random] -%}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{{
+          random_greeting }}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%-
+          if debug_info.time_filtered_stations %}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+          {%- if debug_info.time_filtered_stations|length == 1 %}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"測站名稱：{{
+          debug_info.time_filtered_stations[0].station_name }}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%-
+          if debug_info.time_filtered_stations[0].station_code %} ({{ debug_info.time_filtered_stations[0].station_code
+          }}){% endif %}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"查詢結果：{{
+          debug_info.query_years.start }} 年期間沒有觀測資料","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"實際資料期間：","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%-
+          for data_type, period_range in debug_info.time_filtered_stations[0].data_periods.items()
+          -%}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%-
+          if period_range and period_range != \"-\" %}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{{
+          data_type }}：{{ period_range }}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%-
+          endif -%}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%-
+          endfor %}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"建議方案：請調整查詢時間範圍","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+          {%- else %}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"找到
+          {{ debug_info.time_filtered_stations|length }} 個測站","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"查詢結果：{{
+          debug_info.query_years.start }} 年期間均無觀測資料","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"測站清單：","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%-
+          for station in debug_info.time_filtered_stations %}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{{
+          loop.index }}. {{ station.station_name }}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%-
+          if station.station_code %} ({{ station.station_code }}){% endif %}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%-
+          for data_type, period_range in station.data_periods.items() -%}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%-
+          if period_range and period_range != \"-\" %}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{{
+          data_type }}：{{ period_range }}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%-
+          endif -%}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%-
+          endfor %}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%-
+          if not loop.last %}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%
+          endif -%}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%-
+          endfor %}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"建議方案：請選擇適合的資料期間進行查詢","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":" 
+          {%- endif -%}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%-
+          elif debug_info.failed_reasons %}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"沒有找到符合條件的測站","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"查詢條件：","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"•
+          地點：{{ queryInfo.location }}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"•
+          資料類型：{{ queryInfo.dataType }}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"建議方案：請確認測站名稱是否正確","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%-
+          else %}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"很抱歉，沒有找到相關測站資料","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"type":"linebreak","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"建議：請檢查查詢條件或稍後再試","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"{%-
+          endif %}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 240
+      height: 88
+      id: '1762241118483'
+      position:
+        x: 2142.1614260950028
+        y: 123.4462088643927
+      positionAbsolute:
+        x: 2142.1614260950028
+        y: 123.4462088643927
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    viewport:
+      x: -26.034620155629796
+      y: 19.913473580851417
+      zoom: 0.5192659266237483
+  rag_pipeline_variables: []

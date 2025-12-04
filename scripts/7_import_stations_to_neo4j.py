@@ -3,6 +3,7 @@
 import pandas as pd
 from neo4j import GraphDatabase
 from pathlib import Path
+from data_utils import clean_dataframe  # 匯入資料清理工具
 
 
 class StationImporter:
@@ -41,6 +42,7 @@ class StationImporter:
 
         # 讀取第一個工作表 (雨量測站)
         df = pd.read_excel(excel_path, sheet_name=0)
+        df = clean_dataframe(df)  # 清理資料（去除空格）
         print(f"  共 {len(df)} 個雨量測站")
         print(f"  欄位: {list(df.columns)}")
 
@@ -76,7 +78,7 @@ class StationImporter:
                         s.type = '雨量測站',
                         s.category = $category,
                         s.status = $status,
-                        s.cwa_station_code = $cwa_station_code,
+                        s.cwa_code = $cwa_code,
                         s.management_unit = $management_unit,
                         s.water_system = $water_system,
                         s.river = $river,
@@ -95,7 +97,7 @@ class StationImporter:
                     name=str(row[cols[4]]) if pd.notna(row[cols[4]]) else None,  # 測站名稱
                     category=str(row[cols[0]]) if pd.notna(row[cols[0]]) else None,  # 類別
                     status=str(row[cols[1]]) if pd.notna(row[cols[1]]) else None,  # 存廢狀態
-                    cwa_station_code=str(row[cols[3]]) if pd.notna(row[cols[3]]) else None,  # 氣象署站號
+                    cwa_code=str(row[cols[3]]) if pd.notna(row[cols[3]]) else None,  # 氣象署站號
                     management_unit=str(row[cols[5]]) if pd.notna(row[cols[5]]) else None,  # 管理單位
                     water_system=str(row[cols[6]]) if pd.notna(row[cols[6]]) else None,  # 水系
                     river=str(row[cols[7]]) if pd.notna(row[cols[7]]) else None,  # 河川
@@ -126,6 +128,7 @@ class StationImporter:
 
         # 讀取第二個工作表 (水位測站)
         df = pd.read_excel(excel_path, sheet_name=1)
+        df = clean_dataframe(df)  # 清理資料（去除空格）
         print(f"  共 {len(df)} 個水位測站")
         print(f"  欄位: {list(df.columns)}")
 
@@ -217,6 +220,7 @@ class StationImporter:
 
         # 讀取「能配對的測站」工作表
         df = pd.read_excel(matching_report_path, sheet_name='能配對的測站')
+        df = clean_dataframe(df)  # 清理資料（去除空格）
         print(f"  共 {len(df)} 個能配對的測站")
 
         # 取得欄位列表
