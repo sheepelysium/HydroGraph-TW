@@ -39,7 +39,7 @@ FULLTEXT_INDEXES = [
     }
 ]
 
-# 定義所有自定義程序（明確命名版：7 個程序）
+# 定義所有自定義程序（明確命名版：6 個程序）
 # 設計原則：工具名稱自解釋，減少 LLM 參數判斷錯誤
 CUSTOM_PROCEDURES = [
     # ========== 測站類（3 個）==========
@@ -53,10 +53,11 @@ CUSTOM_PROCEDURES = [
             YIELD node AS s, score
             WITH s, score, CASE WHEN s:Rainfall THEN "雨量" ELSE "水位" END AS stationType
             WHERE ($filterType = "全部" OR stationType = $filterType)
-              AND (s.name CONTAINS $keyword
-                   OR s.code CONTAINS $keyword
-                   OR s.cwa_code CONTAINS $keyword
-                   OR s.address CONTAINS $keyword)
+              AND (s.name CONTAINS $keyword OR $keyword CONTAINS s.name
+                   OR s.code CONTAINS $keyword OR $keyword CONTAINS s.code
+                   OR COALESCE(s.cwa_code, "") CONTAINS $keyword OR $keyword CONTAINS COALESCE(s.cwa_code, "")
+                   OR COALESCE(s.address, "") CONTAINS $keyword OR $keyword CONTAINS COALESCE(s.address, "")
+                   OR COALESCE(s.city, "") CONTAINS $keyword OR $keyword CONTAINS COALESCE(s.city, ""))
             OPTIONAL MATCH (s)-[:LOCATED_ON]->(r:River)
             OPTIONAL MATCH (s)-[:LOCATED_IN]->(w:Watershed)
             RETURN s.code AS code,
@@ -92,8 +93,16 @@ CUSTOM_PROCEDURES = [
                      WHEN s:Rainfall THEN "https://gweb.wra.gov.tw/HydroInfo/StDataInfo/StDataInfo?RA&" + COALESCE(s.cwa_code, s.code)
                      ELSE "https://gweb.wra.gov.tw/HydroInfo/StDataInfo/StDataInfo?LE&" + s.code
                    END AS apiUrl,
-                   score
-            ORDER BY score DESC
+                   score,
+                   CASE
+                     WHEN $keyword CONTAINS replace(replace(s.city, '臺', '台'), '市', '')
+                          OR $keyword CONTAINS replace(replace(s.city, '臺', '台'), '縣', '')
+                          OR replace(replace(s.city, '臺', '台'), '市', '') CONTAINS $keyword
+                          OR replace(replace(s.city, '臺', '台'), '縣', '') CONTAINS $keyword
+                     THEN 0
+                     ELSE 1
+                   END AS cityPriority
+            ORDER BY cityPriority ASC, score DESC
             LIMIT 5
         ''',
         'mode': 'read',
@@ -128,7 +137,8 @@ CUSTOM_PROCEDURES = [
             ['flowMonthlyYears', 'STRING'],
             ['sedimentYears', 'STRING'],
             ['apiUrl', 'STRING'],
-            ['score', 'FLOAT']
+            ['score', 'FLOAT'],
+            ['cityPriority', 'INT']
         ],
         'inputs': [
             ['keyword', 'STRING'],
@@ -192,15 +202,15 @@ CUSTOM_PROCEDURES = [
         ]
     },
 
-    # ========== 河川類（4 個）==========
+    # ========== 河川類（3 個）==========
 
-    # 4. getRiverTributaries - 河川的直接支流
+    # 4. getRiverTributaries - 河川的所有支流（遞迴）
     {
         'name': 'getRiverTributaries',
-        'description': '查詢河川的直接支流',
+        'description': '查詢河川的所有支流（遞迴查詢所有層級）',
         'query': '''
-            MATCH (tributary:River)-[:FLOWS_INTO]->(main:River {name: $riverName})
-            RETURN tributary.name AS name,
+            MATCH (tributary:River)-[:FLOWS_INTO*]->(main:River {name: $riverName})
+            RETURN DISTINCT tributary.name AS name,
                    tributary.level AS level,
                    tributary.code AS code
             ORDER BY tributary.level, tributary.name
@@ -216,29 +226,7 @@ CUSTOM_PROCEDURES = [
         ]
     },
 
-    # 5. getUpstreamRivers - 河川的所有上游河川
-    {
-        'name': 'getUpstreamRivers',
-        'description': '查詢河川的所有上游河川（遞迴）',
-        'query': '''
-            MATCH (upstream:River)-[:FLOWS_INTO*]->(main:River {name: $riverName})
-            RETURN DISTINCT upstream.name AS name,
-                   upstream.level AS level,
-                   upstream.code AS code
-            ORDER BY upstream.level, upstream.name
-        ''',
-        'mode': 'read',
-        'outputs': [
-            ['name', 'STRING'],
-            ['level', 'INT'],
-            ['code', 'STRING']
-        ],
-        'inputs': [
-            ['riverName', 'STRING']
-        ]
-    },
-
-    # 6. getRiversInWaterSystem - 水系內的所有河川
+    # 5. getRiversInWaterSystem - 水系內的所有河川
     {
         'name': 'getRiversInWaterSystem',
         'description': '查詢水系內的所有河川',
@@ -260,7 +248,7 @@ CUSTOM_PROCEDURES = [
         ]
     },
 
-    # 7. getRiverFlowPath - 河川流向路徑
+    # 6. getRiverFlowPath - 河川流向路徑
     {
         'name': 'getRiverFlowPath',
         'description': '查詢河川從支流到主流的完整流向路徑',
@@ -420,7 +408,7 @@ try:
 
         # 使用範例
         print("=" * 80)
-        print("使用範例（明確命名版 7 個程序）")
+        print("使用範例（明確命名版 6 個程序）")
         print("=" * 80)
         print("""
 // ========== 測站類（3 個）==========
@@ -440,24 +428,19 @@ CALL custom.getStationsByWaterSystem("大甲溪水系")
 YIELD code, name, type, city, river, status
 RETURN code, name, type, river, city
 
-// ========== 河川類（4 個）==========
+// ========== 河川類（3 個）==========
 
-// 4. getRiverTributaries - 河川的直接支流
+// 4. getRiverTributaries - 河川的所有支流（遞迴）
 CALL custom.getRiverTributaries("大甲溪")
 YIELD name, level, code
 RETURN name, level, code
 
-// 5. getUpstreamRivers - 河川的所有上游
-CALL custom.getUpstreamRivers("大甲溪")
-YIELD name, level, code
-RETURN name, level, code
-
-// 6. getRiversInWaterSystem - 水系內的所有河川
+// 5. getRiversInWaterSystem - 水系內的所有河川
 CALL custom.getRiversInWaterSystem("大甲溪水系")
 YIELD name, level, code
 RETURN name, level, code
 
-// 7. getRiverFlowPath - 河川流向路徑
+// 6. getRiverFlowPath - 河川流向路徑
 CALL custom.getRiverFlowPath("南湖溪")
 YIELD riverPath
 RETURN riverPath
