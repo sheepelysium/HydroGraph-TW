@@ -32,8 +32,8 @@ FULLTEXT_INDEXES = [
     {
         'name': 'stationSearch',
         'labels': ['Station'],
-        'properties': ['name', 'code', 'cwa_code'],
-        'description': '測站全文搜尋索引（名稱、代碼、氣象局代碼）'
+        'properties': ['name', 'code', 'cwa_code', 'city'],
+        'description': '測站全文搜尋索引（名稱、代碼、氣象局代碼、城市）'
     },
     {
         'name': 'riverSearch',
@@ -107,7 +107,7 @@ CUSTOM_PROCEDURES = [
                      ELSE 1
                    END AS cityPriority
             ORDER BY cityPriority ASC, score DESC
-            LIMIT 5
+            LIMIT 10
         ''',
         'mode': 'read',
         'outputs': [
@@ -183,7 +183,10 @@ CUSTOM_PROCEDURES = [
         'name': 'getStationsByWaterSystem',
         'description': '列出某水系內所有河川的測站（如「大甲溪水系有哪些測站」）',
         'query': '''
-            MATCH (s:Station)-[:LOCATED_ON]->(r:River)-[:BELONGS_TO]->(ws:WaterSystem {name: $waterSystemName})
+            MATCH (s:Station)-[:LOCATED_ON]->(r:River)-[:BELONGS_TO]->(ws:WaterSystem)
+            WHERE ws.name = $waterSystemName
+               OR ws.name = replace($waterSystemName, '水系', '')
+               OR ws.name + '水系' = $waterSystemName
             RETURN s.code AS code,
                    s.name AS name,
                    CASE WHEN s:Rainfall THEN "雨量" ELSE "水位" END AS type,
@@ -277,7 +280,7 @@ CUSTOM_PROCEDURES = [
         'name': 'getRiverTributaries',
         'description': '列出某河川的所有上游支流（遞迴查詢，如「大甲溪有哪些支流」）',
         'query': '''
-            MATCH (tributary:River)-[:FLOWS_INTO*]->(main:River {name: $riverName})
+            MATCH (tributary:River)-[:FLOWS_INTO*1..10]->(main:River {name: $riverName})
             RETURN DISTINCT tributary.name AS name,
                    tributary.level AS level,
                    tributary.code AS code
@@ -321,7 +324,7 @@ CUSTOM_PROCEDURES = [
         'name': 'getRiverFlowPath',
         'description': '查詢河川流向（如「南湖溪流到哪裡」「這條河最後流到哪」）',
         'query': '''
-            MATCH path = (start:River {name: $riverName})-[:FLOWS_INTO*0..]->(end:River)
+            MATCH path = (start:River {name: $riverName})-[:FLOWS_INTO*0..10]->(end:River)
             WHERE NOT (end)-[:FLOWS_INTO]->()
             WITH [node IN nodes(path) | node.name] AS riverPath
             RETURN riverPath

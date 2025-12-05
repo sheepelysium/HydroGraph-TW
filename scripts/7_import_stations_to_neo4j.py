@@ -288,6 +288,96 @@ class StationImporter:
         if code_mismatch > 0:
             print(f"[INFO] 過濾 {code_mismatch} 條代碼不匹配 (避免同名河川錯誤配對)")
 
+    def link_stations_to_rivers_by_attribute(self):
+        """補建測站 -> 河川關係 (使用測站的 river 屬性)
+
+        說明：配對報表無法涵蓋所有測站，這個方法用測站本身的 river 屬性
+        來補建缺失的 MONITORS 關係，使用代碼前綴驗證避免同名河川錯誤配對
+        """
+        print(f"\n補建測站 MONITORS 河川關係 (使用 river 屬性)...")
+
+        with self.driver.session(database="neo4j") as session:
+            # 統計缺失關係的測站
+            missing = session.run("""
+                MATCH (s:Station)
+                WHERE s.river IS NOT NULL AND s.river <> ''
+                  AND NOT (s)-[:MONITORS]->(:River)
+                RETURN count(s) as cnt
+            """).single()['cnt']
+
+            if missing == 0:
+                print(f"  [OK] 所有測站都已有 MONITORS 關係，無需補建")
+                return
+
+            print(f"  需要補建：{missing} 個測站")
+
+            # 方法1：精確匹配（河川名稱 + 代碼前綴4位）
+            result = session.run("""
+                MATCH (s:Station)
+                WHERE s.river IS NOT NULL AND s.river <> ''
+                  AND NOT (s)-[:MONITORS]->(:River)
+                MATCH (r:River)
+                WHERE r.name = s.river
+                  AND left(s.code, 4) = left(r.code, 4)
+                MERGE (s)-[rel:MONITORS]->(r)
+                SET rel.match_type = 'river_attr_prefix4',
+                    rel.original_river_name = s.river,
+                    rel.matched_river_name = r.name
+                RETURN count(*) as cnt
+            """)
+            prefix4_match = result.single()['cnt']
+
+            # 方法2：寬鬆匹配（河川名稱 + 代碼前綴3位）
+            result = session.run("""
+                MATCH (s:Station)
+                WHERE s.river IS NOT NULL AND s.river <> ''
+                  AND NOT (s)-[:MONITORS]->(:River)
+                MATCH (r:River)
+                WHERE r.name = s.river
+                  AND left(s.code, 3) = left(r.code, 3)
+                MERGE (s)-[rel:MONITORS]->(r)
+                SET rel.match_type = 'river_attr_prefix3',
+                    rel.original_river_name = s.river,
+                    rel.matched_river_name = r.name
+                RETURN count(*) as cnt
+            """)
+            prefix3_match = result.single()['cnt']
+
+            # 方法3：唯一名稱匹配
+            result = session.run("""
+                MATCH (s:Station)
+                WHERE s.river IS NOT NULL AND s.river <> ''
+                  AND NOT (s)-[:MONITORS]->(:River)
+                MATCH (r:River)
+                WHERE r.name = s.river
+                WITH s, collect(r) AS rivers
+                WHERE size(rivers) = 1
+                WITH s, rivers[0] AS r
+                MERGE (s)-[rel:MONITORS]->(r)
+                SET rel.match_type = 'river_attr_unique',
+                    rel.original_river_name = s.river,
+                    rel.matched_river_name = r.name
+                RETURN count(*) as cnt
+            """)
+            unique_match = result.single()['cnt']
+
+            total = prefix4_match + prefix3_match + unique_match
+            print(f"  [OK] 補建 {total} 條關係")
+            print(f"       - 精確匹配(prefix4): {prefix4_match}")
+            print(f"       - 寬鬆匹配(prefix3): {prefix3_match}")
+            print(f"       - 唯一名稱匹配: {unique_match}")
+
+            # 統計仍無法配對的
+            still_missing = session.run("""
+                MATCH (s:Station)
+                WHERE s.river IS NOT NULL AND s.river <> ''
+                  AND NOT (s)-[:MONITORS]->(:River)
+                RETURN count(s) as cnt
+            """).single()['cnt']
+
+            if still_missing > 0:
+                print(f"  [INFO] 仍有 {still_missing} 個測站無法配對 (河川節點不存在)")
+
     def link_stations_to_watersheds(self):
         """建立測站 -> 集水區關係 (根據集水區名稱)"""
         print("\n建立測站 LOCATED_IN 集水區關係...")
@@ -433,8 +523,11 @@ def main():
         # 匯入水位測站 (第二個工作表)
         importer.import_water_level_stations(STATION_DATA_PATH)
 
-        # 建立測站 -> 河川關係
+        # 建立測站 -> 河川關係 (使用配對報表)
         importer.link_stations_to_rivers(MATCHING_REPORT_PATH)
+
+        # 補建測站 -> 河川關係 (使用 river 屬性補漏)
+        importer.link_stations_to_rivers_by_attribute()
 
         # 建立測站 -> 集水區關係
         importer.link_stations_to_watersheds()
