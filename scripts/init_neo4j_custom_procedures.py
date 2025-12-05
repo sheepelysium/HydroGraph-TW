@@ -2,6 +2,10 @@
 """
 Neo4j 自定義程序初始化腳本
 使用 APOC installProcedure API（持久化版本，重啟後自動保留）
+
+完整工具清單（共 9 個）：
+- Neo4j Procedures（8 個）：本檔案定義，純 Cypher 查詢
+- DIFY CODE 工具（1 個）：searchStationObservation（查詢測站觀測資料，需呼叫外部 API）
 """
 from neo4j import GraphDatabase
 from dotenv import load_dotenv
