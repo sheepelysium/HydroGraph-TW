@@ -768,23 +768,43 @@ onMounted(() => {
     lonMax: 122.0, // 東界 (花蓮)
   };
 
-  // 地理座標轉螢幕座標
+  // 地理座標轉螢幕座標（保持台灣正確的長寬比）
   const geoToScreen = (lat, lon) => {
-    const latRange = taiwanBounds.latMax - taiwanBounds.latMin;
-    const lonRange = taiwanBounds.lonMax - taiwanBounds.lonMin;
+    const latRange = taiwanBounds.latMax - taiwanBounds.latMin; // ~3.4度
+    const lonRange = taiwanBounds.lonMax - taiwanBounds.lonMin; // ~2.0度
 
-    // 考慮台灣是南北狹長，給更多垂直空間
-    const padding = 80;
+    // 台灣實際長寬比約 2.7:1（南北長、東西窄）
+    // 在台灣緯度（約23度），1度經度 ≈ 1度緯度 * cos(23°) ≈ 0.92
+    const cosLat = Math.cos((23.5 * Math.PI) / 180); // 台灣中心緯度
+    const aspectRatio = latRange / (lonRange * cosLat); // 約 1.85
+
+    const padding = 60;
     const usableWidth = width - padding * 2;
     const usableHeight = height - padding * 2;
+
+    // 根據長寬比決定實際使用的尺寸（fit inside）
+    let mapWidth, mapHeight;
+    if (usableHeight / usableWidth > aspectRatio) {
+      // 螢幕比較高，以寬度為準
+      mapWidth = usableWidth;
+      mapHeight = usableWidth * aspectRatio;
+    } else {
+      // 螢幕比較寬，以高度為準
+      mapHeight = usableHeight;
+      mapWidth = usableHeight / aspectRatio;
+    }
+
+    // 置中偏移
+    const offsetX = padding + (usableWidth - mapWidth) / 2;
+    const offsetY = padding + (usableHeight - mapHeight) / 2;
 
     // 正規化座標 (0-1)
     const normLon = (lon - taiwanBounds.lonMin) / lonRange;
     const normLat = (lat - taiwanBounds.latMin) / latRange;
 
     // 轉換成螢幕座標 (注意 y 軸反轉：緯度越高在越上方)
-    const x = padding + normLon * usableWidth;
-    const y = padding + (1 - normLat) * usableHeight;
+    const x = offsetX + normLon * mapWidth;
+    const y = offsetY + (1 - normLat) * mapHeight;
 
     return { x, y };
   };
@@ -1021,8 +1041,10 @@ watch([visibleNodes, visibleLinks], () => {
       node.vx = old.vx;
       node.vy = old.vy;
     } else if (node.lat && node.lon) {
-      // 新節點使用地理位置
+      // 新節點使用地理位置（保持正確長寬比）
       const rect = container.value.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
       const taiwanBounds = {
         latMin: 21.9,
         latMax: 25.3,
@@ -1031,13 +1053,25 @@ watch([visibleNodes, visibleLinks], () => {
       };
       const latRange = taiwanBounds.latMax - taiwanBounds.latMin;
       const lonRange = taiwanBounds.lonMax - taiwanBounds.lonMin;
-      const padding = 80;
-      const usableWidth = rect.width - padding * 2;
-      const usableHeight = rect.height - padding * 2;
+      const cosLat = Math.cos((23.5 * Math.PI) / 180);
+      const aspectRatio = latRange / (lonRange * cosLat);
+      const padding = 60;
+      const usableWidth = w - padding * 2;
+      const usableHeight = h - padding * 2;
+      let mapWidth, mapHeight;
+      if (usableHeight / usableWidth > aspectRatio) {
+        mapWidth = usableWidth;
+        mapHeight = usableWidth * aspectRatio;
+      } else {
+        mapHeight = usableHeight;
+        mapWidth = usableHeight / aspectRatio;
+      }
+      const offsetX = padding + (usableWidth - mapWidth) / 2;
+      const offsetY = padding + (usableHeight - mapHeight) / 2;
       const normLon = (node.lon - taiwanBounds.lonMin) / lonRange;
       const normLat = (node.lat - taiwanBounds.latMin) / latRange;
-      node.x = padding + normLon * usableWidth;
-      node.y = padding + (1 - normLat) * usableHeight;
+      node.x = offsetX + normLon * mapWidth;
+      node.y = offsetY + (1 - normLat) * mapHeight;
       // 水系和測站固定在地理位置
       if (node.group === 'WaterSystem' || node.group === 'WaterStation' || node.group === 'RainStation') {
         node.fx = node.x;
