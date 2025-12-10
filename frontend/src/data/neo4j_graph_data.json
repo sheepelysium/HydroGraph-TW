@@ -5,224 +5,288 @@
       "name": "大甲溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "121 條河川"
+      "region": "121 條河川",
+      "lat": 24.32,
+      "lon": 120.62
     },
     {
       "id": "WS_淡水河",
       "name": "淡水河",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "72 條河川"
+      "region": "72 條河川",
+      "lat": 25.18,
+      "lon": 121.43
     },
     {
       "id": "WS_蘭陽溪",
       "name": "蘭陽溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "59 條河川"
+      "region": "59 條河川",
+      "lat": 24.68,
+      "lon": 121.82
     },
     {
       "id": "WS_中港溪",
       "name": "中港溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "35 條河川"
+      "region": "35 條河川",
+      "lat": 24.65,
+      "lon": 120.82
     },
     {
       "id": "WS_秀姑巒溪",
       "name": "秀姑巒溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "30 條河川"
+      "region": "30 條河川",
+      "lat": 23.48,
+      "lon": 121.52
     },
     {
       "id": "WS_後龍溪",
       "name": "後龍溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "28 條河川"
+      "region": "28 條河川",
+      "lat": 24.58,
+      "lon": 120.78
     },
     {
       "id": "WS_卑南溪",
       "name": "卑南溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "27 條河川"
+      "region": "27 條河川",
+      "lat": 22.75,
+      "lon": 121.15
     },
     {
       "id": "WS_濁水溪",
       "name": "濁水溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "25 條河川"
+      "region": "25 條河川",
+      "lat": 23.85,
+      "lon": 120.22
     },
     {
       "id": "WS_頭前溪",
       "name": "頭前溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "24 條河川"
+      "region": "24 條河川",
+      "lat": 24.82,
+      "lon": 120.95
     },
     {
       "id": "WS_冬山河",
       "name": "冬山河",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "23 條河川"
+      "region": "23 條河川",
+      "lat": 24.62,
+      "lon": 121.85
     },
     {
       "id": "WS_鳳山溪",
       "name": "鳳山溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "20 條河川"
+      "region": "20 條河川",
+      "lat": 24.88,
+      "lon": 121.02
     },
     {
       "id": "WS_高屏溪",
       "name": "高屏溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "19 條河川"
+      "region": "19 條河川",
+      "lat": 22.48,
+      "lon": 120.42
     },
     {
       "id": "WS_北港溪",
       "name": "北港溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "19 條河川"
+      "region": "19 條河川",
+      "lat": 23.55,
+      "lon": 120.12
     },
     {
       "id": "WS_花蓮溪",
       "name": "花蓮溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "17 條河川"
+      "region": "17 條河川",
+      "lat": 23.95,
+      "lon": 121.58
     },
     {
       "id": "WS_南崁溪",
       "name": "南崁溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "17 條河川"
+      "region": "17 條河川",
+      "lat": 25.08,
+      "lon": 121.22
     },
     {
       "id": "WS_得子口溪",
       "name": "得子口溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "16 條河川"
+      "region": "16 條河川",
+      "lat": 24.58,
+      "lon": 121.88
     },
     {
       "id": "WS_大安溪",
       "name": "大安溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "16 條河川"
+      "region": "16 條河川",
+      "lat": 24.42,
+      "lon": 120.68
     },
     {
       "id": "WS_西湖溪",
       "name": "西湖溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "15 條河川"
+      "region": "15 條河川",
+      "lat": 24.52,
+      "lon": 120.72
     },
     {
       "id": "WS_朴子溪",
       "name": "朴子溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "14 條河川"
+      "region": "14 條河川",
+      "lat": 23.42,
+      "lon": 120.15
     },
     {
       "id": "WS_新豐溪",
       "name": "新豐溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "14 條河川"
+      "region": "14 條河川",
+      "lat": 24.92,
+      "lon": 121.0
     },
     {
       "id": "WS_鹽水溪",
       "name": "鹽水溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "9 條河川"
+      "region": "9 條河川",
+      "lat": 22.98,
+      "lon": 120.12
     },
     {
       "id": "WS_曾文溪",
       "name": "曾文溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "8 條河川"
+      "region": "8 條河川",
+      "lat": 23.05,
+      "lon": 120.08
     },
     {
       "id": "WS_港口溪",
       "name": "港口溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "8 條河川"
+      "region": "8 條河川",
+      "lat": 22.05,
+      "lon": 120.88
     },
     {
       "id": "WS_八掌溪",
       "name": "八掌溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "8 條河川"
+      "region": "8 條河川",
+      "lat": 23.35,
+      "lon": 120.18
     },
     {
       "id": "WS_急水溪",
       "name": "急水溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "7 條河川"
+      "region": "7 條河川",
+      "lat": 23.22,
+      "lon": 120.15
     },
     {
       "id": "WS_鹿耳門溪(鹿耳門排水)",
       "name": "鹿耳門溪(鹿耳門排水)",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "7 條河川"
+      "region": "7 條河川",
+      "lat": 23.02,
+      "lon": 120.05
     },
     {
       "id": "WS_二仁溪",
       "name": "二仁溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "7 條河川"
+      "region": "7 條河川",
+      "lat": 22.88,
+      "lon": 120.18
     },
     {
       "id": "WS_社子溪",
       "name": "社子溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "7 條河川"
+      "region": "7 條河川",
+      "lat": 24.98,
+      "lon": 121.08
     },
     {
       "id": "WS_客雅溪排水",
       "name": "客雅溪排水",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "7 條河川"
+      "region": "7 條河川",
+      "lat": 24.78,
+      "lon": 120.9
     },
     {
       "id": "WS_溫寮溪",
       "name": "溫寮溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "5 條河川"
+      "region": "5 條河川",
+      "lat": 24.22,
+      "lon": 120.55
     },
     {
       "id": "WS_阿公店溪",
       "name": "阿公店溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "5 條河川"
+      "region": "5 條河川",
+      "lat": 22.78,
+      "lon": 120.25
     },
     {
       "id": "WS_四重溪",
       "name": "四重溪",
       "group": "WaterSystem",
       "radius": 32,
-      "region": "5 條河川"
+      "region": "5 條河川",
+      "lat": 22.02,
+      "lon": 120.72
     },
     {
       "id": "R_102000",
