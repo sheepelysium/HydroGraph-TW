@@ -289,10 +289,10 @@ CUSTOM_PROCEDURES = [
 
     # ========== 河川類（3 個）==========
 
-    # 6. getRiverTributaries - 河川的所有支流（彙總輸出，含樹狀結構）
+    # 6. getRiverTributaries - 河川的所有支流（彙總輸出，含層級描述）
     {
         'name': 'getRiverTributaries',
-        'description': '列出某河川的所有上游支流（遞迴查詢，如「大甲溪有哪些支流」）。回答時請使用 display 欄位來呈現樹狀結構',
+        'description': '列出某河川的所有上游支流（遞迴查詢，如「大甲溪有哪些支流」）。回答時請按 levelName 分組呈現',
         'query': '''
             MATCH (main:River)
             WHERE main.name = $riverName
@@ -314,17 +314,16 @@ CUSTOM_PROCEDURES = [
                 name: tributary.name,
                 level: level,
                 flowsInto: downstream.name,
-                display: CASE relativeLevel
-                    WHEN 1 THEN '├─ ' + tributary.name
-                    WHEN 2 THEN '│  ├─ ' + tributary.name
-                    WHEN 3 THEN '│  │  ├─ ' + tributary.name
-                    WHEN 4 THEN '│  │  │  ├─ ' + tributary.name
-                    ELSE '│  │  │  │  ├─ ' + tributary.name
+                levelName: CASE relativeLevel
+                    WHEN 1 THEN '支流'
+                    WHEN 2 THEN '二級支流'
+                    WHEN 3 THEN '三級支流'
+                    ELSE '四級支流'
                 END
             }) AS tributaries
             RETURN size(tributaries) AS count,
                    apoc.convert.toJson(tributaries) AS rivers_json,
-                   main.name + ' 有 ' + size(tributaries) + ' 條支流（樹狀排序）' AS message
+                   main.name + ' 有 ' + size(tributaries) + ' 條支流' AS message
         ''',
         'mode': 'read',
         'outputs': [
@@ -337,10 +336,10 @@ CUSTOM_PROCEDURES = [
         ]
     },
 
-    # 7. getRiversInWaterSystem - 水系內的所有河川（彙總輸出，含樹狀結構）
+    # 7. getRiversInWaterSystem - 水系內的所有河川（彙總輸出，含層級描述）
     {
         'name': 'getRiversInWaterSystem',
-        'description': '列出某水系內的所有河川（如「大甲溪水系有哪些河川」）。回答時請使用 display 欄位來呈現樹狀結構',
+        'description': '列出某水系內的所有河川（如「大甲溪水系有哪些河川」）。回答時請按 levelName 分組呈現',
         'query': '''
             MATCH (r:River)-[:BELONGS_TO]->(ws:WaterSystem)
             WHERE ws.name = $waterSystemName
@@ -353,18 +352,17 @@ CUSTOM_PROCEDURES = [
                 name: r.name,
                 level: r.level,
                 flowsInto: downstream.name,
-                display: CASE r.level
-                    WHEN 1 THEN r.name
-                    WHEN 2 THEN '├─ ' + r.name
-                    WHEN 3 THEN '│  ├─ ' + r.name
-                    WHEN 4 THEN '│  │  ├─ ' + r.name
-                    WHEN 5 THEN '│  │  │  ├─ ' + r.name
-                    ELSE '│  │  │  │  ├─ ' + r.name
+                levelName: CASE r.level
+                    WHEN 1 THEN '主流'
+                    WHEN 2 THEN '支流'
+                    WHEN 3 THEN '二級支流'
+                    WHEN 4 THEN '三級支流'
+                    ELSE '四級支流'
                 END
             }) AS rivers
             RETURN size(rivers) AS count,
                    apoc.convert.toJson(rivers) AS rivers_json,
-                   '找到 ' + size(rivers) + ' 條河川（樹狀排序）' AS message
+                   '找到 ' + size(rivers) + ' 條河川' AS message
         ''',
         'mode': 'read',
         'outputs': [
