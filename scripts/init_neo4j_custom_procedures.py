@@ -289,7 +289,7 @@ CUSTOM_PROCEDURES = [
 
     # ========== 河川類（3 個）==========
 
-    # 6. getRiverTributaries - 河川的所有支流（遞迴，含流入關係，支援樹狀排序）
+    # 6. getRiverTributaries - 河川的所有支流（遞迴，含流入關係，樹狀排序）
     {
         'name': 'getRiverTributaries',
         'description': '列出某河川的所有上游支流（遞迴查詢，如「大甲溪有哪些支流」）',
@@ -304,26 +304,38 @@ CUSTOM_PROCEDURES = [
                OR main.name CONTAINS ('（' + $riverName + '）')
             WITH main
             MATCH (tributary:River)-[:FLOWS_INTO*1..10]->(main)
+            WITH DISTINCT tributary, main
             OPTIONAL MATCH (tributary)-[:FLOWS_INTO]->(downstream:River)
-            RETURN DISTINCT tributary.name AS name,
-                   tributary.level AS level,
+            WITH tributary, downstream, main,
+                 tributary.level AS level,
+                 tributary.level - main.level AS relativeLevel
+            ORDER BY level, downstream.name, tributary.name
+            RETURN tributary.name AS name,
+                   level,
                    tributary.code AS code,
-                   downstream.name AS flowsInto
-            ORDER BY tributary.level, tributary.name
+                   downstream.name AS flowsInto,
+                   CASE relativeLevel
+                     WHEN 1 THEN '├─ ' + tributary.name
+                     WHEN 2 THEN '│  ├─ ' + tributary.name
+                     WHEN 3 THEN '│  │  ├─ ' + tributary.name
+                     WHEN 4 THEN '│  │  │  ├─ ' + tributary.name
+                     ELSE '│  │  │  │  ├─ ' + tributary.name
+                   END AS display
         ''',
         'mode': 'read',
         'outputs': [
             ['name', 'STRING'],
             ['level', 'INT'],
             ['code', 'STRING'],
-            ['flowsInto', 'STRING']
+            ['flowsInto', 'STRING'],
+            ['display', 'STRING']
         ],
         'inputs': [
             ['riverName', 'STRING']
         ]
     },
 
-    # 7. getRiversInWaterSystem - 水系內的所有河川（含流入關係，支援樹狀排序）
+    # 7. getRiversInWaterSystem - 水系內的所有河川（含流入關係，樹狀排序）
     {
         'name': 'getRiversInWaterSystem',
         'description': '列出某水系內的所有河川（如「大甲溪水系有哪些河川」）',
@@ -333,18 +345,28 @@ CUSTOM_PROCEDURES = [
                OR ws.name = replace($waterSystemName, '水系', '')
                OR ws.name + '水系' = $waterSystemName
             OPTIONAL MATCH (r)-[:FLOWS_INTO]->(downstream:River)
+            WITH r, downstream
+            ORDER BY r.level, downstream.name, r.name
             RETURN r.name AS name,
                    r.level AS level,
                    r.code AS code,
-                   downstream.name AS flowsInto
-            ORDER BY r.level, r.name
+                   downstream.name AS flowsInto,
+                   CASE r.level
+                     WHEN 1 THEN r.name
+                     WHEN 2 THEN '├─ ' + r.name
+                     WHEN 3 THEN '│  ├─ ' + r.name
+                     WHEN 4 THEN '│  │  ├─ ' + r.name
+                     WHEN 5 THEN '│  │  │  ├─ ' + r.name
+                     ELSE '│  │  │  │  ├─ ' + r.name
+                   END AS display
         ''',
         'mode': 'read',
         'outputs': [
             ['name', 'STRING'],
             ['level', 'INT'],
             ['code', 'STRING'],
-            ['flowsInto', 'STRING']
+            ['flowsInto', 'STRING'],
+            ['display', 'STRING']
         ],
         'inputs': [
             ['waterSystemName', 'STRING']
