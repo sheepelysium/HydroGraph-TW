@@ -44,6 +44,7 @@ retest_results.json
 test_dify_time.py
 test_query_time.py
 test_report.json
+test_tree.py
 
 # Claude settings
 .claude/
