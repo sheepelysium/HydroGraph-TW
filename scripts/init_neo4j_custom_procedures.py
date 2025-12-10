@@ -32,8 +32,8 @@ FULLTEXT_INDEXES = [
     {
         'name': 'stationSearch',
         'labels': ['Station'],
-        'properties': ['name', 'code', 'cwa_code', 'city'],
-        'description': '測站全文搜尋索引（名稱、代碼、氣象局代碼、城市）'
+        'properties': ['name', 'code', 'cwa_code', 'city', 'river'],
+        'description': '測站全文搜尋索引（名稱、代碼、氣象局代碼、城市、河川）'
     },
     {
         'name': 'riverSearch',
@@ -61,7 +61,8 @@ CUSTOM_PROCEDURES = [
                    OR s.code CONTAINS $keyword OR $keyword CONTAINS s.code
                    OR COALESCE(s.cwa_code, "") CONTAINS $keyword OR $keyword CONTAINS COALESCE(s.cwa_code, "")
                    OR COALESCE(s.address, "") CONTAINS $keyword OR $keyword CONTAINS COALESCE(s.address, "")
-                   OR COALESCE(s.city, "") CONTAINS $keyword OR $keyword CONTAINS COALESCE(s.city, ""))
+                   OR COALESCE(s.city, "") CONTAINS $keyword OR $keyword CONTAINS COALESCE(s.city, "")
+                   OR COALESCE(s.river, "") CONTAINS $keyword OR $keyword CONTAINS COALESCE(s.river, ""))
             OPTIONAL MATCH (s)-[:LOCATED_ON]->(r:River)
             OPTIONAL MATCH (s)-[:LOCATED_IN]->(w:Watershed)
             RETURN s.code AS code,
@@ -155,20 +156,29 @@ CUSTOM_PROCEDURES = [
         'name': 'getStationsByRiver',
         'description': '列出某河川沿線的所有測站（如「大甲溪上有哪些測站」）',
         'query': '''
-            MATCH (s:Station)-[:LOCATED_ON]->(r:River {name: $riverName})
+            MATCH (s:Station)-[:LOCATED_ON]->(r:River)
+            WHERE r.name = $riverName
+               OR r.name STARTS WITH ($riverName + '(')
+               OR r.name STARTS WITH ($riverName + '（')
+               OR split(r.name, '(')[0] = $riverName
+               OR split(r.name, '（')[0] = $riverName
+               OR r.name CONTAINS ('(' + $riverName + ')')
+               OR r.name CONTAINS ('（' + $riverName + '）')
             RETURN s.code AS code,
                    s.name AS name,
                    CASE WHEN s:Rainfall THEN "雨量" ELSE "水位" END AS type,
+                   CASE WHEN s:Rainfall THEN COALESCE(s.cwa_code, s.code) ELSE s.code END AS displayCode,
                    s.city AS city,
                    r.name AS river,
                    s.status AS status
-            ORDER BY s.name
+            ORDER BY type, s.name
         ''',
         'mode': 'read',
         'outputs': [
             ['code', 'STRING'],
             ['name', 'STRING'],
             ['type', 'STRING'],
+            ['displayCode', 'STRING'],
             ['city', 'STRING'],
             ['river', 'STRING'],
             ['status', 'STRING']
@@ -190,16 +200,18 @@ CUSTOM_PROCEDURES = [
             RETURN s.code AS code,
                    s.name AS name,
                    CASE WHEN s:Rainfall THEN "雨量" ELSE "水位" END AS type,
+                   CASE WHEN s:Rainfall THEN COALESCE(s.cwa_code, s.code) ELSE s.code END AS displayCode,
                    s.city AS city,
                    r.name AS river,
                    s.status AS status
-            ORDER BY r.name, s.name
+            ORDER BY type, r.name, s.name
         ''',
         'mode': 'read',
         'outputs': [
             ['code', 'STRING'],
             ['name', 'STRING'],
             ['type', 'STRING'],
+            ['displayCode', 'STRING'],
             ['city', 'STRING'],
             ['river', 'STRING'],
             ['status', 'STRING']
@@ -225,16 +237,18 @@ CUSTOM_PROCEDURES = [
             RETURN s.code AS code,
                    s.name AS name,
                    stationType AS type,
+                   CASE WHEN s:Rainfall THEN COALESCE(s.cwa_code, s.code) ELSE s.code END AS displayCode,
                    s.city AS city,
                    r.name AS river,
                    s.status AS status
-            ORDER BY s.city, s.name
+            ORDER BY stationType, s.city, s.name
         ''',
         'mode': 'read',
         'outputs': [
             ['code', 'STRING'],
             ['name', 'STRING'],
             ['type', 'STRING'],
+            ['displayCode', 'STRING'],
             ['city', 'STRING'],
             ['river', 'STRING'],
             ['status', 'STRING']
@@ -275,44 +289,62 @@ CUSTOM_PROCEDURES = [
 
     # ========== 河川類（3 個）==========
 
-    # 6. getRiverTributaries - 河川的所有支流（遞迴）
+    # 6. getRiverTributaries - 河川的所有支流（遞迴，含流入關係，支援樹狀排序）
     {
         'name': 'getRiverTributaries',
         'description': '列出某河川的所有上游支流（遞迴查詢，如「大甲溪有哪些支流」）',
         'query': '''
-            MATCH (tributary:River)-[:FLOWS_INTO*1..10]->(main:River {name: $riverName})
+            MATCH (main:River)
+            WHERE main.name = $riverName
+               OR main.name STARTS WITH ($riverName + '(')
+               OR main.name STARTS WITH ($riverName + '（')
+               OR split(main.name, '(')[0] = $riverName
+               OR split(main.name, '（')[0] = $riverName
+               OR main.name CONTAINS ('(' + $riverName + ')')
+               OR main.name CONTAINS ('（' + $riverName + '）')
+            WITH main
+            MATCH (tributary:River)-[:FLOWS_INTO*1..10]->(main)
+            OPTIONAL MATCH (tributary)-[:FLOWS_INTO]->(downstream:River)
             RETURN DISTINCT tributary.name AS name,
                    tributary.level AS level,
-                   tributary.code AS code
+                   tributary.code AS code,
+                   downstream.name AS flowsInto
             ORDER BY tributary.level, tributary.name
         ''',
         'mode': 'read',
         'outputs': [
             ['name', 'STRING'],
             ['level', 'INT'],
-            ['code', 'STRING']
+            ['code', 'STRING'],
+            ['flowsInto', 'STRING']
         ],
         'inputs': [
             ['riverName', 'STRING']
         ]
     },
 
-    # 7. getRiversInWaterSystem - 水系內的所有河川
+    # 7. getRiversInWaterSystem - 水系內的所有河川（含流入關係，支援樹狀排序）
     {
         'name': 'getRiversInWaterSystem',
         'description': '列出某水系內的所有河川（如「大甲溪水系有哪些河川」）',
         'query': '''
-            MATCH (r:River)-[:BELONGS_TO]->(ws:WaterSystem {name: $waterSystemName})
+            MATCH (r:River)-[:BELONGS_TO]->(ws:WaterSystem)
+            WHERE ws.name = $waterSystemName
+               OR ws.name = replace($waterSystemName, '水系', '')
+               OR ws.name + '水系' = $waterSystemName
+            OPTIONAL MATCH (r)-[:FLOWS_INTO]->(downstream:River)
             RETURN r.name AS name,
                    r.level AS level,
-                   r.code AS code
+                   r.code AS code,
+                   downstream.name AS flowsInto
             ORDER BY r.level, r.name
         ''',
         'mode': 'read',
         'outputs': [
             ['name', 'STRING'],
             ['level', 'INT'],
-            ['code', 'STRING']
+            ['code', 'STRING'],
+            ['flowsInto', 'STRING']
         ],
         'inputs': [
             ['waterSystemName', 'STRING']
@@ -324,7 +356,16 @@ CUSTOM_PROCEDURES = [
         'name': 'getRiverFlowPath',
         'description': '查詢河川流向（如「南湖溪流到哪裡」「這條河最後流到哪」）',
         'query': '''
-            MATCH path = (start:River {name: $riverName})-[:FLOWS_INTO*0..10]->(end:River)
+            MATCH (start:River)
+            WHERE start.name = $riverName
+               OR start.name STARTS WITH ($riverName + '(')
+               OR start.name STARTS WITH ($riverName + '（')
+               OR split(start.name, '(')[0] = $riverName
+               OR split(start.name, '（')[0] = $riverName
+               OR start.name CONTAINS ('(' + $riverName + ')')
+               OR start.name CONTAINS ('（' + $riverName + '）')
+            WITH start
+            MATCH path = (start)-[:FLOWS_INTO*0..10]->(end:River)
             WHERE NOT (end)-[:FLOWS_INTO]->()
             WITH [node IN nodes(path) | node.name] AS riverPath
             RETURN riverPath

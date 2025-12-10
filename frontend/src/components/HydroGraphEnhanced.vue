@@ -293,6 +293,29 @@ onMounted(() => {
     .attr("fill", "#4b5563")
     .attr("d", "M0,-5L10,0L0,5");
 
+  // 繪製台灣地圖 (SVG)
+  const mapGroup = g.append("g")
+    .attr("class", "map-layer");
+
+  d3.xml("/src/data/taiwan.svg").then(data => {
+    const importedNode = document.importNode(data.documentElement, true);
+    const mapSvg = mapGroup.node().appendChild(importedNode);
+    
+    // 調整 SVG 大小和位置以適應畫面
+    const d3Map = d3.select(mapSvg);
+    d3Map.attr("width", width)
+         .attr("height", height)
+         .attr("preserveAspectRatio", "xMidYMid meet")
+         .style("opacity", 0.3) // 降低不透明度作為背景
+         .style("pointer-events", "none"); // 確保不影響滑鼠互動
+         
+    // 如果 SVG 內部有 fill 設定，覆蓋為深色主題
+    d3Map.selectAll("path")
+         .attr("fill", "#1e293b")
+         .attr("stroke", "#334155")
+         .attr("stroke-width", 1);
+  });
+
   linkElements = g.append("g")
     .attr("stroke", "#4b5563")
     .attr("stroke-opacity", 0.6)
@@ -369,6 +392,8 @@ onMounted(() => {
       svgEl.attr("viewBox", [0, 0, width, height]);
       simulation.force("center", d3.forceCenter(width / 2, height / 2));
       simulation.alpha(0.3).restart();
+      
+      // SVG 背景會自動適應 viewBox，無需額外 JS 更新
     }
   });
 

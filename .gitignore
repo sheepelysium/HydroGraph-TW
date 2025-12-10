@@ -34,3 +34,20 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.bak
+
+# Test files (local testing)
+analyze_test_report.py
+check_lanyang.py
+check_excel_lanyang.py
+retest_failed.py
+retest_results.json
+test_dify_time.py
+test_query_time.py
+test_report.json
+
+# Claude settings
+.claude/
+
+# Backup files
+data/*_備份*.xlsx
+data/*_已更新.xlsx
