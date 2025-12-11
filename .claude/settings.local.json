@@ -18,7 +18,11 @@
       "Bash(docker ps:*)",
       "Bash(rm:*)",
       "Bash(hydro_envScriptspython.exe check_errors.py)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(../hydro_env/Scripts/python.exe check_wuxi_matching.py)",
+      "Bash(../hydro_env/Scripts/python.exe test_dify_agent.py)",
+      "Bash(../hydro_env/Scripts/python.exe:*)",
+      "Bash(powershell:*)"
     ],
     "deny": [],
     "ask": []

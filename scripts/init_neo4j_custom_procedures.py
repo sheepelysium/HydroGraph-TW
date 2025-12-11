@@ -57,12 +57,12 @@ CUSTOM_PROCEDURES = [
             YIELD node AS s, score
             WITH s, score, CASE WHEN s:Rainfall THEN "雨量" ELSE "水位" END AS stationType
             WHERE ($filterType = "全部" OR stationType = $filterType)
-              AND (s.name CONTAINS $keyword OR $keyword CONTAINS s.name
-                   OR s.code CONTAINS $keyword OR $keyword CONTAINS s.code
-                   OR COALESCE(s.cwa_code, "") CONTAINS $keyword OR $keyword CONTAINS COALESCE(s.cwa_code, "")
-                   OR COALESCE(s.address, "") CONTAINS $keyword OR $keyword CONTAINS COALESCE(s.address, "")
-                   OR COALESCE(s.city, "") CONTAINS $keyword OR $keyword CONTAINS COALESCE(s.city, "")
-                   OR COALESCE(s.river, "") CONTAINS $keyword OR $keyword CONTAINS COALESCE(s.river, ""))
+              AND (s.name CONTAINS $keyword
+                   OR s.code CONTAINS $keyword
+                   OR s.code = $keyword
+                   OR COALESCE(s.cwa_code, "") CONTAINS $keyword
+                   OR COALESCE(s.cwa_code, "") = $keyword
+                   OR s.name CONTAINS replace(replace($keyword, '測站', ''), '站', ''))
             OPTIONAL MATCH (s)-[:LOCATED_ON]->(r:River)
             OPTIONAL MATCH (s)-[:LOCATED_IN]->(w:Watershed)
             RETURN s.code AS code,
@@ -158,12 +158,16 @@ CUSTOM_PROCEDURES = [
         'query': '''
             MATCH (s:Station)-[:LOCATED_ON]->(r:River)
             WHERE r.name = $riverName
+               OR r.name STARTS WITH $riverName
                OR r.name STARTS WITH ($riverName + '(')
                OR r.name STARTS WITH ($riverName + '（')
+               OR r.name STARTS WITH ($riverName + '【')
                OR split(r.name, '(')[0] = $riverName
                OR split(r.name, '（')[0] = $riverName
+               OR split(r.name, '【')[0] = $riverName
                OR r.name CONTAINS ('(' + $riverName + ')')
                OR r.name CONTAINS ('（' + $riverName + '）')
+               OR r.name CONTAINS ('【' + $riverName + '】')
             RETURN s.code AS code,
                    s.name AS name,
                    CASE WHEN s:Rainfall THEN "雨量" ELSE "水位" END AS type,
@@ -191,11 +195,12 @@ CUSTOM_PROCEDURES = [
     # 3. getStationsByWaterSystem - 水系內的測站
     {
         'name': 'getStationsByWaterSystem',
-        'description': '列出某水系內所有河川的測站（如「大甲溪水系有哪些測站」）',
+        'description': '列出某水系/流域內所有河川的測站（如「大甲溪水系有哪些測站」「蘭陽溪流域的測站」）',
         'query': '''
             MATCH (s:Station)-[:LOCATED_ON]->(r:River)-[:BELONGS_TO]->(ws:WaterSystem)
             WHERE ws.name = $waterSystemName
                OR ws.name = replace($waterSystemName, '水系', '')
+               OR ws.name = replace($waterSystemName, '流域', '')
                OR ws.name + '水系' = $waterSystemName
             RETURN s.code AS code,
                    s.name AS name,
@@ -339,11 +344,12 @@ CUSTOM_PROCEDURES = [
     # 7. getRiversInWaterSystem - 水系內的所有河川（彙總輸出，含層級描述）
     {
         'name': 'getRiversInWaterSystem',
-        'description': '列出某水系內的所有河川（如「大甲溪水系有哪些河川」）。回答時請按 levelName 分組呈現',
+        'description': '列出某水系/流域內的所有河川（如「大甲溪水系有哪些河川」「蘭陽溪流域的河川」）。回答時請按 levelName 分組呈現',
         'query': '''
             MATCH (r:River)-[:BELONGS_TO]->(ws:WaterSystem)
             WHERE ws.name = $waterSystemName
                OR ws.name = replace($waterSystemName, '水系', '')
+               OR ws.name = replace($waterSystemName, '流域', '')
                OR ws.name + '水系' = $waterSystemName
             OPTIONAL MATCH (r)-[:FLOWS_INTO]->(downstream:River)
             WITH r, downstream
