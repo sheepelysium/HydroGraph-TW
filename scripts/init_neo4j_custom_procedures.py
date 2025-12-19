@@ -3,8 +3,8 @@
 Neo4j 自定義程序初始化腳本
 使用 APOC installProcedure API（持久化版本，重啟後自動保留）
 
-完整工具清單（共 9 個）：
-- Neo4j Procedures（8 個）：本檔案定義，純 Cypher 查詢
+完整工具清單（共 10 個）：
+- Neo4j Procedures（9 個）：本檔案定義，純 Cypher 查詢
 - DIFY CODE 工具（1 個）：searchStationObservation（查詢測站觀測資料，需呼叫外部 API）
 """
 from neo4j import GraphDatabase
@@ -43,10 +43,10 @@ FULLTEXT_INDEXES = [
     }
 ]
 
-# 定義所有自定義程序（明確命名版：8 個程序）
+# 定義所有自定義程序（明確命名版：9 個程序）
 # 設計原則：工具名稱自解釋，減少 LLM 參數判斷錯誤
 CUSTOM_PROCEDURES = [
-    # ========== 測站類（5 個）==========
+    # ========== 測站類（6 個）==========
 
     # 1. searchStation - 搜尋測站
     {
@@ -264,7 +264,47 @@ CUSTOM_PROCEDURES = [
         ]
     },
 
-    # 5. getStationStats - 測站統計資訊
+    # 5. getStationsByManagementUnit - 管理單位內的測站（JSON 聚合輸出）
+    {
+        'name': 'getStationsByManagementUnit',
+        'description': '列出某管理單位（河川分署）管轄的所有測站（如「第十河川分署有哪些測站」「第一河川分署管理的雨量站」）',
+        'query': '''
+            MATCH (s:Station)
+            WHERE s.management_unit CONTAINS $managementUnit
+               OR s.management_unit CONTAINS replace($managementUnit, '分署', '')
+               OR s.management_unit CONTAINS replace($managementUnit, '河川分署', '')
+               OR s.management_unit = $managementUnit
+            WITH s, CASE WHEN s:Rainfall THEN "雨量" ELSE "水位" END AS stationType
+            WHERE $filterType = "全部" OR stationType = $filterType
+            OPTIONAL MATCH (s)-[:LOCATED_ON]->(r:River)
+            WITH s, stationType, r
+            ORDER BY stationType, s.city, s.name
+            WITH collect({
+                code: s.code,
+                name: s.name,
+                type: stationType,
+                displayCode: CASE WHEN s:Rainfall THEN COALESCE(s.cwa_code, s.code) ELSE s.code END,
+                city: s.city,
+                river: r.name,
+                status: s.status
+            }) AS stations
+            RETURN size(stations) AS count,
+                   apoc.convert.toJson(stations) AS stations_json,
+                   '找到 ' + size(stations) + ' 個測站' AS message
+        ''',
+        'mode': 'read',
+        'outputs': [
+            ['count', 'INT'],
+            ['stations_json', 'STRING'],
+            ['message', 'STRING']
+        ],
+        'inputs': [
+            ['managementUnit', 'STRING'],
+            ['filterType', 'STRING']
+        ]
+    },
+
+    # 6. getStationStats - 測站統計資訊
     {
         'name': 'getStationStats',
         'description': '統計測站數量（如「有幾個雨量站」「哪個縣市測站最多」）',
@@ -294,7 +334,7 @@ CUSTOM_PROCEDURES = [
 
     # ========== 河川類（3 個）==========
 
-    # 6. getRiverTributaries - 河川的所有支流（彙總輸出，含層級描述）
+    # 7. getRiverTributaries - 河川的所有支流（彙總輸出，含層級描述）
     {
         'name': 'getRiverTributaries',
         'description': '列出某河川的所有上游支流（遞迴查詢，如「大甲溪有哪些支流」）。回答時請按 levelName 分組呈現',
@@ -341,7 +381,7 @@ CUSTOM_PROCEDURES = [
         ]
     },
 
-    # 7. getRiversInWaterSystem - 水系內的所有河川（彙總輸出，含層級描述）
+    # 8. getRiversInWaterSystem - 水系內的所有河川（彙總輸出，含層級描述）
     {
         'name': 'getRiversInWaterSystem',
         'description': '列出某水系/流域內的所有河川（如「大甲溪水系有哪些河川」「蘭陽溪流域的河川」）。回答時請按 levelName 分組呈現',
@@ -381,7 +421,7 @@ CUSTOM_PROCEDURES = [
         ]
     },
 
-    # 8. getRiverFlowPath - 河川流向路徑
+    # 9. getRiverFlowPath - 河川流向路徑
     {
         'name': 'getRiverFlowPath',
         'description': '查詢河川流向（如「南湖溪流到哪裡」「這條河最後流到哪」）',
@@ -550,10 +590,10 @@ try:
 
         # 使用範例
         print("=" * 80)
-        print("使用範例（明確命名版 8 個程序）")
+        print("使用範例（明確命名版 9 個程序）")
         print("=" * 80)
         print("""
-// ========== 測站類（5 個）==========
+// ========== 測站類（6 個）==========
 
 // 1. searchStation - 搜尋測站
 CALL custom.searchStation("三峽", "全部")
@@ -575,24 +615,29 @@ CALL custom.getStationsByCity("台北", "全部")
 YIELD code, name, type, city, river, status
 RETURN code, name, type, city, river
 
-// 5. getStationStats - 測站統計資訊
+// 5. getStationsByManagementUnit - 管理單位內的測站
+CALL custom.getStationsByManagementUnit("第十河川分署", "全部")
+YIELD count, stations_json, message
+RETURN count, stations_json, message
+
+// 6. getStationStats - 測站統計資訊
 CALL custom.getStationStats()
 YIELD rainfallTotal, waterLevelTotal, totalStations, details
 RETURN rainfallTotal, waterLevelTotal, totalStations
 
 // ========== 河川類（3 個）==========
 
-// 6. getRiverTributaries - 河川的所有支流（遞迴）
+// 7. getRiverTributaries - 河川的所有支流（遞迴）
 CALL custom.getRiverTributaries("大甲溪")
-YIELD name, level, code
-RETURN name, level, code
+YIELD count, rivers_json, message
+RETURN count, rivers_json, message
 
-// 7. getRiversInWaterSystem - 水系內的所有河川
+// 8. getRiversInWaterSystem - 水系內的所有河川
 CALL custom.getRiversInWaterSystem("大甲溪水系")
-YIELD name, level, code
-RETURN name, level, code
+YIELD count, rivers_json, message
+RETURN count, rivers_json, message
 
-// 8. getRiverFlowPath - 河川流向路徑
+// 9. getRiverFlowPath - 河川流向路徑
 CALL custom.getRiverFlowPath("南湖溪")
 YIELD riverPath
 RETURN riverPath
